@@ -1,0 +1,13 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "docker"
+version = "1.0.0"
+kind = "recipe"
+title = "run your own Docker apps (compose files), with Arcane or Portainer as the web page that manages them"
+title_de = "eigene Docker-Anwendungen (Compose-Dateien) betreiben, mit Arcane oder Portainer als Verwaltungsseite"
+requires_core = ">=1"
+audience = "generic"
+needs = []
+uses = []
+input = "none"
+script = "run.sh"

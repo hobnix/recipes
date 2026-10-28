@@ -1,0 +1,13 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "steamos"
+version = "1.0.0"
+kind = "recipe"
+title = "play from the server on the TV or phone with Steam Remote Play, on the NVIDIA card"
+title_de = "Spiele vom Server auf Fernseher oder Handy spielen (Steam Remote Play), mit der NVIDIA-Karte"
+requires_core = ">=1"
+audience = "generic"
+needs = []
+uses = ["gpu"]
+input = "none"
+script = "run.sh"

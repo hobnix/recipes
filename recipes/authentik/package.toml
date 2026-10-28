@@ -1,0 +1,13 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "authentik"
+version = "1.0.0"
+kind = "recipe"
+title = "one login for your services (AD accounts for you, local accounts for friends)"
+title_de = "ein Login für deine Dienste (AD-Konten für dich, lokale Konten für Freunde)"
+requires_core = ">=1"
+audience = "generic"
+needs = ["docker"]
+uses = []
+input = "none"
+script = "run.sh"

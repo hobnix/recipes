@@ -1,0 +1,102 @@
+{
+  "uid": "hs-errors",
+  "title": "Errors",
+  "tags": ["hs"],
+  "schemaVersion": 39,
+  "version": 1,
+  "editable": true,
+  "refresh": "1m",
+  "time": { "from": "now-24h", "to": "now" },
+  "timezone": "browser",
+  "links": [
+    { "title": "Homeserver", "type": "link", "url": "/d/hs-homeserver" }
+  ],
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Errors in the selected time",
+      "description": "Journal lines of the server with priority error or worse (emerg, alert, crit, error).",
+      "datasource": { "type": "loki", "uid": "loki" },
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 5 },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "loki", "uid": "loki" },
+          "expr": "sum(count_over_time({job=\"journal\", level=~\"emerg|alert|crit|error\"} [$__range]))",
+          "queryType": "instant"
+        }
+      ],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background" },
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "orange", "value": 1 },
+              { "color": "red", "value": 50 }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Errors by unit",
+      "description": "Lines with priority error or worse per unit; the kernel counts as its own unit.",
+      "datasource": { "type": "loki", "uid": "loki" },
+      "gridPos": { "x": 6, "y": 0, "w": 18, "h": 8 },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "loki", "uid": "loki" },
+          "expr": "sum by (unit) (count_over_time({job=\"journal\", level=~\"emerg|alert|crit|error\"} [$__interval]))",
+          "legendFormat": "{{unit}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "bars", "stacking": { "mode": "normal" }, "fillOpacity": 70 },
+          "noValue": "none",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": { "legend": { "displayMode": "table", "placement": "right", "calcs": ["sum"] } }
+    },
+    {
+      "id": 3,
+      "type": "logs",
+      "title": "Last error lines (priority error or worse; kernel: I/O error, ata, zfs, smart, nvme)",
+      "datasource": { "type": "loki", "uid": "loki" },
+      "gridPos": { "x": 0, "y": 8, "w": 24, "h": 14 },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "loki", "uid": "loki" },
+          "expr": "{job=\"journal\", level=~\"emerg|alert|crit|error\"}",
+          "maxLines": 200
+        },
+        {
+          "refId": "B",
+          "datasource": { "type": "loki", "uid": "loki" },
+          "expr": "{job=\"journal\", transport=\"kernel\"} |~ \"(?i)i/o error|\\\\bata[0-9]|zfs|smart|nvme\"",
+          "maxLines": 200
+        }
+      ],
+      "options": {
+        "showTime": true,
+        "showLabels": true,
+        "wrapLogMessage": true,
+        "prettifyLogMessage": false,
+        "enableLogDetails": true,
+        "sortOrder": "Descending",
+        "dedupStrategy": "none"
+      }
+    }
+  ]
+}

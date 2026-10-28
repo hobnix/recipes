@@ -1,0 +1,13 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "uptime-kuma"
+version = "1.0.0"
+kind = "recipe"
+title = "checks that your services answer, keeps a history and warns when one is down"
+title_de = "prüft, ob deine Dienste antworten, führt einen Verlauf und warnt, wenn einer ausfällt"
+requires_core = ">=1"
+audience = "generic"
+needs = []
+uses = []
+input = "none"
+script = "run.sh"

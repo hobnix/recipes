@@ -1,0 +1,13 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "paperclip"
+version = "1.0.0"
+kind = "recipe"
+title = "a team of AI agents (Claude Code, local models) with tickets, budgets and an audit trail"
+title_de = "ein Team aus KI-Agenten (Claude Code, lokale Modelle) mit Tickets, Budgets und Protokoll"
+requires_core = ">=1"
+audience = "generic"
+needs = []
+uses = []
+input = "none"
+script = "run.sh"

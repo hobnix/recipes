@@ -1,0 +1,13 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "matrix-hook"
+version = "1.0.0"
+kind = "recipe"
+title = "Radarr, Sonarr, Seerr, the duplicate cleanup and SABnzbd post their events to a Matrix room (needs Synapse)"
+title_de = "Radarr, Sonarr, Seerr, die Bereinigung doppelter Filme und SABnzbd melden ihre Ereignisse in einem Matrix-Raum (braucht Synapse)"
+requires_core = ">=1"
+audience = "generic"
+needs = []
+uses = []
+input = "none"
+script = "run.sh"

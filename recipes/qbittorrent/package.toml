@@ -1,0 +1,58 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "qbittorrent"
+version = "1.0.0"
+kind = "recipe"
+title = "torrent downloader that can only reach the internet through your VPN (gluetun)"
+title_de = "Torrent-Downloader, der nur durch dein VPN ins Internet kommt (gluetun)"
+requires_core = ">=1"
+audience = "generic"
+needs = ["docker", "share"]
+uses = []
+input = "form"
+script = "run.sh"
+
+[[ask]]
+key = "VPN_PROVIDER"
+label = "VPN provider, as gluetun names it (mullvad, protonvpn, nordvpn, airvpn, ivpn, surfshark ...)"
+type = "text"
+default = "protonvpn"
+pattern = "[a-z][a-z0-9 ._-]*"
+
+[[ask]]
+key = "VPN_TYPE"
+label = "VPN protocol"
+type = "choice"
+choices = ["wireguard", "openvpn"]
+default = "wireguard"
+
+[[ask]]
+key = "SERVER_COUNTRIES"
+label = "VPN server countries, comma separated (empty: the provider chooses)"
+type = "text"
+
+[[ask]]
+key = "WG_KEY"
+label = "WireGuard private key"
+type = "secret"
+when = "VPN_TYPE=wireguard"
+
+[[ask]]
+key = "WG_ADDR"
+label = "WireGuard address from the provider's config (Address =, like 10.2.0.2/32)"
+type = "text"
+pattern = "[0-9a-fA-F:./,]+"
+when = "VPN_TYPE=wireguard"
+
+[[ask]]
+key = "OV_USER"
+label = "OpenVPN user name"
+type = "text"
+pattern = "[^ ]+"
+when = "VPN_TYPE=openvpn"
+
+[[ask]]
+key = "OV_PASS"
+label = "OpenVPN password"
+type = "secret"
+when = "VPN_TYPE=openvpn"

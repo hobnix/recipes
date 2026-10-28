@@ -1,0 +1,13 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "sunshine"
+version = "1.0.0"
+kind = "recipe"
+title = "play games from the server on the TV (Moonlight), with Steam and the NVIDIA card"
+title_de = "Spiele vom Server auf dem Fernseher spielen (Moonlight), mit Steam und der NVIDIA-Karte"
+requires_core = ">=1"
+audience = "generic"
+needs = ["docker"]
+uses = ["gpu"]
+input = "none"
+script = "run.sh"

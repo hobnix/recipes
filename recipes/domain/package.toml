@@ -1,0 +1,13 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "domain"
+version = "1.0.0"
+kind = "recipe"
+title = "the domain controller for users and groups, and this server joined to it"
+title_de = "der Domänencontroller für Benutzer und Gruppen, und dieser Server als Mitglied"
+requires_core = ">=1"
+audience = "personal"
+needs = []
+uses = []
+input = "terminal"
+script = "run.sh"

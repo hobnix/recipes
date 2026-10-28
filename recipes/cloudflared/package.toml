@@ -1,0 +1,18 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "cloudflared"
+version = "1.0.0"
+kind = "recipe"
+title = "the Cloudflare Tunnel that makes chosen services reachable from the internet"
+title_de = "der Cloudflare-Tunnel, der ausgewählte Dienste aus dem Internet erreichbar macht"
+requires_core = ">=1"
+audience = "personal"
+needs = []
+uses = []
+input = "form"
+script = "run.sh"
+
+[[ask]]
+key = "TOKEN"
+label = "Tunnel token (the long word starting with eyJ in the install command of the tunnel page; the whole command may be pasted)"
+type = "secret"

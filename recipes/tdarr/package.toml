@@ -1,0 +1,13 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "tdarr"
+version = "1.0.0"
+kind = "recipe"
+title = "converts the films once, so Jellyfin starts them at once (extra AC3 audio, old formats to H.264)"
+title_de = "wandelt die Filme einmalig um, damit Jellyfin sie sofort startet (zusätzliche AC3-Tonspur, alte Formate zu H.264)"
+requires_core = ">=1"
+audience = "generic"
+needs = ["docker", "share"]
+uses = ["gpu"]
+input = "none"
+script = "run.sh"

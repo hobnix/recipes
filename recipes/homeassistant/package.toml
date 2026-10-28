@@ -1,0 +1,13 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "homeassistant"
+version = "1.0.0"
+kind = "recipe"
+title = "Home Assistant, smart home control in its own virtual machine (Home Assistant OS)"
+title_de = "Home Assistant, Smart-Home-Steuerung in einer eigenen virtuellen Maschine (Home Assistant OS)"
+requires_core = ">=1"
+audience = "generic"
+needs = []
+uses = []
+input = "none"
+script = "run.sh"
