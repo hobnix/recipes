@@ -1,0 +1,66 @@
+# German texts of the recipe monitoring (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  Home page "Homeserver": problems, disk temperatures and errors, pools, containers.	  Startseite "Homeserver": Probleme, Plattentemperaturen und Fehler, Pools, Container.
+  add 'metrics = true' to %s and rebuild, unless the server hands out numbers already	  'metrics = true' in %s eintragen und neu aufbauen, wenn der Server nicht schon Zahlen liefert
+  connect '%s' to it with a proxy device and stop a Prometheus of its own, if it has one (its data stays)	  '%s' per Proxy-Gerät damit verbinden und ein eigenes Prometheus anhalten, falls vorhanden (seine Daten bleiben)
+  create the container '%s' (1536 MB RAM limit) unless it exists, with a fixed address if UniFi is connected (hs net setup)	  den Container '%s' anlegen (1536 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse, wenn UniFi verbunden ist (hs net setup)
+  install Loki (%s days) with Alloy reading the journal, and Grafana, with five dashboards	  Loki (%s Tage) mit Alloy, das das Journal liest, und Grafana installieren, mit fünf Dashboards
+  let Incus hand out numbers about the containers on port 8444	  Incus Zahlen über die Container auf Port 8444 ausgeben lassen
+  let the server run Prometheus itself (127.0.0.1:9090, on the system disk; machine.toml: metricsDays, metricsMaxGB)	  den Server selbst Prometheus betreiben lassen (127.0.0.1:9090, auf der Systemplatte; machine.toml: metricsDays, metricsMaxGB)
+  show the server's journal (/var/log/journal) to '%s' read-only (read-only; ACL for the container's group)	  das Journal des Servers (/var/log/journal) '%s' nur lesend zeigen (nur lesen; ACL für die Gruppe des Containers)
+  store Grafana's admin password in %s/grafana-admin (root only)	  das Admin-Passwort von Grafana in %s/grafana-admin speichern (nur root)
+  sudo cat %s/grafana-admin	  sudo cat %s/grafana-admin
+%s: no numbers yet	%s: noch keine Zahlen
+%s: numbers arrive	%s: Zahlen kommen an
+'%s' reaches the server's Prometheus at 127.0.0.1:9090 (proxy device, nothing new listens on the network)	'%s' erreicht das Prometheus des Servers unter 127.0.0.1:9090 (Proxy-Gerät, im Netz lauscht nichts Neues)
+Added 'metrics = true' to %s	'metrics = true' in %s eingetragen
+Adding the Grafana package source	Die Grafana-Paketquelle wird hinzugefügt
+Admin login of Grafana	Admin-Anmeldung von Grafana
+Also collect the server's logs (kernel, Samba, disks, errors) so Grafana can search them? Gives this container read access to the server's journal. yes or no	Auch die Logs des Servers sammeln (Kernel, Samba, Platten, Fehler), damit Grafana sie durchsuchen kann? Gibt diesem Container Lesezugriff auf das Journal des Servers. yes oder no
+Check	Prüfung
+Check the logs	Die Logs prüfen
+Configure	Einrichten
+Could not add 'metrics = true' to %s. Add it by hand, run hs rebuild, then this recipe again.	'metrics = true' ließ sich nicht in %s eintragen. Von Hand ergänzen, hs rebuild ausführen, dann dieses Rezept noch einmal.
+Could not add the proxy device 'prometheus' to '%s'.	Das Proxy-Gerät 'prometheus' konnte '%s' nicht hinzugefügt werden.
+Could not set 'metricsDays = %s' in %s. Set it by hand, run hs rebuild, then this recipe again.	'metricsDays = %s' konnte in %s nicht gesetzt werden. Trage es von Hand ein, führe hs rebuild aus, dann dieses Rezept noch einmal.
+Could not set the read access for '%s' on %s (needs root; setfacl).	Der Lesezugriff für '%s' auf %s ließ sich nicht setzen (braucht root; setfacl).
+Could not work out the group mapping of '%s': logs are skipped.	Die Gruppenzuordnung von '%s' ließ sich nicht ermitteln: Logs werden übersprungen.
+Days of history to keep	Tage Verlauf, die behalten werden
+Done. Open in the browser:   %s	Fertig. Im Browser öffnen:   %s
+Grafana does not answer at %s. Look at: incus exec %s -- journalctl -u grafana-server	Grafana antwortet nicht unter %s. Ansehen: incus exec %s -- journalctl -u grafana-server
+Grafana: its source and the dashboards	Grafana: seine Quelle und die Dashboards
+Incus hands out the numbers of the containers on port 8444	Incus liefert die Zahlen der Container auf Port 8444
+Install Grafana	Grafana installieren
+Install Loki and Alloy	Loki und Alloy installieren
+Installing Grafana (about 130 MB)	Grafana wird installiert (etwa 130 MB)
+Installing Loki and Alloy	Loki und Alloy werden installiert
+Journal of the server	Journal des Servers
+Kept as it is (password in %s/grafana-admin)	Bleibt wie es ist (Passwort in %s/grafana-admin)
+Logs are off (hs recipe monitoring --ask to switch them on).	Logs sind aus (hs recipe monitoring --ask schaltet sie ein).
+Loki and Alloy: store, read the journal, keep %s days	Loki und Alloy: speichern, das Journal lesen, %s Tage behalten
+Loki is not ready yet. Look at: incus exec %s -- journalctl -u loki	Loki ist noch nicht bereit. Ansehen: incus exec %s -- journalctl -u loki
+Look at: incus exec %s -- journalctl -u alloy   (can it read /var/log/host-journal as group %s?)	Ansehen: incus exec %s -- journalctl -u alloy   (kann es /var/log/host-journal als Gruppe %s lesen?)
+Looking needs no login. To change dashboards, log in as admin:	Ansehen braucht keine Anmeldung. Um Dashboards zu ändern, als Admin anmelden:
+No log lines yet.	Noch keine Logzeilen.
+No persistent journal at %s: logs are skipped (Storage=persistent in journald.conf, then run this again).	Kein dauerhaftes Journal unter %s: Logs werden übersprungen (Storage=persistent in journald.conf, dann noch einmal ausführen).
+Numbers from the server	Zahlen vom Server
+One round of collecting	Eine Runde Sammeln
+Prometheus of the server	Prometheus des Servers
+Prometheus on the server cannot reach every source. The disks need up to five minutes for	Prometheus auf dem Server erreicht nicht jede Quelle. Die Platten brauchen bis zu fünf Minuten für
+Random admin password set, stored in %s/grafana-admin (root only)	Zufälliges Admin-Passwort gesetzt, gespeichert in %s/grafana-admin (nur root)
+Rebuilding the system (a few minutes)	Das System wird neu aufgebaut (einige Minuten)
+Set 'metricsDays = %s' in %s	'metricsDays = %s' in %s eingetragen
+Some ready-made dashboards could not be downloaded; run the recipe again later.	Einige fertige Dashboards ließen sich nicht herunterladen; das Rezept später noch einmal ausführen.
+Stopping the Prometheus inside the container (the server runs it now)	Das Prometheus im Container wird angehalten (der Server betreibt es jetzt)
+The container reaches the server's Prometheus already	Der Container erreicht das Prometheus des Servers schon
+The journal is shown to '%s' (read-only, through an ACL for group %s)	Das Journal wird '%s' gezeigt (nur lesend, über eine ACL für die Gruppe %s)
+The old Prometheus of '%s' is stopped and disabled. Its data stays in /var/lib/prometheus inside the container (delete it yourself when you do not need it).	Das alte Prometheus von '%s' ist angehalten und abgeschaltet. Seine Daten bleiben in /var/lib/prometheus im Container (lösche sie selbst, wenn du sie nicht brauchst).
+The server hands out and collects its numbers already	Der Server liefert und sammelt seine Zahlen schon
+The server still hands out no numbers. Look at: systemctl status prometheus-node-exporter prometheus	Der Server liefert noch immer keine Zahlen. Ansehen: systemctl status prometheus-node-exporter prometheus
+The server's journal arrives in Loki	Das Journal des Servers kommt in Loki an
+Waiting for Grafana to answer	Warten, bis Grafana antwortet
+Waiting for Loki	Warten auf Loki
+Waiting for the numbers	Warten auf die Zahlen
+Would:	Würde:
+incus exec %s -- curl -s 127.0.0.1:9090/api/v1/targets	incus exec %s -- curl -s 127.0.0.1:9090/api/v1/targets
+skipped (RECIPE_SKIP_HOST)	übersprungen (RECIPE_SKIP_HOST)
+their first numbers, and the Incus numbers are missing while the storage is locked. Details:	ihre ersten Zahlen, und die Incus-Zahlen fehlen, solange der Speicher gesperrt ist. Details:

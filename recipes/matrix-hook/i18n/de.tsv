@@ -1,0 +1,41 @@
+# German texts of the recipe matrix-hook (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+     Enable: Request Approved and Request Automatically Approved.	     Einschalten: Request Approved und Request Automatically Approved.
+     The room for the messages is read-only for you (you can still delete and react).	     Der Raum mit den Meldungen ist für dich nur lesbar (Löschen und Reagieren geht weiter).
+     Triggers: On Grab, On Import, On Upgrade, On Health Issue, On Health Restored. Test sends a message.	     Triggers: On Grab, On Import, On Upgrade, On Health Issue, On Health Restored. Test schickt eine Nachricht.
+  1. Radarr and Sonarr: Settings -> Connect -> + -> Webhook, Method POST, the address above.	  1. Radarr und Sonarr: Settings -> Connect -> + -> Webhook, Method POST, die Adresse oben.
+  2. Seerr: Settings -> Notifications -> Webhook, Webhook URL = the address above, keep the JSON payload as it is.	  2. Seerr: Settings -> Notifications -> Webhook, Webhook URL = die Adresse oben, die JSON-Payload so lassen.
+  3. Accept the second invitation too, the chat 'Homeserver bot', and type  help  there: the commands (clear, status, test, mute) work in it for your Matrix ID only.	  3. Auch die zweite Einladung annehmen, den Chat 'Homeserver bot', und dort  help  eintippen: Die Befehle (clear, status, test, mute) gelten darin nur für deine Matrix-ID.
+  Maintainerr (Script) and SABnzbd need no click: their helpers got this address (hs recipe arr / sabnzbd run again if they were installed before).	  Maintainerr (Script) und SABnzbd brauchen keinen Klick: ihre Helfer haben diese Adresse bekommen (war ein Rezept vorher installiert: hs recipe arr / sabnzbd erneut starten).
+  create the Matrix user 'hs-bot' and a secret address, stored in %s/matrix-hook (root only)	  den Matrix-Benutzer 'hs-bot' und eine geheime Adresse anlegen, gespeichert in %s/matrix-hook (nur root)
+  post no test card; the room 'media' is made with the first message and the owner is invited; every event is a card with the poster (Pillow, fonts included)	  keine Testkarte senden; der Raum 'media' wird mit der ersten Nachricht angelegt und der Besitzer eingeladen; jedes Ereignis wird eine Karte mit dem Poster (Pillow, Schriften sind dabei)
+  print the webhook address for Radarr, Sonarr and Seerr	  die Webhook-Adresse für Radarr, Sonarr und Seerr anzeigen
+  use the container '%s' (hs recipe synapse first), install the webhook receiver there as the service hs-matrix-hook	  den Container '%s' benutzen (vorher hs recipe synapse), darin den Webhook-Empfänger als Dienst hs-matrix-hook installieren
+%s/matrix-hook is incomplete. Remove the file and the user hs-bot, then run this again.	%s/matrix-hook ist unvollständig. Die Datei und den Benutzer hs-bot löschen, dann das Rezept noch einmal starten.
+'%s' has no address. Check the network (hs ct list).	'%s' hat keine Adresse. Netzwerk prüfen (hs ct list).
+Bot user and secret	Bot-Benutzer und Geheimnis
+Bot user created, secret and password stored in %s/matrix-hook (root only)	Bot-Benutzer angelegt, Geheimnis und Passwort in %s/matrix-hook gespeichert (nur root)
+Cards	Karten
+Cards are off: Pillow is missing or switched off, the room gets text messages.	Karten sind aus: Pillow fehlt oder ist abgeschaltet, der Raum bekommt Textnachrichten.
+Checking Python and Pillow	Python und Pillow werden geprüft
+Copying the program	Programm wird kopiert
+Could not create the user hs-bot. If it exists already, remove it in the admin page (Synapse-Admin) and run this again.	Der Benutzer hs-bot konnte nicht angelegt werden. Gibt es ihn schon, in der Admin-Seite (Synapse-Admin) löschen und das Rezept noch einmal starten.
+Could not lift the rate limit of hs-bot. A big clear will work, but slowly.	Die Ratenbegrenzung von hs-bot konnte nicht aufgehoben werden. Ein großes Aufräumen klappt, dauert aber lange.
+Could not tell '%s' the Matrix address. Run its recipe again.	Die Matrix-Adresse ließ sich '%s' nicht mitteilen. Das Rezept dazu erneut starten.
+Creating the service user	Dienstbenutzer wird angelegt
+Done. The room "%s" is made with the first message, then %s gets an invitation (accept it in Element). No test card is posted: type  test  in the chat "Homeserver bot" to try it.	Fertig. Der Raum "%s" wird mit der ersten Nachricht angelegt, dann bekommt %s eine Einladung (in Element annehmen). Es wird keine Testkarte gesendet: schreib  test  in den Chat "Homeserver bot", um es auszuprobieren.
+Installing the service	Dienst wird installiert
+Kept as it is (in %s/matrix-hook)	Bleibt wie es ist (in %s/matrix-hook)
+Lifting the limit for hs-bot, so a big clear is quick	Begrenzung für hs-bot wird aufgehoben, damit ein großes Aufräumen schnell geht
+Making the program folder	Programmordner wird angelegt
+No admin login in %s/synapse-admin, so the rate limit of hs-bot stays. A big clear will work, but slowly.	Kein Admin-Login in %s/synapse-admin, darum bleibt die Ratenbegrenzung von hs-bot. Ein großes Aufräumen klappt, dauert aber lange.
+Rate limit of the bot	Ratenbegrenzung des Bots
+Starting it	Wird gestartet
+The container '%s' does not exist. Install Synapse first: hs recipe synapse	Den Container '%s' gibt es nicht. Zuerst Synapse installieren: hs recipe synapse
+The container '%s' is not running (hs ct %s start)	Der Container '%s' läuft nicht (hs ct %s start)
+The few clicks that cannot wait:	Die wenigen Klicks, die nicht warten können:
+The receiver does not answer at %s. Look at: incus exec %s -- journalctl -u hs-matrix-hook	Der Empfänger antwortet nicht unter %s. Ansehen: incus exec %s -- journalctl -u hs-matrix-hook
+Waiting for it to answer	Warten, bis es antwortet
+Webhook address (the secret is part of it, no Zoraxy rule):  %s	Webhook-Adresse (das Geheimnis ist ein Teil davon, keine Zoraxy-Regel):  %s
+Webhook receiver	Webhook-Empfänger
+Would:	Würde:
+Writing the settings	Die Einstellungen werden geschrieben

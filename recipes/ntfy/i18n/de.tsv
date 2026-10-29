@@ -1,0 +1,18 @@
+# German texts of the recipe ntfy (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  1. Install the app "ntfy" (Android, iOS).	  1. Die App "ntfy" installieren (Android, iOS).
+  2. In its settings set the default server to   %s	  2. In ihren Einstellungen den Standardserver setzen auf   %s
+  3. Subscribe to the topic                       %s	  3. Das Thema abonnieren                          %s
+  create the container '%s' (512 MB RAM limit) unless it exists	  den Container '%s' anlegen (512 MB RAM-Grenze), falls es ihn nicht gibt
+  install ntfy inside and write /etc/ntfy/server.yml	  ntfy darin installieren und /etc/ntfy/server.yml schreiben
+  reserve the first free address from .40 upwards in UniFi, if UniFi is connected (hs net setup)	  die erste freie Adresse ab .40 in UniFi reservieren, wenn UniFi verbunden ist (hs net setup)
+  write %s/notify-url so hs notify sends there, and send a test message	  %s/notify-url schreiben, damit hs notify dorthin sendet, und eine Testnachricht schicken
+Adding the ntfy package source	Die ntfy-Paketquelle wird hinzugefügt
+Configure	Einrichten
+Connect this server's notifications	Die Benachrichtigungen dieses Servers verbinden
+Done. On the phone:	Fertig. Auf dem Handy:
+Install ntfy	ntfy installieren
+Installing ntfy	ntfy wird installiert
+Test message sent and stored	Testnachricht gesendet und gespeichert
+The test message did not arrive at %s.	Die Testnachricht ist bei %s nicht angekommen.
+Would:	Würde:
+Writing /etc/ntfy/server.yml and starting ntfy	/etc/ntfy/server.yml wird geschrieben und ntfy gestartet

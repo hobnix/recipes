@@ -1,0 +1,30 @@
+# German texts of the recipe upload-storage (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  ask which product: Seafile or ownCloud	  fragen, welches Produkt: Seafile oder ownCloud
+  create a folder under /bulk/sensitive for the files (asks for its name, default upload-storage) and mount it at /mnt/upload-storage	  einen Ordner unter /bulk/sensitive für die Dateien anlegen (fragt nach dem Namen, Standard upload-storage) und unter /mnt/upload-storage einbinden
+  create the container '%s' (Docker inside, 4096 MB RAM limit) unless it exists, with a fixed address if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 4096 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse, wenn UniFi verbunden ist (hs net setup)
+  install Docker inside and start the product with MariaDB and a cache (docker compose, a few hundred MB to download)	  Docker darin installieren und das Produkt mit MariaDB und einem Zwischenspeicher starten (docker compose, einige hundert MB zum Herunterladen)
+  keep the database on the SSD pool (/opt/upload-storage/mysql in the container)	  die Datenbank auf dem SSD-Pool halten (/opt/upload-storage/mysql im Container)
+'%s' runs %s already. For %s use a container of its own: hs recipe upload-storage --name <container>	'%s' betreibt schon %s. Für %s einen eigenen Container nehmen: hs recipe upload-storage --name <Container>
+/mnt/upload-storage is mounted already	/mnt/upload-storage ist schon eingebunden
+1. Read the first password:  incus exec %s -- grep ADMIN_PASSWORD /opt/upload-storage/.secrets	1. Das erste Passwort lesen:  incus exec %s -- grep ADMIN_PASSWORD /opt/upload-storage/.secrets
+2. Open %s . %s, then change the password (Profile -> Settings) and add the other users.	2. %s öffnen. %s, dann das Passwort ändern (Profil -> Einstellungen) und die anderen Personen anlegen.
+3. Phone and PC: install the app or sync client of the product, server address  %s . The device must be in the home network or connected through Tailscale.	3. Handy und PC: die App bzw. den Sync-Client des Produkts installieren, Serveradresse  %s . Das Gerät muss im Heimnetz sein oder über Tailscale verbunden.
+Creating /bulk/sensitive/%s and mounting it at /mnt/upload-storage	/bulk/sensitive/%s wird angelegt und unter /mnt/upload-storage eingebunden
+Files	Dateien
+Log in as %s	Als %s anmelden
+Log in as admin	Als admin anmelden
+Make the route for %s on the reverse proxy now (hs services apply)?	Die Route für %s auf dem Reverse-Proxy jetzt anlegen (hs services apply)?
+Name of the folder for the files (under /bulk/sensitive, also the share's name)	Name des Ordners für die Dateien (unter /bulk/sensitive, zugleich der Name der Freigabe)
+Not public: to give it a public name run  hs recipe upload-storage --ask  and type one (needs the reverse proxy).	Nicht öffentlich: für einen öffentlichen Namen  hs recipe upload-storage --ask  ausführen und einen eintippen (braucht den Reverse-Proxy).
+Public name	Öffentlicher Name
+Public name %s: the route is made by  hs services apply  (it asks you to type the host name). Until then use the home address.	Öffentlicher Name %s: die Route legt  hs services apply  an (es fragt nach dem Host-Namen). Bis dahin die Adresse im Heimnetz benutzen.
+Seafile stores files as blocks: the share shows them, but only Seafile (web, apps, sync client) shows them as files.	Seafile speichert Dateien als Blöcke: die Freigabe zeigt sie, als Dateien sieht sie aber nur Seafile (Web, Apps, Sync-Client).
+Setting the address of Seafile	Die Adresse von Seafile wird gesetzt
+Storage for the files	Speicher für die Dateien
+The container can't write to /mnt/upload-storage. Look at the storage of '%s' in: hs ct list	Der Container kann nicht nach /mnt/upload-storage schreiben. Den Speicher von '%s' ansehen in: hs ct list
+The files of every user are plain files under  <folder>/files/<user>/files  (read only over the share).	Die Dateien jeder Person liegen als normale Dateien unter  <Ordner>/files/<Person>/files  (über die Freigabe nur lesbar).
+The route was not made. Look at: hs services plan	Die Route wurde nicht angelegt. Ansehen mit: hs services plan
+Which one: seafile or owncloud	Welches: seafile oder owncloud
+Would:	Würde:
+Writing docker-compose.yml	docker-compose.yml wird geschrieben
+Writing the settings	Die Einstellungen werden geschrieben

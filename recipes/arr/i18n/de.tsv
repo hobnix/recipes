@@ -1,0 +1,46 @@
+# German texts of the recipe arr (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  (if you say yes) install a nightly job that announces and then deletes the lower-resolution file of a film that has two (messages to ntfy and Matrix)	  (bei yes) einen nächtlichen Auftrag einrichten, der die Datei mit der niedrigeren Auflösung eines Films mit zwei Dateien ankündigt und dann löscht (Meldungen an ntfy und Matrix)
+  create the container '%s' (Docker inside, 3072 MB RAM limit) unless it exists, with a fixed address (.20-.29) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 3072 MB RAM), falls es ihn nicht gibt, mit fester Adresse (.20-.29), wenn UniFi verbunden ist (hs net setup)
+  make a push topic of its own for them, and put the container in the nightly backup with a database dump	  ein eigenes Push-Thema für sie anlegen und den Container mit Datenbank-Dump in die nächtliche Sicherung aufnehmen
+  mount the share for the films (asks for its name, default media) READ-WRITE at /media, with folders movies, series, music, downloads	  die Freigabe für die Filme (fragt nach dem Namen, Standard media) LESEND UND SCHREIBEND unter /media einbinden, mit den Ordnern movies, series, music, downloads
+  start Radarr, Sonarr, Lidarr, Prowlarr, Bazarr and (if you say yes) Maintainerr; install Recyclarr as a tool	  Radarr, Sonarr, Lidarr, Prowlarr, Bazarr und (bei ja) Maintainerr starten; Recyclarr als Werkzeug bereitstellen
+%s: Recycling Bin /media/downloads/recycle, emptied after 7 days	%s: Papierkorb /media/downloads/recycle, nach 7 Tagen geleert
+%s: Recycling Bin not set. Click: Settings -> Media Management -> Recycling Bin	%s: Papierkorb nicht gesetzt. Klicke: Einstellungen -> Medienverwaltung -> Papierkorb
+%s: Remove Completed not set. Click: Settings -> Download Clients -> SABnzbd -> Remove Completed	%s: Abgeschlossene entfernen nicht gesetzt. Klicke: Einstellungen -> Download-Clients -> SABnzbd -> Abgeschlossene entfernen
+%s: SABnzbd client removes completed downloads	%s: der SABnzbd-Client entfernt abgeschlossene Downloads
+%s: no API key found yet, settings not written (run the recipe again)	%s: noch kein API-Schlüssel gefunden, Einstellungen nicht geschrieben (Rezept noch einmal ausführen)
+%s: no SABnzbd client yet; add it (step 3 below), then run this recipe again for Remove Completed	%s: noch kein SABnzbd-Client; lege ihn an (Schritt 3 unten) und führe dieses Rezept dann noch einmal aus, damit Abgeschlossene entfernen gesetzt wird
+'%s' is in the nightly backup (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung (hs backup ct %s off: herausnehmen)
+1. Radarr and Sonarr: Settings -> Media Management -> Root Folder:  /media/movies  and  /media/series  (Lidarr: /media/music)	1. Radarr und Sonarr: Settings -> Media Management -> Root Folder:  /media/movies  und  /media/series  (Lidarr: /media/music)
+2. Prowlarr: add your indexer, then Settings -> Apps: connect Radarr, Sonarr and Lidarr (the key is in each app: Settings -> General)	2. Prowlarr: deinen Indexer eintragen, dann Settings -> Apps: Radarr, Sonarr und Lidarr verbinden (der Schlüssel steht in jeder App: Settings -> General)
+3. Radarr, Sonarr and Lidarr: Settings -> Download Clients -> SABnzbd (hs recipe sabnzbd), category  movies  /  tv  (Lidarr: audio)	3. Radarr, Sonarr und Lidarr: Settings -> Download Clients -> SABnzbd (hs recipe sabnzbd), Kategorie  movies  /  tv  (Lidarr: audio)
+Bazarr	Bazarr
+Copying the programs	Die Programme werden kopiert
+Delete the lower-resolution file when a film has two (say 4K and FullHD) in its folder, after a grace period? yes or no	Die Datei mit der niedrigeren Auflösung löschen, wenn ein Film zwei hat (etwa 4K und FullHD in einem Ordner), nach einer Schonfrist? yes oder no
+Does not answer: %s at port %s. Look at: incus exec %s -- docker compose -f /opt/arr/docker-compose.yml logs --tail 50	Keine Antwort: %s an Port %s. Sieh nach mit: incus exec %s -- docker compose -f /opt/arr/docker-compose.yml logs --tail 50
+Downloading the apps (about 1.5 GB, this takes a while)	Die Apps werden heruntergeladen (etwa 1,5 GB, das dauert)
+Duplicates	Doppelte Filme
+Duplicates: list what would happen:  incus exec %s -- python3 /usr/local/lib/hs/hs-arr-dedupe.py --dry-run   (keep both: touch .keep-both in the film's folder)	Doppelte Filme, was passieren würde:  incus exec %s -- python3 /usr/local/lib/hs/hs-arr-dedupe.py --dry-run   (beide behalten: touch .keep-both im Ordner des Films)
+Every night at 03:30: a film with two resolutions is announced, its lower file deleted after %s days	Jede Nacht um 03:30: Ein Film mit zwei Auflösungen wird angekündigt, die niedrigere Datei nach %s Tagen gelöscht
+Install Maintainerr (cleans up unwatched media by your own rules, deletes nothing at first)? yes or no	Maintainerr installieren (räumt nicht angesehene Medien nach deinen eigenen Regeln auf, löscht zuerst nichts)? yes oder no
+Installing ffprobe and Python	ffprobe und Python werden installiert
+Jellyfin: Radarr/Sonarr -> Settings -> Connect -> + -> Emby/Jellyfin: host, port 8096, API key (Jellyfin: Dashboard -> API Keys), tick Update Library. Not set by the recipe: the key needs a Jellyfin login	Jellyfin: Radarr/Sonarr -> Einstellungen -> Verbinden -> + -> Emby/Jellyfin: Host, Port 8096, API-Schlüssel (Jellyfin: Dashboard -> API-Schlüssel), Bibliothek aktualisieren ankreuzen. Vom Rezept nicht gesetzt: der Schlüssel braucht eine Jellyfin-Anmeldung
+Lidarr	Lidarr
+Maintainerr	Maintainerr
+Name of the share with the films (the one Jellyfin reads, under /bulk/shares)	Name der Freigabe mit den Filmen (die, die Jellyfin liest, unter /bulk/shares)
+No Zoraxy rule for any of these pages. The few clicks that cannot wait:	Keine Zoraxy-Regel für eine dieser Seiten. Die wenigen Klicks, die nicht warten können:
+Prowlarr	Prowlarr
+Push messages (Settings -> Connect -> ntfy):  server %s   topic %s	Push-Nachrichten (Settings -> Connect -> ntfy):  Server %s   Thema %s
+Radarr	Radarr
+Removing the old dump script	Das alte Dump-Skript wird entfernt
+Removing the old start page	Die alte Startseite wird entfernt
+Setting up the nightly job	Der nächtliche Auftrag wird eingerichtet
+Settings	Einstellungen
+Skipped: no duplicate cleanup (hs recipe arr --ask turns it on)	Übersprungen: keine Bereinigung doppelter Filme (hs recipe arr --ask schaltet sie ein)
+Sonarr	Sonarr
+Starting the apps	Die Apps werden gestartet
+The apps	Die Apps
+Would:	Würde:
+Writing the settings	Die Einstellungen werden geschrieben
+skipped (RECIPE_SKIP_PULL): no settings written	übersprungen (RECIPE_SKIP_PULL): keine Einstellungen geschrieben
+skipped (RECIPE_SKIP_PULL): nothing downloaded, nothing started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, nichts gestartet

@@ -1,0 +1,19 @@
+# German texts of the recipe catalyst-node (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  ask for the install command of the node (panel: Admin -> Nodes -> Register Node) and run it inside	  nach dem Installationsbefehl des Nodes fragen (Panel: Admin -> Nodes -> Register Node) und ihn darin ausführen
+  create the container '%s' (nesting on, 8192 MB RAM limit) unless it exists, with a fixed address (.30 to .39) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Nesting an, 8192 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse (.30 bis .39), wenn UniFi verbunden ist (hs net setup)
+  wait until the agent runs	  warten, bis der Agent läuft
+Agent	Agent
+Games are not tunneled: friends reach them over Tailscale, as with Pelican.	Spiele werden nicht getunnelt: Freunde erreichen sie über Tailscale, wie bei Pelican.
+Install command of the node (Admin -> Nodes -> Register Node):	Installationsbefehl des Nodes (Admin -> Nodes -> Register Node):
+Installing containerd and the agent	containerd und der Agent werden installiert
+Installing curl and sudo	curl und sudo werden installiert
+That does not look like the install command of the panel (it starts with curl).	Das sieht nicht nach dem Installationsbefehl des Panels aus (er beginnt mit curl).
+The agent does not run. Look at: incus exec %s -- journalctl -u catalyst-agent -n 50	Der Agent läuft nicht. Ansehen: incus exec %s -- journalctl -u catalyst-agent -n 50
+The agent runs	Der Agent läuft
+The agent runs already	Der Agent läuft schon
+The installer failed. Look at: incus exec %s -- journalctl -u catalyst-agent -n 50	Der Installer ist fehlgeschlagen. Ansehen: incus exec %s -- journalctl -u catalyst-agent -n 50
+The node shows as online in the panel (Admin -> Nodes) within a minute.	Der Node erscheint im Panel (Admin -> Nodes) innerhalb einer Minute als online.
+Then: Admin -> Templates (a game), then create a server on this node.	Danach: Admin -> Templates (ein Spiel), dann einen Server auf diesem Node anlegen.
+There is no install command. Register the node in the panel (Admin -> Nodes -> Register Node), then run:  sudo RECIPE_DEPLOY_CMD='<the command>' hs recipe catalyst-node	Es gibt keinen Installationsbefehl. Den Node im Panel anlegen (Admin -> Nodes -> Register Node), dann ausführen:  sudo RECIPE_DEPLOY_CMD='<der Befehl>' hs recipe catalyst-node
+Waiting for the agent	Warten auf den Agent
+Would:	Würde:

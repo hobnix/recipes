@@ -1,0 +1,22 @@
+# German texts of the recipe authentik (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+     Bind CN     authentik-bind@%s  (make the user: hs user add authentik-bind)	     Bind-CN     authentik-bind@%s  (den Benutzer anlegen: hs user add authentik-bind)
+     Server URI  ldaps://%s    Base DN  %s	     Server-URI  ldaps://%s    Base-DN  %s
+     TLS certificate: leave empty (Samba's is self-signed). Addition User DN / Group DN: CN=Users	     TLS-Zertifikat: leer lassen (das von Samba ist selbst signiert). Addition User DN / Group DN: CN=Users
+   virtual directory  /if/admin/  ->  127.0.0.1:1  (a dead end: the admin page stays at home).	   virtuelles Verzeichnis  /if/admin/  ->  127.0.0.1:1  (eine Sackgasse: die Admin-Seite bleibt zu Hause).
+  create the container '%s' (Docker inside, 2048 MB RAM limit) unless it exists, with a fixed address if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 2048 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse, wenn UniFi verbunden ist (hs net setup)
+  install Docker inside and start Authentik from its official docker-compose.yml (server, worker, database)	  Docker darin installieren und Authentik aus seiner offiziellen docker-compose.yml starten (Server, Worker, Datenbank)
+  make the database password, the secret key and the first admin password once (in /opt/authentik/.env)	  Datenbank-Passwort, geheimen Schlüssel und erstes Admin-Passwort einmalig erzeugen (in /opt/authentik/.env)
+  print the values for the LDAP source (your AD accounts) and for the Pelican login	  die Werte für die LDAP-Quelle (deine AD-Konten) und für den Pelican-Login ausgeben
+  put the container in the nightly backup with a database dump	  den Container mit Datenbank-Dump in die nächtliche Sicherung aufnehmen
+'%s' is in the nightly backup with a database dump (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung, mit Datenbank-Dump (hs backup ct %s off: herausnehmen)
+1. Your AD account: Directory -> Federation and Social login -> Create -> LDAP Source	1. Dein AD-Konto: Directory -> Federation and Social login -> Create -> LDAP Source
+2. Friends: Directory -> Users -> Create. They need no AD account.	2. Freunde: Directory -> Users -> Create. Sie brauchen kein AD-Konto.
+3. Zoraxy: a rule only for the login page, with the header  X-Forwarded-Proto: https  and the	3. Zoraxy: eine Regel nur für die Anmeldeseite, mit dem Header  X-Forwarded-Proto: https  und dem
+Authentik	Authentik
+Authentik is running	Authentik läuft
+Downloading Authentik	Authentik wird heruntergeladen
+Fetching Authentik's docker-compose.yml	Die docker-compose.yml von Authentik wird geholt
+Starting Authentik	Authentik wird gestartet
+The password is also in /opt/authentik/.env inside the container: change it, then keep it safe.	Das Passwort steht auch in /opt/authentik/.env im Container: ändere es und bewahre es sicher auf.
+Would:	Würde:
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Authentik not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Authentik nicht gestartet

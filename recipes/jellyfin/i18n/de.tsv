@@ -1,0 +1,36 @@
+# German texts of the recipe jellyfin (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  create a share for the media (asks for its name, default media) with the folders: %s	  eine Freigabe für die Medien anlegen (fragt nach dem Namen, Standard media) mit den Ordnern: %s
+  create the container '%s' (4096 MB RAM limit) unless it exists, with a fixed address if UniFi is connected (hs net setup)	  den Container '%s' anlegen (4096 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse, wenn UniFi verbunden ist (hs net setup)
+  install Jellyfin inside	  Jellyfin darin installieren
+  mount it read-only at /media, readable for Jellyfin	  sie nur lesend unter /media einbinden, lesbar für Jellyfin
+  optionally add the Abyss theme and its Spotlight banner to Jellyfin (asks; default no)	  auf Wunsch das Abyss-Design samt Spotlight-Banner in Jellyfin einbauen (fragt; Standard nein)
+  pass a graphics card into the container: the NVIDIA card, or else the processor's chip (Intel, AMD)	  eine Grafikkarte in den Container durchreichen: die NVIDIA-Karte, sonst den Chip des Prozessors (Intel, AMD)
+1. The first visit asks for the language and creates the admin account.	1. Der erste Besuch fragt nach der Sprache und legt das Admin-Konto an.
+2. "Add Media Library", one per kind: Movies /media/movies, Shows /media/series, Music /media/music, Anime shows /media/anime/series, Anime movies /media/anime/movies.	2. "Add Media Library", eine pro Art: Movies /media/movies, Shows /media/series, Music /media/music, Anime-Serien /media/anime/series, Anime-Filme /media/anime/movies.
+3. Dashboard -> Playback -> Transcoding: hardware acceleration "%s".	3. Dashboard -> Playback -> Transcoding: Hardwarebeschleunigung "%s".
+4. Abyss: Settings -> Display -> Theme "Dark" (per user), then reload the page with Ctrl+F5.	4. Abyss: Einstellungen -> Anzeige -> Design "Dark" (pro Benutzer), dann die Seite mit Strg+F5 neu laden.
+5. Dashboard tile "Streams": Dashboard -> API Keys -> add a key, then run: hs services key %s (the key is asked hidden).	5. Kachel "Streams" im Dashboard: Dashboard -> API-Schlüssel -> Schlüssel anlegen, dann ausführen: hs services key %s (der Schlüssel wird verdeckt abgefragt).
+Adding the Abyss Spotlight to Jellyfin's web files	Der Abyss-Spotlight wird in Jellyfins Web-Dateien eingebaut
+Adding the Abyss theme to the Custom CSS	Das Abyss-Design wird in das eigene CSS eingetragen
+Adding the Jellyfin package source	Die Jellyfin-Paketquelle wird hinzugefügt
+Creating the share '%s' and mounting it read-only at /media	Die Freigabe '%s' wird angelegt und nur lesend unter /media eingebunden
+Folders	Ordner
+Folders in the share: %s	Ordner in der Freigabe: %s
+Graphics card	Grafikkarte
+Install Jellyfin	Jellyfin installieren
+Install the Abyss theme for Jellyfin (github.com/AumGupta/abyss-jellyfin)? yes or no	Das Abyss-Design für Jellyfin installieren (github.com/AumGupta/abyss-jellyfin)? yes oder no
+Installing Jellyfin (about 300 MB)	Jellyfin wird installiert (etwa 300 MB)
+Jellyfin can use the NVIDIA card (%s)	Jellyfin kann die NVIDIA-Karte benutzen (%s)
+Jellyfin can use the graphics chip of the processor	Jellyfin kann den Grafikchip des Prozessors benutzen
+Jellyfin can't read /media. Look at the storage of '%s' in: hs ct list	Jellyfin kann /media nicht lesen. Den Speicher von '%s' ansehen in: hs ct list
+Name of the share for films, series and music (under /bulk/shares)	Name der Freigabe für Filme, Serien und Musik (unter /bulk/shares)
+No usable graphics card found; Jellyfin converts videos on the CPU.	Keine brauchbare Grafikkarte gefunden; Jellyfin wandelt Videos auf der CPU um.
+Removing the Abyss theme and its Spotlight	Das Abyss-Design und sein Spotlight werden entfernt
+Setting the port of the web page to %s	Der Port der Webseite wird auf %s gesetzt
+Start	Start
+Starting Jellyfin with the system	Jellyfin wird mit dem System gestartet
+Storage for films, series and music	Speicher für Filme, Serien und Musik
+The graphics card is passed in, but a test encode failed; Jellyfin may fall back to the CPU.	Die Grafikkarte ist durchgereicht, aber ein Test-Encode ist fehlgeschlagen; Jellyfin fällt vielleicht auf die CPU zurück.
+Would:	Würde:
+passed in already	schon durchgereicht
+skipped (RECIPE_SKIP_STORAGE)	übersprungen (RECIPE_SKIP_STORAGE)

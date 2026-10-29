@@ -1,0 +1,29 @@
+# German texts of the recipe paperclip (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  1. Become the administrator with the one-time invite (valid 3 days, treat it as a password):	  1. Mit der einmaligen Einladung Administrator werden (3 Tage gültig, wie ein Passwort behandeln):
+  2. Add an agent with the adapter Claude Code (claude_local); without an API key log in once:	  2. Einen Agenten mit dem Adapter Claude Code (claude_local) anlegen; ohne API-Schlüssel einmal anmelden:
+  3. Set a monthly budget on every agent before the first task.	  3. Vor der ersten Aufgabe jedem Agenten ein Monatsbudget geben.
+  create the container '%s' (4096 MB RAM limit) unless it exists, with a fixed address if UniFi is connected (hs net setup)	  den Container '%s' anlegen (4096 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse, wenn UniFi verbunden ist (hs net setup)
+  install Node.js 24, Paperclip, the Claude Code and Pi CLIs and the GitHub CLI inside, run by systemd as the user paperclip (asks for the port, default 3100)	  Node.js, Paperclip, die Claude-Code- und Pi-CLI und die GitHub-CLI darin installieren, von systemd als Benutzer paperclip gestartet (fragt nach dem Port, Standard 3100)
+  optionally store an Anthropic key and a GitHub token inside the container (0600) and set up an Ollama server as provider for Pi	  optional einen Anthropic-Schlüssel und ein GitHub-Token im Container ablegen (0600) und einen Ollama-Server als Anbieter für Pi einrichten
+Address of an Ollama server for local models (http://host:11434, or - for none)	Adresse eines Ollama-Servers für lokale Modelle (http://Host:11434, oder - für keinen)
+Anthropic API key for Claude Code (not shown, enter = none, log in by hand later):	Anthropic-API-Schlüssel für Claude Code (wird nicht angezeigt, Enter = keiner, später von Hand anmelden):
+Creating the configuration and the first invite (a minute)	Konfiguration und erste Einladung anlegen (eine Minute)
+Creating the user paperclip	Benutzer paperclip anlegen
+Done. Open in the browser:   %s	Fertig. Im Browser öffnen:   %s
+First setup of Paperclip	Erste Einrichtung von Paperclip
+GitHub token that may only push branches and open pull requests (not shown, enter = none):	GitHub-Token, das nur Branches pushen und Pull Requests öffnen darf (wird nicht angezeigt, Enter = keins):
+Install the tools	Werkzeuge installieren
+Installing Node.js 24 from nodejs.org	Node.js 24 von nodejs.org installieren
+Installing Paperclip, Claude Code and Pi (a few minutes)	Paperclip, Claude Code und Pi installieren (ein paar Minuten)
+Installing git, the GitHub CLI and a compiler	git, die GitHub-CLI und einen Compiler installieren
+Models registered: %s	Modelle eingetragen: %s
+Node.js 24 or newer is installed already	Node.js 24 oder neuer ist schon installiert
+Ollama answers	Ollama antwortet
+Paperclip version (npm: a number like 1.2.3, or latest)	Paperclip-Version (npm: eine Nummer wie 1.2.3, oder latest)
+Settings and keys	Einstellungen und Schlüssel
+Start Paperclip with the system	Paperclip mit dem System starten
+The container cannot reach %s now. Is the PC on, and does Ollama listen on the network (OLLAMA_HOST)? A container has no Tailscale: use the PC address on the LAN, or put Tailscale into this container.	Der Container erreicht %s gerade nicht. Ist der PC an, und lauscht Ollama im Netz (OLLAMA_HOST)? Ein Container hat kein Tailscale: nimm die Adresse des PCs im Heimnetz oder installiere Tailscale im Container.
+Would:	Würde:
+Writing the service	Dienst schreiben
+settings exist already, keeping them (keys: edit /etc/paperclip/env inside the container)	Einstellungen gibt es schon, sie bleiben (Schlüssel: /etc/paperclip/env im Container bearbeiten)
+settings written inside the container (mode 0600)	Einstellungen im Container geschrieben (Rechte 0600)

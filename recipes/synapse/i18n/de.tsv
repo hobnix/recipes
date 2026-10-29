@@ -1,0 +1,33 @@
+# German texts of the recipe synapse (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  1. Log in with a Matrix client (Element, or any other) and set the server to the address above.	  1. Mit einem Matrix-Client (Element oder einem anderen) anmelden und als Server die Adresse oben eintragen.
+  2. Registration is closed (new users, public address and federation: see the guide). Never give an admin page a rule.	  2. Die Registrierung ist geschlossen (neue Benutzer, öffentliche Adresse und Föderation: siehe Anleitung). Eine Admin-Seite bekommt nie eine Regel.
+  3. Calls: clients find %s through https://<server name>/.well-known/matrix/client, so that path must reach Synapse (Zoraxy: Matrix API rule). Check: curl https://<server name>/.well-known/matrix/client	  3. Anrufe: Clients finden %s über https://<Servername>/.well-known/matrix/client, dieser Pfad muss also bei Synapse ankommen (Zoraxy: Matrix-API-Regel). Prüfen: curl https://<Servername>/.well-known/matrix/client
+  Admin page (Synapse-Admin):  http://%s:%s   (enter the Synapse address above as homeserver URL)	  Admin-Seite (Synapse-Admin):  http://%s:%s   (als Homeserver-URL die Synapse-Adresse oben eintragen)
+  Matrix ID of the admin:  @admin:%s	  Matrix-ID des Admins:  @admin:%s
+  ask for the server name (the part after the colon in @user:name, it cannot be changed later)	  nach dem Servernamen fragen (der Teil nach dem Doppelpunkt in @name:server, später nicht mehr änderbar)
+  create the admin user 'admin' with a random password in %s/synapse-admin (root only)	  den Admin-Benutzer 'admin' mit Zufallspasswort in %s/synapse-admin anlegen (nur root)
+  create the container '%s' (2048 MB RAM limit) unless it exists, with a fixed address if UniFi is connected (hs net setup)	  den Container '%s' anlegen (2048 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse, wenn UniFi verbunden ist (hs net setup)
+  install PostgreSQL and Synapse (packages.matrix.org) inside, listening on the chosen port (asks for it, default 80)	  PostgreSQL und Synapse (packages.matrix.org) darin installieren, auf dem gewählten Port (fragt danach, Standard 80)
+  install Synapse-Admin (admin web page, lighttpd, port asked, default 5173; no Zoraxy rule)	  Synapse-Admin installieren (Admin-Webseite, lighttpd, Port wird gefragt, Standard 5173; keine Zoraxy-Regel)
+  put the container in the nightly backup with a database dump	  den Container mit Datenbank-Dump in die nächtliche Sicherung aufnehmen
+  sudo cat %s/synapse-admin	  sudo cat %s/synapse-admin
+  with calls = an address (asked, empty = off): advertise the LiveKit ticket service of hs recipe livekit to clients (Cinny, Element Call) and turn on what Synapse needs for it	  mit Anrufen = eine Adresse (wird gefragt, leer = aus): den LiveKit-Ticket-Dienst aus hs recipe livekit den Clients (Cinny, Element Call) bekannt machen und einschalten, was Synapse dafür braucht
+'%s' is in the nightly backup with a database dump (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung, mit Datenbank-Dump (hs backup ct %s off: herausnehmen)
+Adding the Matrix package repository	Das Matrix-Paketarchiv wird hinzugefügt
+Admin login	Admin-Login
+Admin user created, password stored in %s/synapse-admin (root only)	Admin-Benutzer angelegt, Passwort in %s/synapse-admin gespeichert (nur root)
+Calls (MatrixRTC)	Anrufe (MatrixRTC)
+Calls need the public address of Synapse: RECIPE_PUBLIC_BASEURL=https://matrix.<your domain>/ hs recipe synapse	Anrufe brauchen die öffentliche Adresse von Synapse: RECIPE_PUBLIC_BASEURL=https://matrix.<deine Domain>/ hs recipe synapse
+Could not create the admin user. If it exists already, set its password with: incus exec %s -- hash_password	Der Admin-Benutzer konnte nicht angelegt werden. Gibt es ihn schon, setze das Passwort mit: incus exec %s -- hash_password
+Creating the PostgreSQL database	Die PostgreSQL-Datenbank wird angelegt
+Database and listener	Datenbank und Port
+Done. Synapse answers at   %s	Fertig. Synapse antwortet unter   %s
+Install Synapse	Synapse installieren
+Installing PostgreSQL and tools	PostgreSQL und Werkzeuge werden installiert
+Installing Synapse (a few minutes)	Synapse wird installiert (einige Minuten)
+Installing it with a small web server	Wird mit einem kleinen Webserver installiert
+Kept as it is (password in %s/synapse-admin)	Bleibt wie es ist (Passwort in %s/synapse-admin)
+Setting the port and starting it	Port wird gesetzt und Synapse gestartet
+Synapse-Admin (admin web page)	Synapse-Admin (Admin-Webseite)
+Would:	Würde:
+installed	installiert

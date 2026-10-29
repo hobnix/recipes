@@ -1,0 +1,47 @@
+# German texts of the recipe immich (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+   The phone must be in the home network or connected through Tailscale.	   Das Handy muss im Heimnetz sein oder über Tailscale verbunden.
+  To use the NVIDIA card: hs recipe immich --ask, answer yes.	  Um die NVIDIA-Karte zu benutzen: hs recipe immich --ask, mit yes antworten.
+  Turn it off again: hs recipe immich --ask, answer no.	  Wieder ausschalten: hs recipe immich --ask, mit no antworten.
+  Video Transcoding Settings -> Hardware Acceleration -> NVENC (Nvidia), save.	  Video Transcoding Settings -> Hardware Acceleration -> NVENC (Nvidia), speichern.
+  Video conversion needs one switch, once, in Immich: Administration -> Settings ->	  Die Videoumwandlung braucht einmal einen Schalter in Immich: Administration -> Settings ->
+  create a folder under /bulk/sensitive for the photos (asks for its name, default immich) and mount it at /mnt/immich	  einen Ordner unter /bulk/sensitive für die Fotos anlegen (fragt nach dem Namen, Standard immich) und unter /mnt/immich einbinden
+  create the container '%s' (Docker inside, 6144 MB RAM limit) unless it exists, with a fixed address if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 6144 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse, wenn UniFi verbunden ist (hs net setup)
+  if the server has an NVIDIA card (and you say yes): pass it into the container, install NVIDIA's container toolkit for Docker and run Immich's machine learning on it	  wenn der Server eine NVIDIA-Karte hat (und du ja sagst): sie in den Container durchreichen, NVIDIAs Container Toolkit für Docker installieren und das maschinelle Lernen von Immich darauf laufen lassen
+  install Docker inside and start Immich from its official docker-compose.yml (several GB to download)	  Docker darin installieren und Immich aus seiner offiziellen docker-compose.yml starten (mehrere GB Download)
+  keep the database on the SSD pool (/opt/immich/postgres in the container)	  die Datenbank auf dem SSD-Pool halten (/opt/immich/postgres im Container)
+  put the container in the nightly backup with a database dump	  den Container mit Datenbank-Dump in die nächtliche Sicherung aufnehmen
+'%s' can see the NVIDIA card	'%s' sieht die NVIDIA-Karte
+'%s' is in the nightly backup with a database dump (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung, mit Datenbank-Dump (hs backup ct %s off: herausnehmen)
+/mnt/immich is mounted already	/mnt/immich ist schon eingebunden
+1. "Getting Started": the first account you create becomes the admin (more people: Administration -> Users).	1. "Getting Started": das erste Konto, das du anlegst, wird Admin (weitere Personen: Administration -> Users).
+2. Phone: install the app "Immich", server address  %s , log in, switch on the backup of the camera roll.	2. Handy: die App "Immich" installieren, Serveradresse  %s , anmelden, die Sicherung der Kamerarolle einschalten.
+Creating /bulk/sensitive/%s and mounting it at /mnt/immich	/bulk/sensitive/%s wird angelegt und unter /mnt/immich eingebunden
+Docker can't use the NVIDIA card. Immich runs on the CPU; try again with: hs recipe immich --ask	Docker kann die NVIDIA-Karte nicht benutzen. Immich läuft auf der CPU; noch einmal versuchen mit: hs recipe immich --ask
+Downloading Immich (several GB, this takes a while)	Immich wird heruntergeladen (mehrere GB, das dauert)
+Fetching Immich's docker-compose.yml	Die docker-compose.yml von Immich wird geholt
+Fetching the graphics card settings of Immich	Die Grafikkarten-Einstellungen von Immich werden geholt
+Graphics card: %s	Grafikkarte: %s
+Immich	Immich
+Immich did not start with the graphics card. Switching to the CPU.	Immich ist mit der Grafikkarte nicht gestartet. Es wird auf die CPU umgestellt.
+Immich's machine learning has the NVIDIA card	Das maschinelle Lernen von Immich hat die NVIDIA-Karte
+NVIDIA card in use. Smart search and faces run on it now.	NVIDIA-Karte in Benutzung. Intelligente Suche und Gesichter laufen jetzt darauf.
+NVIDIA graphics card	NVIDIA-Grafikkarte
+Name of the folder for the photos (under /bulk/sensitive, also the share's name)	Name des Ordners für die Fotos (unter /bulk/sensitive, zugleich der Name der Freigabe)
+Photos	Fotos
+Starting Immich	Immich wird gestartet
+Starting Immich with the graphics card	Immich wird mit der Grafikkarte gestartet
+Storage for the photos	Speicher für die Fotos
+The NVIDIA card could not be passed in. Immich runs on the CPU; try again with: hs recipe immich --ask	Die NVIDIA-Karte ließ sich nicht durchreichen. Immich läuft auf der CPU; noch einmal versuchen mit: hs recipe immich --ask
+The container can't write to /mnt/immich. Look at the storage of '%s' in: hs ct list	Der Container kann nicht nach /mnt/immich schreiben. Den Speicher von '%s' ansehen in: hs ct list
+The graphics card settings of Immich could not be set up. Immich runs on the CPU.	Die Grafikkarten-Einstellungen von Immich ließen sich nicht einrichten. Immich läuft auf der CPU.
+The machine learning container does not show the card; it may be running on the CPU. Look at: incus exec %s -- docker logs immich_machine_learning	Der Container für maschinelles Lernen zeigt die Karte nicht; er läuft vielleicht auf der CPU. Ansehen: incus exec %s -- docker logs immich_machine_learning
+Use the NVIDIA graphics card for Immich (smart search, faces, video conversion)? yes or no	Die NVIDIA-Grafikkarte für Immich benutzen (intelligente Suche, Gesichter, Videoumwandlung)? yes oder no
+Would:	Würde:
+Writing the settings (port)	Die Einstellungen werden geschrieben (Port)
+Writing the settings (port, graphics card)	Die Einstellungen werden geschrieben (Port, Grafikkarte)
+is running	läuft
+no NVIDIA card in this server, Immich runs on the CPU.	keine NVIDIA-Karte in diesem Server, Immich läuft auf der CPU.
+not used, Immich runs on the CPU.	nicht benutzt, Immich läuft auf der CPU.
+passed in already	schon durchgereicht
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Immich not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Immich nicht gestartet
+skipped (RECIPE_SKIP_STORAGE): the photos stay inside the container	übersprungen (RECIPE_SKIP_STORAGE): die Fotos bleiben im Container

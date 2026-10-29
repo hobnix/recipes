@@ -1,0 +1,21 @@
+# German texts of the recipe uchiyomi (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  Add the manga sources in the settings; Jellyfin does not read manga, so nothing else needs the folder.	  Die Manga-Quellen in den Einstellungen hinzufügen; Jellyfin liest keine Manga, der Ordner braucht sonst nichts.
+  No Zoraxy rule: the sign-in page is the whole app.	  Keine Zoraxy-Regel: die Anmeldeseite ist die ganze App.
+  The first visit creates the admin account. The library is /media/manga (the folder 'manga' in the share).	  Der erste Besuch legt das Admin-Konto an. Die Bibliothek ist /media/manga (der Ordner 'manga' in der Freigabe).
+  create the container '%s' (Docker inside, 5120 MB RAM limit) unless it exists, with a fixed address (.20-.29) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 5120 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse (.20-.29), wenn UniFi verbunden ist (hs net setup)
+  mount the share for the media (asks for its name, default media) read and write at /media and create the folder manga in it	  die Freigabe für die Medien (fragt nach dem Namen, Standard media) mit Lesen und Schreiben unter /media einbinden und darin den Ordner manga anlegen
+  put the container in the nightly backup	  den Container in die nächtliche Sicherung aufnehmen
+  start Uchiyomi with FlareSolverr and Suwayomi (asks for the port, default 80)	  Uchiyomi mit FlareSolverr und Suwayomi starten (fragt nach dem Port, Standard 80)
+'%s' can't write to /media/manga. Look at the storage of '%s' in: hs ct list	'%s' kann nicht nach /media/manga schreiben. Sieh dir den Speicher von '%s' an in: hs ct list
+'%s' is in the nightly backup (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung (hs backup ct %s off: herausnehmen)
+Done. Open in the browser:   %s	Fertig. Im Browser öffnen:   %s
+Downloading Uchiyomi and its helpers (about 2 GB, this takes a while)	Uchiyomi und seine Helfer werden heruntergeladen (etwa 2 GB, das dauert)
+Folder 'manga' in the share '%s'	Ordner 'manga' in der Freigabe '%s'
+Manga folder	Manga-Ordner
+Name of the share for films, series and manga (under /bulk/shares)	Name der Freigabe für Filme, Serien und Manga (unter /bulk/shares)
+Starting Uchiyomi	Uchiyomi wird gestartet
+Storage for the manga	Speicher für die Manga
+Uchiyomi	Uchiyomi
+Would:	Würde:
+Writing the settings (port, user, address)	Einstellungen werden geschrieben (Port, Benutzer, Adresse)
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Uchiyomi not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Uchiyomi nicht gestartet
