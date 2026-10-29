@@ -2,7 +2,7 @@
 # the package.toml of each folder (`python3 scripts/pkg.py repo-check .` in the core checks that).
 
 [package.arr]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/arr"
 title = "Radarr, Sonarr and Lidarr keep your films, series and music in order, Prowlarr holds the indexers, Bazarr fetches subtitles"
@@ -75,15 +75,6 @@ title = "Home Assistant, smart home control in its own virtual machine (Home Ass
 requires_core = ">=1"
 audience = "generic"
 
-[package.homepage]
-version = "1.0.0"
-kind = "recipe"
-path = "recipes/homepage"
-title = "Homepage, a start page with a link to every admin page and every container on this server"
-requires_core = ">=1"
-audience = "generic"
-core = true
-
 [package.immich]
 version = "1.0.0"
 kind = "recipe"
@@ -93,7 +84,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.jellyfin]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/jellyfin"
 title = "watch your films, series and music in the browser, on the TV and on the phone"
@@ -143,7 +134,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.pelican]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/pelican"
 title = "game servers with a web panel (Panel and Wings, two containers)"
@@ -175,7 +166,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.stalwart]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/stalwart"
 title = "your own mail server (SMTP, IMAP, JMAP, CalDAV/CardDAV) with a web admin page"

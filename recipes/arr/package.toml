@@ -1,7 +1,7 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "arr"
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 title = "Radarr, Sonarr and Lidarr keep your films, series and music in order, Prowlarr holds the indexers, Bazarr fetches subtitles"
 title_de = "Radarr, Sonarr und Lidarr halten Filme, Serien und Musik in Ordnung, Prowlarr verwaltet die Indexer, Bazarr holt Untertitel"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# recipe: arr: Radarr, Sonarr and Lidarr keep your films, series and music in order, Prowlarr holds the indexers, Bazarr fetches subtitles
+# recipe: arr: Radarr, Sonarr and Lidarr keep your films, series and lidarr in order, Prowlarr holds the indexers, Bazarr fetches subtitles
 # recipe.de: arr: Radarr, Sonarr und Lidarr halten Filme, Serien und Musik in Ordnung, Prowlarr verwaltet die Indexer, Bazarr holt Untertitel
 # kind: generic
 # needs: docker share
@@ -11,9 +11,8 @@ set -euo pipefail
 #   Sonarr (8989)      the same for series, in /media/series
 #   Lidarr (8686)      the same for music, in /media/music
 #   Prowlarr (9696)    your Usenet indexer(s), handed to Radarr, Sonarr and Lidarr (sync)
-#   Bazarr (6767)      subtitles for what Radarr and Sonarr hold (not Lidarr)
+#   Bazarr (6767)      bazarr for what Radarr and Sonarr hold (not Lidarr)
 #   Maintainerr (6246) cleans up unwatched media by rules YOU write (it has no rules at first, deletes nothing)
-#   gateway (80)       nginx: a start page with the links above, and <app>.arr.<site>.<domain> (names from hs dns sync) to each app
 #   Recyclarr          not running: a tool for `docker compose run`, which syncs the quality profiles of the
 #                      TRaSH guides (German ones included) into Radarr and Sonarr (the guides have none for Lidarr)
 # The downloader is the recipe "sabnzbd", the request page "seerr", the conversion at night "tdarr".
@@ -113,12 +112,6 @@ $lsio
     environment:
       - TZ=$1
     volumes: ["/opt/arr/recyclarr:/config"]
-  gateway:
-    image: nginx:alpine
-    container_name: gateway
-    restart: unless-stopped
-    network_mode: host
-    volumes: ["/opt/arr/gateway/nginx.conf:/etc/nginx/conf.d/default.conf:ro", "/opt/arr/gateway/proxy.inc:/etc/nginx/proxy.inc:ro", "/opt/arr/gateway/index.html:/usr/share/nginx/html/index.html:ro"]
 YML
     if [ "$4" = yes ]; then
       cat <<YML
@@ -140,16 +133,15 @@ YML
 tz=$(timedatectl show -p Timezone --value 2>/dev/null || echo Etc/UTC)
 in_ct "Writing the settings" "$compose" "$tz" "${ids%%:*}" "${ids##*:}" "$MAINTAINERR"
 
-# the start page on port 80 and the routing by name (radarr.arr.<site>.<domain> -> Radarr, see hs dns sync)
-spin "Writing the start page" bash -c 'incus exec "$2" -- mkdir -p /opt/arr/gateway &&
-  for f in nginx.conf proxy.inc index.html; do incus file push -q "$1/arr-gateway/$f" "$2/opt/arr/gateway/$f"; done' _ "$(dirname "$0")" "$ct"
-[ "$MAINTAINERR" = yes ] || in_ct "Leaving Maintainerr off the start page" "sed -i '/data-app=\"maintainerr\"/d' /opt/arr/gateway/index.html"
+# the start page and the routing by name that an earlier version made in this container (compose service gateway, nginx on port 80) are gone:
+# `up --remove-orphans` below removes the old container; the files are cleaned up here
+in_ct "Removing the old start page" 'rm -rf /opt/arr/gateway'
 
 if [ -n "${RECIPE_SKIP_PULL:-}" ]; then
   note "skipped (RECIPE_SKIP_PULL): nothing downloaded, nothing started"
 else
   in_ct "Downloading the apps (about 1.5 GB, this takes a while)" 'cd /opt/arr && docker compose --profile tools pull -q'
-  in_ct "Starting the apps" 'cd /opt/arr && docker compose up -d --remove-orphans && { docker exec gateway nginx -s reload >/dev/null 2>&1 || true; }'   # a running gateway keeps its old routes until reloaded (a new app name stayed on the start page)
+  in_ct "Starting the apps" 'cd /opt/arr && docker compose up -d --remove-orphans'   # also removes the container gateway of an earlier version
   for app in "Radarr 7878" "Sonarr 8989" "Lidarr 8686" "Prowlarr 9696" "Bazarr 6767"; do
     set -- $app
     spin "$(t 'Waiting for %s to answer (the first start prepares its files)' "$1")" \
@@ -226,8 +218,18 @@ else
   note "Skipped: no duplicate cleanup (hs recipe arr --ask turns it on)"
 fi
 
+# Each app is a service of its own (http://sonarr.<local domain> with the capability gateway, its dashboard tile); the container "arr" has no
+# service. A second arr container (--name) would overwrite these descriptors: it declares none.
+if [ -z "${RECIPE_NAME:-}" ]; then
+  declare_service radarr Radarr radarr never-public Media "Films: searches, downloads and files them" 7878
+  declare_service sonarr Sonarr sonarr never-public Media "Series: searches, downloads and files them" 8989
+  declare_service lidarr Lidarr lidarr never-public Media "Music: searches, downloads and files it" 8686
+  declare_service prowlarr Prowlarr prowlarr never-public Media "The indexers for Radarr, Sonarr and Lidarr" 9696
+  declare_service bazarr Bazarr bazarr never-public Media "Subtitles for films and series" 6767
+  [ "$MAINTAINERR" != yes ] || declare_service maintainerr Maintainerr maintainerr never-public Media "Cleans up unwatched media by your own rules" 6246
+fi
+
 recipe_facts
-kv "Start page" "http://$ip"
 kv "Radarr" "http://$ip:7878"
 kv "Sonarr" "http://$ip:8989"
 kv "Lidarr" "http://$ip:8686"

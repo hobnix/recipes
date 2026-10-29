@@ -17,6 +17,15 @@ The recipe creates the container `jellyfin` and installs Jellyfin from its packa
 
 Jellyfin's own data (users, posters, what was watched) is on the SSD pool inside the container. Open the address the recipe prints (port 8096 unless you chose another); the first visit sets up the admin account. Add libraries for `/media/movies`, `/media/series` and `/media/music`.
 
+## Show the running streams on the dashboard
+The Jellyfin tile can show how many streams play right now. Jellyfin only tells this to a program with an API key, and a key can only be made by you: in Jellyfin open **Dashboard > API Keys**, add a key (any name, for example `hobnix`), then run:
+
+```bash
+sudo hs services key jellyfin
+```
+
+The command asks for the key (hidden, it is not shown and not kept in the shell history), stores it in the vault and checks that Jellyfin answers. Until a key is set the tile shows no number. Not tested on hardware yet.
+
 ## Rip a disc with MakeMKV
 MakeMKV reads a disc and saves film and sound unchanged as an `.mkv` file. Nothing is re-encoded; the quality is that of the disc. MakeMKV runs on the Windows PC (that is where the drive is), the server only receives the finished files through the share.
 

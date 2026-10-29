@@ -91,6 +91,8 @@ UNIT
 note "Stalwart $(incus exec "$ct" -- /opt/stalwart/stalwart --version </dev/null 2>/dev/null | head -n1 || _tr "installed")"
 wait_page Stalwart 'journalctl -u stalwart' --path /admin --plain --tries 60
 
+declare_service stalwart Stalwart mdi-email-lock never-public Administration "Mail server (admin)" 8080
+
 box <<DONE
 $(t 'Done. The admin page is at   %s/admin' "$(web)")
 $(say "  1. The first start is in bootstrap mode. The temporary admin password is in the journal:")
