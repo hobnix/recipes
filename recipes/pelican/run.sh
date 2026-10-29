@@ -90,6 +90,7 @@ mkdir -p "$cache"
 
 # ── Containers ──
 use_ct "$panel"
+panel_existed=$existed   # before it is created: a first install asks its questions at the end
 ensure_container "$panel" 2048
 use_ct "$wings"
 ensure_container "$wings" 8192 --docker
@@ -346,6 +347,10 @@ esac
 spin "Waiting for the Panel to answer" bash -c 'for _ in $(seq 1 30); do [ "$(curl -s -m 3 -o /dev/null -w "%{http_code}" "http://$1/" 2>/dev/null)" != 000 ] && exit 0; sleep 2; done; exit 1' _ "$panel_ip" ||
   warn "$(t 'The Panel does not answer at http://%s yet. Look at: incus exec %s -- systemctl status nginx php*-fpm' "$panel_ip" "$panel")"
 
+use_ct "$panel"
+existed=$panel_existed
+declare_service pelican-panel Pelican mdi-gamepad-variant private-ok Games "Game servers" 80
+
 zoraxy=$(address zoraxy 2>/dev/null || true)
 box <<DONE
 $(say 'Done. The rest happens in the browser (guide "Pelican Panel und Wings", steps 2 to 4):')
@@ -355,6 +360,7 @@ $(say "     two-factor login in your profile. Then run  hs recipe pelican  once 
 $(say "     it starts the queue worker, which needs the key the installer made.")
 $(t '  2. Public addresses, each as a rule in Zoraxy%s:' "${zoraxy:+ (http://$zoraxy:8000)}")
 $(t '       panel.<your domain>  ->  %s:80' "$panel_ip")
+$(say "       (or answer yes to \"Make 'Pelican' public?\": hs recipe pelican --ask)")
 $(t '       wings.<your domain>  ->  %s:8080, with the two extra response headers from the guide' "$wings_ip")
 $(t "     Then in the Panel's .env:  APP_URL=https://panel.<your domain>  and  TRUSTED_PROXIES=%s" "${zoraxy:-$(_tr '<address of zoraxy>')}")
 $(t '     (incus exec %s -- nano %s, afterwards run this recipe again: it leaves a public address alone).' "$panel" "$env")

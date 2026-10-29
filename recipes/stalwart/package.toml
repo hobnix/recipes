@@ -1,7 +1,7 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "stalwart"
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 title = "your own mail server (SMTP, IMAP, JMAP, CalDAV/CardDAV) with a web admin page"
 title_de = "ein eigener Mailserver (SMTP, IMAP, JMAP, CalDAV/CardDAV) mit Web-Verwaltung"

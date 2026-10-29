@@ -65,6 +65,6 @@ $(t 'Done. Open in the browser:   %s' "$(web)")
 $(say "  1. The first visit creates the admin account.")
 $(say "  2. HTTP Proxy -> New Proxy Rule, one per service you want reachable from outside (matching name, target address:port).")
 $(say "Every rule here is reachable from the whole internet. Never add one for an admin page")
-$(say "(Incus, this page, Arcane, Grafana, Uptime Kuma, Homepage).")
+$(say "(Incus, this page, Arcane, Grafana, Uptime Kuma).")
 $(docs_hint containers-and-apps)
 DONE

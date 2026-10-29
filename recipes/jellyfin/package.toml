@@ -1,7 +1,7 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "jellyfin"
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 title = "watch your films, series and music in the browser, on the TV and on the phone"
 title_de = "Filme, Serien und Musik im Browser, auf dem Fernseher und auf dem Handy ansehen"

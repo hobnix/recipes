@@ -93,6 +93,11 @@ sudo hs ct arr exec python3 /usr/local/lib/hs/hs-arr-dedupe.py --dry-run
 - To also post cards into a Matrix room, run `sudo hs recipe matrix-hook` (needs the `synapse` recipe) and add the webhook address it prints under **Settings > Connect > Webhook**.
 - The containers `arr`, `sabnzbd` and `seerr` are in the nightly backup, with a database dump before each run. The films themselves are backed up with `hs backup media on`.
 
+## Local names with the gateway
+Each app is a service of its own in `hs services` (`radarr`, `sonarr`, `lidarr`, `prowlarr`, `bazarr` and, if installed, `maintainerr`); the container `arr` itself has no service, no start page and no tile. With the extension `gateway` on, every app gets a name on the home network: `http://sonarr.<local domain>`, `http://radarr.<local domain>` and so on. `hs gateway check` shows the local domain and tests the wildcard DNS record `*.<local domain>`, which your router or DNS server needs once. The apps are admin pages that manage downloads: never public. Their dashboard tiles come from the services (the question "Show on the dashboard?" is asked per app). Run `sudo hs recipe arr` again after turning the gateway on. Not tested on hardware yet.
+
+Coming from an earlier version: the nginx start page of the container (port 80, the names `radarr.arr.<site>.<domain>`, the DNS aliases `radarr.<site>.<domain>` that pointed at it) is gone. A new run of `sudo hs recipe arr` removes the old container `gateway`, and the old aliases `radarr.<site>.<domain>` ... stay in the domain's DNS until you run `hs dns clean` (`hs dns list` shows them). Not tested on hardware yet. If an earlier run left a service named `arr`, remove it with `sudo hs services remove arr` (its routes stay until `hs services apply`).
+
 ## Check that it worked
 - `hs ext arr status` lists each app with its port and state (the command exists once the recipe has run).
 - `sudo hs recipe arr --check` says what a new run would change.

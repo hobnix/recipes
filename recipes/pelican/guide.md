@@ -40,7 +40,7 @@ Run `sudo hs recipe pelican --check` to see what a run would change. Containers 
 sudo hs recipe pelican
 ```
 
-3. For public access, add two rules in the reverse proxy: `panel.example.com` to `<panel address>:80` and `wings.example.com` to `<wings address>:8080`, both with "Target is HTTPS" off and without Basic Auth or proxy login (that would break the Panel's login). Then set the public address in the Panel's `.env` (`APP_URL=https://panel.example.com` and `TRUSTED_PROXIES=<address of the proxy>`) and clear the cache. Run `artisan` as `www-data`, never as root: files root creates in the cache cause error 500.
+3. For public access, `hs recipe pelican --ask` can register the Panel: answer yes to "Make 'Pelican' public?" and give a "Public name?" (preset: `RECIPE_PUBLIC_PELICAN_PANEL=yes`), then run `hs services apply`. Not tested on hardware yet. Wings stays a hand-made rule, because it needs custom response headers. Or add two rules in the reverse proxy: `panel.example.com` to `<panel address>:80` and `wings.example.com` to `<wings address>:8080`, both with "Target is HTTPS" off and without Basic Auth or proxy login (that would break the Panel's login). Then set the public address in the Panel's `.env` (`APP_URL=https://panel.example.com` and `TRUSTED_PROXIES=<address of the proxy>`) and clear the cache. Run `artisan` as `www-data`, never as root: files root creates in the cache cause error 500.
 
 ```bash
 sudo hs ct pelican-panel exec bash -c 'cd /opt/pelican-panel && runuser -u www-data -- php artisan optimize:clear'
