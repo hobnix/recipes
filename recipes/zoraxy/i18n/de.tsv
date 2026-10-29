@@ -1,0 +1,13 @@
+# German texts of the recipe zoraxy (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  1. The first visit creates the admin account.	  1. Der erste Besuch legt das Admin-Konto an.
+  2. HTTP Proxy -> New Proxy Rule, one per service you want reachable from outside (matching name, target address:port).	  2. HTTP Proxy -> New Proxy Rule, eine pro Dienst, der von außen erreichbar sein soll (matching name, Ziel Adresse:Port).
+  create the container '%s' (2048 MB RAM limit) unless it exists, with a fixed address (.10 to .19) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (2048 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse (.10 bis .19), wenn UniFi verbunden ist (hs net setup)
+  install the newest Zoraxy inside (/opt/zoraxy), started by systemd; an existing one is updated, its rules are kept	  das neueste Zoraxy darin installieren (/opt/zoraxy), von systemd gestartet; ein vorhandenes wird aktualisiert, seine Regeln bleiben
+(Incus, this page, Arcane, Grafana, Uptime Kuma).	(Incus, diese Seite, Arcane, Grafana, Uptime Kuma).
+Done. Open in the browser:   %s	Fertig. Im Browser öffnen:   %s
+Downloading the newest Zoraxy	Das neueste Zoraxy wird heruntergeladen
+Every rule here is reachable from the whole internet. Never add one for an admin page	Jede Regel hier ist aus dem ganzen Internet erreichbar. Nie eine für eine Admin-Seite anlegen
+Install Zoraxy	Zoraxy installieren
+Port of Zoraxy's admin page (not 80, the proxy itself listens there)	Port der Admin-Seite von Zoraxy (nicht 80, dort lauscht der Proxy selbst)
+Starting it with the system	Wird mit dem System gestartet
+Would:	Würde:

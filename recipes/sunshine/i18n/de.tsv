@@ -1,0 +1,33 @@
+# German texts of the recipe sunshine (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+     http://%s:8083  (same password)	     http://%s:8083  (dasselbe Passwort)
+     it shows a PIN: enter it in the Sunshine web page under PIN.	     es zeigt eine PIN: gib sie auf der Sunshine-Seite unter PIN ein.
+  1. The login is in  /var/lib/hs/sunshine-admin  (user and password).	  1. Die Anmeldung steht in  /var/lib/hs/sunshine-admin  (Benutzer und Passwort).
+  2. On the TV: app "Moonlight", add the computer by address  %s ,	  2. Am Fernseher: App "Moonlight", den Rechner mit der Adresse  %s  hinzufügen,
+  3. The desktop with Steam (log in to Steam once, install games):	  3. Der Desktop mit Steam (einmal bei Steam anmelden, Spiele installieren):
+  create the container '%s' (Docker inside, 8192 MB RAM limit) unless it exists, with a fixed address (.30-.39) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 8192 MB RAM), falls es ihn nicht gibt, mit fester Adresse (.30-.39), wenn UniFi verbunden ist (hs net setup)
+  install Docker and NVIDIA's container toolkit inside	  Docker und NVIDIAs Container-Toolkit darin installieren
+  keep the Steam library on the SSD pool (/opt/sunshine/home in the container)	  die Steam-Bibliothek auf dem SSD-Pool halten (/opt/sunshine/home im Container)
+  pass the NVIDIA card and the input devices (/dev/uinput, /dev/input) into the container	  die NVIDIA-Karte und die Eingabegeräte (/dev/uinput, /dev/input) in den Container reichen
+  start Steam Headless with Sunshine from its image (several GB to download)	  Steam Headless mit Sunshine aus seinem Image starten (mehrere GB Download)
+'%s' can see the NVIDIA card	'%s' sieht die NVIDIA-Karte
+/dev/uinput and /dev/input are passed in	/dev/uinput und /dev/input sind durchgereicht
+A game PC at home can be added as a second entry: hs ext games add, hs ext games wake.	Ein Spiele-PC zu Hause lässt sich als zweiter Eintrag dazunehmen: hs ext games add, hs ext games wake.
+Docker can't use the NVIDIA card. Look at the lines above.	Docker kann die NVIDIA-Karte nicht nutzen. Sieh dir die Zeilen darüber an.
+Done. Sunshine web page (set-up only, never behind Zoraxy):  https://%s:47990	Fertig. Sunshine-Seite (nur zum Einrichten, nie hinter Zoraxy):  https://%s:47990
+Downloading Steam Headless (several GB, this takes a while)	Steam Headless wird geladen (mehrere GB, das dauert)
+Input devices	Eingabegeräte
+Kept as it is (password in %s/sunshine-admin)	Bleibt wie es ist (Passwort in %s/sunshine-admin)
+NVIDIA graphics card	NVIDIA-Grafikkarte
+No sign of NVENC in the log yet; Sunshine may be encoding on the CPU. Look at: incus exec %s -- docker compose -f /opt/sunshine/docker-compose.yml logs | grep -i -e nvenc -e encoder	Noch kein Hinweis auf NVENC im Protokoll; Sunshine kodiert vielleicht auf dem Prozessor. Sieh nach mit: incus exec %s -- docker compose -f /opt/sunshine/docker-compose.yml logs | grep -i -e nvenc -e encoder
+Starting it	Wird gestartet
+Sunshine and Steam	Sunshine und Steam
+Sunshine does not answer at https://%s:47990 . Look at: incus exec %s -- docker compose -f /opt/sunshine/docker-compose.yml logs --tail 80	Sunshine antwortet nicht unter https://%s:47990 . Sieh nach mit: incus exec %s -- docker compose -f /opt/sunshine/docker-compose.yml logs --tail 80
+Sunshine found the NVIDIA encoder (NVENC)	Sunshine hat den NVIDIA-Encoder gefunden (NVENC)
+The NVIDIA card could not be passed into the container.	Die NVIDIA-Karte konnte nicht in den Container gereicht werden.
+The server has no /dev/uinput. Run  hs rebuild  (it loads the module), then  hs recipe sunshine  again. Mouse, keyboard and gamepads will not work until then.	Der Server hat kein /dev/uinput. Führe  hs rebuild  aus (es lädt das Modul), dann  hs recipe sunshine  noch einmal. Maus, Tastatur und Controller gehen bis dahin nicht.
+This recipe is parked: the Steam Headless container does not start inside an Incus container yet (details: CLAUDE.md, Game streaming). Stream from the PC itself instead (Sunshine on the PC, Moonlight on the other device). To try anyway: RECIPE_FORCE=1 hs recipe sunshine	Dieses Rezept ist zurückgestellt: Der Steam-Headless-Container startet in einem Incus-Container noch nicht (Einzelheiten: CLAUDE.md, Game streaming). Streame stattdessen vom PC selbst (Sunshine am PC, Moonlight am anderen Gerät). Trotzdem versuchen: RECIPE_FORCE=1 hs recipe sunshine
+Waiting for Sunshine to answer (the first start installs Steam and the driver parts)	Warte, bis Sunshine antwortet (der erste Start installiert Steam und die Treiberteile)
+Would:	Würde:
+Writing the settings	Die Einstellungen werden geschrieben
+passed in already	schon durchgereicht
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Sunshine not started	übersprungen (RECIPE_SKIP_PULL): nichts geladen, Sunshine nicht gestartet

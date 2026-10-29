@@ -1,0 +1,17 @@
+# German texts of the recipe catalyst-panel (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+     The last step shows an install command with a token: copy it, it is shown once.	     Der letzte Schritt zeigt einen Installationsbefehl mit einem Token: kopiere ihn, er wird nur einmal gezeigt.
+  1. Open %s and finish the setup wizard: the first account you make is the administrator.	  1. %s öffnen und den Einrichtungsassistenten abschließen: das erste Konto, das du anlegst, ist der Administrator.
+  2. Admin -> Nodes -> Register Node: type the address of the node (hs recipe catalyst-node makes it).	  2. Admin -> Nodes -> Register Node: die Adresse des Nodes eintragen (hs recipe catalyst-node legt ihn an).
+  3. On this server run:  sudo hs recipe catalyst-node  and paste the command when it asks.	  3. Auf diesem Server ausführen:  sudo hs recipe catalyst-node  und den Befehl einfügen, wenn danach gefragt wird.
+  create the container '%s' (Docker inside, 4096 MB RAM limit) unless it exists, with a fixed address if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 4096 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse, wenn UniFi verbunden ist (hs net setup)
+  install Docker inside and run Catalyst's installer (it makes the secrets and the Compose stack: panel, database, Redis)	  Docker darin installieren und den Installer von Catalyst ausführen (er legt die Geheimnisse und den Compose-Stack an: Panel, Datenbank, Redis)
+  start the stack and wait for the web page	  den Stack starten und auf die Webseite warten
+Catalyst	Catalyst
+Catalyst is running	Catalyst läuft
+Catalyst is still experimental: use it for tests, not for worlds you cannot lose.	Catalyst ist noch experimentell: nur für Tests, nicht für Welten, die du nicht verlieren darfst.
+Downloading Catalyst	Catalyst wird heruntergeladen
+No Zoraxy rule for the panel: it is an admin page.	Keine Zoraxy-Regel für das Panel: es ist eine Admin-Seite.
+Running Catalyst's installer	Der Installer von Catalyst läuft
+Starting Catalyst	Catalyst wird gestartet
+Would:	Würde:
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Catalyst not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Catalyst nicht gestartet

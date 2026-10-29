@@ -1,0 +1,13 @@
+# German texts of the recipe docker (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  create the container '%s' (Docker inside, 4096 MB RAM limit) unless it exists, with a fixed address (.20 to .29) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 4096 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse (.20 bis .29), wenn UniFi verbunden ist (hs net setup)
+  install Docker inside and start the manager you pick (Arcane in /opt/arcane, or Portainer in /opt/portainer, or none) on port 80; projects live in /opt/projects	  Docker darin installieren und die gewählte Verwaltung starten (Arcane in /opt/arcane, Portainer in /opt/portainer oder keine) auf Port 80; Projekte liegen in /opt/projects
+Docker is ready, without a web page. Projects go in /opt/projects.	Docker ist bereit, ohne Webseite. Projekte kommen nach /opt/projects.
+Downloading %s	%s wird heruntergeladen
+No web page: use docker compose in /opt/projects inside the container (incus exec %s -- ...).	Keine Webseite: nutze docker compose in /opt/projects im Container (incus exec %s -- ...).
+Preparing %s	%s wird vorbereitet
+Replacing %s	%s wird ersetzt
+Starting %s	%s wird gestartet
+Stopping %s (its data and compose file stay in %s)	%s wird gestoppt (Daten und Compose-Datei bleiben in %s)
+Web page to manage Docker: arcane, portainer or none	Webseite zur Verwaltung von Docker: arcane, portainer oder none
+Would:	Würde:
+Wrote %s/docker-compose.yml	%s/docker-compose.yml geschrieben

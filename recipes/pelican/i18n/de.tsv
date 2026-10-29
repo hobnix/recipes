@@ -1,0 +1,56 @@
+# German texts of the recipe pelican (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+       panel.<your domain>  ->  %s:80	       panel.<deine Domain>  ->  %s:80
+       wings.<your domain>  ->  %s:8080, with the two extra response headers from the guide	       wings.<deine Domain>  ->  %s:8080, mit den zwei zusätzlichen Antwort-Headern aus der Anleitung
+     (incus exec %s -- nano %s, afterwards run this recipe again: it leaves a public address alone).	     (incus exec %s -- nano %s, danach dieses Rezept noch einmal ausführen: eine öffentliche Adresse lässt es in Ruhe).
+     Copy the configuration it shows into Wings:  incus exec %s -- nano /etc/pelican/config.yml	     Die angezeigte Konfiguration in Wings einfügen:  incus exec %s -- nano /etc/pelican/config.yml
+     Database: SQLite. At the end you create your admin account. Switch on	     Datenbank: SQLite. Am Ende legst du dein Admin-Konto an. Schalte in deinem Profil
+     Then in the Panel's .env:  APP_URL=https://panel.<your domain>  and  TRUSTED_PROXIES=%s	     Dann in der .env des Panels:  APP_URL=https://panel.<deine Domain>  und  TRUSTED_PROXIES=%s
+     it starts the queue worker, which needs the key the installer made.	     Er startet den Queue-Worker, der den Schlüssel braucht, den der Installer erzeugt hat.
+     then:  incus exec %s -- systemctl restart wings	     dann:  incus exec %s -- systemctl restart wings
+     two-factor login in your profile. Then run  hs recipe pelican  once more:	     die Zwei-Faktor-Anmeldung ein. Starte danach  hs recipe pelican  noch einmal:
+  1. Panel:  http://%s/installer	  1. Panel:  http://%s/installer
+  2. Public addresses, each as a rule in Zoraxy%s:	  2. Öffentliche Adressen, jede als Regel in Zoraxy%s:
+  3. In the Panel: Nodes -> Create. Address wings.<your domain>, port 443, behind a proxy.	  3. Im Panel: Nodes -> Create. Adresse wings.<deine Domain>, Port 443, hinter einem Proxy.
+  4. Allocations (ports of the game servers) use the address 0.0.0.0, not %s.	  4. Allocations (Ports der Spieleserver) benutzen die Adresse 0.0.0.0, nicht %s.
+  create '%s' and '%s' unless they exist	  '%s' und '%s' anlegen, falls es sie nicht gibt
+  download the Panel %s (panel.tar.gz) and the Wings binary %s from GitHub, only when the pin changed, and check their checksums	  das Panel %s (panel.tar.gz) und das Wings-Programm %s von GitHub laden, nur wenn sich der Pin geändert hat, und ihre Prüfsummen kontrollieren
+  give both a fixed address (.30 to .39) if UniFi is connected (hs net setup)	  beiden eine feste Adresse geben (.30 bis .39), wenn UniFi verbunden ist (hs net setup)
+  install nginx, PHP-FPM and Composer from the package sources into '%s' and Docker into '%s'	  nginx, PHP-FPM und Composer aus den Paketquellen in '%s' und Docker in '%s' installieren
+  pass /dev/ntsync (Wine's fast thread sync) into '%s'	  /dev/ntsync (Wines schnelle Thread-Synchronisierung) in '%s' einbinden
+  set the Panel's APP_URL to its address, until you give it a public one	  APP_URL des Panels auf seine Adresse setzen, bis du ihm eine öffentliche gibst
+  set the disk of '%s' to 100 GB and mount /bulk/sensitive/pelican-backups at /var/lib/pelican/backups	  die Platte von '%s' auf 100 GB setzen und /bulk/sensitive/pelican-backups unter /var/lib/pelican/backups einbinden
+/dev/ntsync is passed in already	/dev/ntsync ist schon eingebunden
+/dev/ntsync is passed into '%s'	/dev/ntsync wird in '%s' eingebunden
+<address of zoraxy>	<Adresse von zoraxy>
+APP_URL is http://%s already	APP_URL ist schon http://%s
+Backups	Datensicherungen
+Backups of the game servers land in /bulk/sensitive/pelican-backups.	Datensicherungen der Spieleserver landen in /bulk/sensitive/pelican-backups.
+Creating /bulk/sensitive/pelican-backups and mounting it at /var/lib/pelican/backups	/bulk/sensitive/pelican-backups wird angelegt und unter /var/lib/pelican/backups eingebunden
+Creating the folders of Wings	Die Ordner von Wings werden angelegt
+Disk of '%s' set to 100 GB (game servers and their Docker images live there)	Platte von '%s' auf 100 GB gesetzt (Spieleserver und ihre Docker-Images liegen dort)
+Done. The rest happens in the browser (guide "Pelican Panel und Wings", steps 2 to 4):	Fertig. Der Rest geschieht im Browser (Anleitung "Pelican Panel und Wings", Schritte 2 bis 4):
+Enabling the web server, the scheduler and the queue worker	Webserver, Zeitplaner und Queue-Worker werden aktiviert
+Installing nginx, PHP and Composer	nginx, PHP und Composer werden installiert
+Its disk is %s already	Seine Platte hat schon %s
+Panel	Panel
+Panel is current (%s)	Das Panel ist aktuell (%s)
+Panel release	Panel-Version
+Setting APP_URL to http://%s	APP_URL wird auf http://%s gesetzt
+The Panel does not answer at http://%s yet. Look at: incus exec %s -- systemctl status nginx php*-fpm	Das Panel antwortet unter http://%s noch nicht. Ansehen: incus exec %s -- systemctl status nginx php*-fpm
+The Panel has a public address already (%s), keeping it	Das Panel hat schon eine öffentliche Adresse (%s), sie bleibt
+The Panel in '%s' was installed before: keeping it as it is	Das Panel in '%s' war schon installiert: es bleibt, wie es ist
+The backup folder is mounted already	Der Sicherungsordner ist schon eingebunden
+The pinned Wings binary is for x86_64; this machine is %s.	Das angepinnte Wings-Programm ist für x86_64; dieser Rechner ist %s.
+The server has no /dev/ntsync. Run  hs rebuild  (it loads the module), then  hs recipe pelican  again. Windows game servers still run without it, only slower.	Der Server hat kein /dev/ntsync. Ausführen:  hs rebuild  (das lädt das Modul), danach  hs recipe pelican  noch einmal. Windows-Spieleserver laufen auch ohne, nur langsamer.
+The web server and PHP packages are in place	Webserver- und PHP-Pakete sind vorhanden
+Waiting for the Panel to answer	Warten, bis das Panel antwortet
+Wine sync device	Wine-Synchronisierung
+Wings	Wings
+Wings %s runs	Wings %s läuft
+Wings in '%s' was installed before: keeping it as it is	Wings in '%s' war schon installiert: es bleibt, wie es ist
+Wings is current (%s)	Wings ist aktuell (%s)
+Wings program	Wings-Programm
+Wings release	Wings-Version
+Wings starts as soon as the Panel has given it its configuration (see below).	Wings startet, sobald das Panel ihm seine Konfiguration gegeben hat (siehe unten).
+Would:	Würde:
+skipped (RECIPE_SKIP_STORAGE)	übersprungen (RECIPE_SKIP_STORAGE)

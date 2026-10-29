@@ -1,0 +1,26 @@
+# German texts of the recipe cloudflared (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  ask for the tunnel token (unless it is stored already) and start the tunnel	  nach dem Tunnel-Token fragen (falls er nicht schon gespeichert ist) und den Tunnel starten
+  create the container '%s' (512 MB RAM limit) unless it exists, with a fixed address (.10 to .19) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (512 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse (.10 bis .19), wenn UniFi verbunden ist (hs net setup)
+  install cloudflared inside	  cloudflared darin installieren
+  subdomain *  (and one without subdomain), your domain, service  HTTP  %s:80	  Subdomain *  (und eine ohne Subdomain), deine Domain, Dienst  HTTP  %s:80
+"eyJ" in it is the token. You can paste the whole command.	"eyJ" beginnt, ist der Token. Du kannst den ganzen Befehl einfügen.
+(type Cloudflared). The page then shows an install command; the long word starting with	(Typ Cloudflared). Die Seite zeigt dann einen Installationsbefehl; das lange Wort, das mit
+<address of zoraxy>	<Adresse von zoraxy>
+A token is stored already, keeping it	Ein Token ist schon gespeichert, er bleibt
+Adding the Cloudflare package source	Die Cloudflare-Paketquelle wird hinzugefügt
+Another tunnel? Delete it first: incus exec %s -- rm /etc/cloudflared/token	Ein anderer Tunnel? Erst löschen: incus exec %s -- rm /etc/cloudflared/token
+In the Cloudflare dashboard, on the tunnel's page: Public Hostname -> Add	Im Cloudflare-Dashboard, auf der Seite des Tunnels: Public Hostname -> Add
+Install cloudflared	cloudflared installieren
+Installing cloudflared	cloudflared wird installiert
+No connection confirmed yet. Look at: incus exec %s -- journalctl -u cloudflared -n 20	Noch keine Verbindung bestätigt. Ansehen: incus exec %s -- journalctl -u cloudflared -n 20
+Start	Start
+Starting the tunnel with the system	Der Tunnel wird mit dem System gestartet
+Stored in the container (/etc/cloudflared/token, root only)	Im Container gespeichert (/etc/cloudflared/token, nur root)
+That does not look like a tunnel token. Nothing was stored; run the recipe again.	Das sieht nicht wie ein Tunnel-Token aus. Es wurde nichts gespeichert; das Rezept noch einmal ausführen.
+The tunnel did not start; most often the token is wrong. Delete it (incus exec %s -- rm /etc/cloudflared/token) and run the recipe again. Details: incus exec %s -- journalctl -u cloudflared -n 20	Der Tunnel ist nicht gestartet; meist stimmt der Token nicht. Ihn löschen (incus exec %s -- rm /etc/cloudflared/token) und das Rezept noch einmal ausführen. Einzelheiten: incus exec %s -- journalctl -u cloudflared -n 20
+The tunnel token is typed in: run the recipe in a terminal, or use the web interface (Apps, Run).	Der Tunnel-Token wird eingetippt: Starte das Rezept in einem Terminal oder nutze die Weboberfläche (Apps, Starten).
+Tunnel token	Tunnel-Token
+Tunnel token (not shown):	Tunnel-Token (wird nicht angezeigt):
+Waiting for the connection to Cloudflare	Warten auf die Verbindung zu Cloudflare
+Where it comes from: Cloudflare dashboard -> Zero Trust -> Networks -> Tunnels -> Create a tunnel	Woher er kommt: Cloudflare-Dashboard -> Zero Trust -> Networks -> Tunnels -> Create a tunnel
+Would:	Würde:

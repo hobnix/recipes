@@ -1,0 +1,32 @@
+# German texts of the recipe homeassistant (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+     The VM is on the same network as your devices, so discovery works.	     Die VM hängt im selben Netz wie deine Geräte, so wird sie gefunden.
+  1. The first visit creates the owner account: name, password, home location.	  1. Beim ersten Besuch legst du das Besitzerkonto an: Name, Passwort, Standort des Hauses.
+  2. Home Assistant finds many devices on its own (Settings -> Devices & services).	  2. Home Assistant findet viele Geräte von selbst (Einstellungen -> Geräte & Dienste).
+  3. Updates run inside Home Assistant (Settings -> System -> Updates).	  3. Updates laufen in Home Assistant (Einstellungen -> System -> Updates).
+  create the virtual machine '%s' (4096 MB RAM, 2 CPUs, 32 GB disk, asks) unless it exists	  die virtuelle Maschine '%s' anlegen (4096 MB RAM, 2 CPUs, 32 GB Platte, fragt vorher), falls es sie nicht gibt
+  download the latest Home Assistant OS image (about 400 MB) and import it as an Incus image	  das neueste Home-Assistant-OS-Abbild laden (etwa 400 MB) und als Incus-Abbild importieren
+  optionally pass a USB device (Zigbee/Z-Wave stick) into it	  auf Wunsch ein USB-Gerät (Zigbee-/Z-Wave-Stick) hineinreichen
+  reserve its address in UniFi, if UniFi is connected (hs net setup)	  seine Adresse in UniFi reservieren, wenn UniFi verbunden ist (hs net setup)
+  wait for the web page on port 8123 (the first start takes 10 to 20 minutes)	  auf die Webseite an Port 8123 warten (der erste Start dauert 10 bis 20 Minuten)
+'%s' got no address. Check the network (hs ct list), then run the recipe again.	'%s' hat keine Adresse bekommen. Prüfe das Netzwerk (hs ct list) und führe das Rezept dann noch einmal aus.
+'%s' is not a Home Assistant OS version number.	'%s' ist keine Home-Assistant-OS-Versionsnummer.
+Could not ask GitHub for the newest Home Assistant OS version. Try again, or name it: RECIPE_VERSION=17.0 hs recipe homeassistant	GitHub kennt die neueste Home-Assistant-OS-Version nicht (keine Antwort). Versuche es nochmal oder nenne sie: RECIPE_VERSION=17.0 hs recipe homeassistant
+Disk size in GB (32 or more)	Plattengröße in GB (32 oder mehr)
+Done. Open in the browser:   %s	Fertig. Im Browser öffnen:   %s
+Downloading the image	Lade das Abbild herunter
+Home Assistant	Home Assistant
+Home Assistant OS %s	Home Assistant OS %s
+Home Assistant OS image	Home-Assistant-OS-Abbild
+Home Assistant answers at http://%s:8123	Home Assistant antwortet unter http://%s:8123
+Importing it into Incus	Importiere es in Incus
+It does not answer yet. The first start can take longer: try the address in a few minutes. Console: incus console homeassistant --type=vga	Es antwortet noch nicht. Der erste Start kann länger dauern: probiere die Adresse in ein paar Minuten. Konsole: incus console homeassistant --type=vga
+Memory in MB	Arbeitsspeicher in MB
+Number of CPUs	Anzahl der Kerne
+USB device %s is passed into the VM	USB-Gerät %s wird in die VM durchgereicht
+USB devices of the server	USB-Geräte des Servers
+USB stick for Home Assistant (vendor:product from the list, or none)	USB-Stick für Home Assistant (Hersteller:Produkt aus der Liste, oder none)
+UniFi is not connected (hs net setup), so the address %s is not fixed. Reserve it in your router by hand.	UniFi ist nicht verbunden (hs net setup), darum ist die Adresse %s nicht fest. Reserviere sie von Hand in deinem Router.
+Unpacking it	Entpacke es
+Waiting for the web page (the first start downloads Home Assistant: 10 to 20 minutes)	Warte auf die Webseite (der erste Start lädt Home Assistant nach: 10 bis 20 Minuten)
+Would:	Würde:
+http://homeassistant.local:8123 (or the address from your router)	http://homeassistant.local:8123 (oder die Adresse aus deinem Router)

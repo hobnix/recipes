@@ -1,0 +1,18 @@
+# German texts of the recipe stalwart (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  1. The first start is in bootstrap mode. The temporary admin password is in the journal:	  1. Der erste Start läuft im Bootstrap-Modus. Das vorläufige Admin-Passwort steht im Journal:
+  2. Log in as admin and finish the setup there: hostname, domain, TLS certificate, accounts.	  2. Als admin anmelden und dort die Einrichtung beenden: Hostname, Domain, TLS-Zertifikat, Konten.
+  Never give the admin page a Zoraxy rule. Real mail traffic needs more (ports, DNS records): see the guide.	  Die Admin-Seite bekommt nie eine Zoraxy-Regel. Echter Mailverkehr braucht mehr (Ports, DNS-Einträge): siehe Anleitung.
+  Tailscale address of this container: %s	  Tailscale-Adresse dieses Containers: %s
+  create the container '%s' (2048 MB RAM limit) unless it exists, with a fixed address if UniFi is connected (hs net setup)	  den Container '%s' anlegen (2048 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse, wenn UniFi verbunden ist (hs net setup)
+  download the latest Stalwart release from GitHub into /opt/stalwart (data in /opt/stalwart_data) and start it as the service stalwart	  die neueste Stalwart-Version von GitHub nach /opt/stalwart laden (Daten in /opt/stalwart_data) und als Dienst stalwart starten
+  leave the first setup (admin password from the journal, domains, DNS, TLS) to the web page on port 8080	  die Ersteinrichtung (Admin-Passwort aus dem Journal, Domains, DNS, TLS) der Webseite auf Port 8080 überlassen
+  with Tailscale = yes (asked, default no): add /dev/net/tun if the container lacks it, install Tailscale inside and sign it in (you open a link)	  bei Tailscale = yes (wird gefragt, Standard no): /dev/net/tun hinzufügen, falls es im Container fehlt, Tailscale darin installieren und anmelden (du öffnest einen Link)
+Done. The admin page is at   %s/admin	Fertig. Die Verwaltungsseite ist unter   %s/admin
+Downloading Stalwart	Stalwart wird heruntergeladen
+Install Stalwart	Stalwart installieren
+Install Tailscale in the container (e.g. so a VPS in front can deliver mail over the tailnet)? yes or no	Tailscale im Container installieren (z. B. damit ein vorgeschalteter VPS Mail über das Tailnet zustellen kann)? yes oder no
+Installing tools	Werkzeuge werden installiert
+Tailscale address: %s	Tailscale-Adresse: %s
+Would:	Würde:
+Writing the service and starting it	Der Dienst wird angelegt und gestartet
+installed	installiert

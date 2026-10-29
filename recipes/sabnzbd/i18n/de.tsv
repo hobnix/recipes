@@ -1,0 +1,34 @@
+# German texts of the recipe sabnzbd (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+     (SABnzbd: Config -> General), category  movies  /  tv.	     (SABnzbd: Config -> General), Kategorie  movies  /  tv.
+     about 20 connections. (The indexer goes into Prowlarr, not here.)	     etwa 20 Verbindungen. (Der Indexer kommt in Prowlarr, nicht hierher.)
+  1. SABnzbd asks for your news provider the first time: server, port 563 with SSL, user, password,	  1. SABnzbd fragt beim ersten Mal nach deinem Usenet-Anbieter: Server, Port 563 mit SSL, Benutzer, Passwort,
+  2. Radarr and Sonarr: Settings -> Download Clients -> add SABnzbd with this address and the API key	  2. Radarr und Sonarr: Settings -> Download Clients -> SABnzbd mit dieser Adresse und dem API-Schlüssel eintragen
+  No Zoraxy rule: it is for the home network only.	  Keine Zoraxy-Regel: sie ist nur für das Heimnetz.
+  create the container '%s' (Docker inside, 2048 MB RAM limit) unless it exists, with a fixed address (.20-.29) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 2048 MB RAM), falls es ihn nicht gibt, mit fester Adresse (.20-.29), wenn UniFi verbunden ist (hs net setup)
+  mount the share for the films (asks for its name, default media) READ-WRITE at /media	  die Freigabe für die Filme (fragt nach dem Namen, Standard media) LESEND UND SCHREIBEND unter /media einbinden
+  put the container in the nightly backup	  den Container in die nächtliche Sicherung aufnehmen
+  start SABnzbd (asks for the port, default 80), finished downloads in /media/downloads/usenet/complete	  SABnzbd starten (fragt nach dem Port, Standard 80), fertige Downloads in /media/downloads/usenet/complete
+  switch on SABnzbd's notification script: queued, finished and failed downloads go to ntfy and Matrix	  das Benachrichtigungsskript von SABnzbd einschalten: eingereihte, fertige und fehlgeschlagene Downloads gehen an ntfy und Matrix
+'%s' is in the nightly backup (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung (hs backup ct %s off: herausnehmen)
+Could not set host_whitelist. In SABnzbd: Config -> Special -> host_whitelist.	host_whitelist konnte nicht gesetzt werden. In SABnzbd: Config -> Special -> host_whitelist.
+Could not set it. In SABnzbd: Config -> Switches -> Action when encrypted RAR is downloaded: Abort.	Konnte es nicht setzen. In SABnzbd: Config -> Switches -> Action when encrypted RAR is downloaded: Abort.
+Could not set the folders. In SABnzbd: Config -> Folders: Completed Download Folder  /media/downloads/usenet/complete  and Temporary  /incomplete.	Die Ordner konnten nicht gesetzt werden. In SABnzbd: Config -> Folders: Completed Download Folder  /media/downloads/usenet/complete  und Temporary  /incomplete.
+Could not switch the messages on. In SABnzbd: Config -> Folders: Scripts Folder  /config/scripts, then Config -> Notifications -> Notification Script: script hs-media-notify.py, tick the events (Added NZB, Job finished, Failed).	Die Meldungen ließen sich nicht einschalten. In SABnzbd: Config -> Folders: Scripts Folder  /config/scripts, dann Config -> Notifications -> Notification Script: Skript hs-media-notify.py, die Ereignisse ankreuzen (Added NZB, Job finished, Failed).
+Disk full, errors and warnings: tick them yourself in SABnzbd, Config -> Notifications (the API cannot set them)	Platte voll, Fehler und Warnungen: selbst ankreuzen in SABnzbd, Config -> Notifications (die Schnittstelle kann sie nicht setzen)
+Done. Open in the browser:   %s	Fertig. Im Browser öffnen:   %s
+Downloading SABnzbd	SABnzbd wird heruntergeladen
+Encrypted downloads are aborted, so Radarr and Sonarr try another release	Verschlüsselte Downloads werden abgebrochen, Radarr und Sonarr probieren ein anderes Release
+Encrypted releases	Verschlüsselte Releases
+Finished downloads go to /media/downloads/usenet/complete, unfinished ones to the SSD	Fertige Downloads landen in /media/downloads/usenet/complete, unfertige auf der SSD
+Folders	Ordner
+Messages	Meldungen
+Name of the share with the films (the one Jellyfin reads, under /bulk/shares)	Name der Freigabe mit den Filmen (die, die Jellyfin liest, unter /bulk/shares)
+No domain name known for the container (or already set): SABnzbd answers on the address only. Other names: Config -> Special -> host_whitelist.	Der Container kennt keinen Domainnamen (oder er ist schon gesetzt): SABnzbd antwortet nur auf die Adresse. Weitere Namen: Config -> Special -> host_whitelist.
+SABnzbd	SABnzbd
+SABnzbd accepts the name %s	SABnzbd akzeptiert den Namen %s
+SABnzbd posts queued, finished and failed downloads to ntfy and Matrix	SABnzbd meldet eingereihte, fertige und fehlgeschlagene Downloads an ntfy und Matrix
+Starting SABnzbd	SABnzbd wird gestartet
+The few clicks that cannot wait:	Die wenigen Klicks, die nicht warten können:
+Would:	Würde:
+Writing the settings (port, user)	Die Einstellungen werden geschrieben (Port, Benutzer)
+skipped (RECIPE_SKIP_PULL): nothing downloaded, SABnzbd not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, SABnzbd nicht gestartet

@@ -1,0 +1,20 @@
+# German texts of the recipe uptime-kuma (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+     Then it asks for a user name and password: that becomes the admin login.	     Danach fragt es nach Benutzername und Passwort: das wird die Admin-Anmeldung.
+     Then it warns on the same channel as this server.	     Dann warnt es auf demselben Kanal wie dieser Server.
+  1. The first visit asks which database to use: choose "SQLite" (nothing else to install).	  1. Der erste Besuch fragt nach der Datenbank: "SQLite" wählen (nichts weiter zu installieren).
+  2. Settings -> Notifications -> "Setup Notification", type "Ntfy":	  2. Settings -> Notifications -> "Setup Notification", Typ "Ntfy":
+  create the container '%s' (1024 MB RAM limit) unless it exists, with a fixed address if UniFi is connected (hs net setup)	  den Container '%s' anlegen (1024 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse, wenn UniFi verbunden ist (hs net setup)
+  install Node.js and Uptime Kuma inside (/opt/uptime-kuma), started by systemd (asks for the port, default 80)	  Node.js und Uptime Kuma darin installieren (/opt/uptime-kuma), von systemd gestartet (fragt nach dem Port, Standard 80)
+  list the addresses worth checking	  die Adressen auflisten, die sich zu prüfen lohnen
+Addresses worth checking	Adressen, die sich zu prüfen lohnen
+Done. Open in the browser:   %s	Fertig. Im Browser öffnen:   %s
+Downloading Uptime Kuma	Uptime Kuma wird heruntergeladen
+Install Uptime Kuma	Uptime Kuma installieren
+Installing Node.js and git	Node.js und git werden installiert
+Installing it (a few minutes)	Wird installiert (einige Minuten)
+SQLite	SQLite
+Starting it with the system	Wird mit dem System gestartet
+Would:	Würde:
+installed	installiert
+server and topic as in  %s	Server und Thema wie in  %s
+your ntfy server and topic (hs recipe ntfy sets one up)	dein ntfy-Server und Thema (hs recipe ntfy richtet einen ein)

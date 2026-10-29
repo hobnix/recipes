@@ -1,0 +1,17 @@
+# German texts of the recipe seerr (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  Finish the setup wizard first (it is open to whoever gets there first): sign in with your Jellyfin	  Zuerst den Einrichtungsassistenten beenden (er steht jedem offen, der zuerst kommt): mit deinem Jellyfin-
+  No Zoraxy rule yet: whether friends reach it from outside is described in the guide.	  Noch keine Zoraxy-Regel: ob Freunde die Seite von außen erreichen, steht in der Anleitung.
+  account, then add Radarr (http://<arr address>:7878) and Sonarr (:8989) with their API keys.	  Konto anmelden, dann Radarr (http://<Adresse von arr>:7878) und Sonarr (:8989) mit ihren API-Schlüsseln eintragen.
+  create the container '%s' (Docker inside, 1024 MB RAM limit) unless it exists, with a fixed address (.20-.29) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 1024 MB RAM), falls es ihn nicht gibt, mit fester Adresse (.20-.29), wenn UniFi verbunden ist (hs net setup)
+  put the container in the nightly backup with a database dump	  den Container mit Datenbank-Dump in die nächtliche Sicherung aufnehmen
+  start Seerr (asks for the port, default 80)	  Seerr starten (fragt nach dem Port, Standard 80)
+'%s' is in the nightly backup (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung (hs backup ct %s off: herausnehmen)
+Done. Open in the browser:   %s	Fertig. Im Browser öffnen:   %s
+Downloading Seerr	Seerr wird heruntergeladen
+Installing the dump tool	Das Dump-Werkzeug wird installiert
+Seerr	Seerr
+Starting Seerr	Seerr wird gestartet
+Would:	Würde:
+Writing the dump command	Der Dump-Befehl wird geschrieben
+Writing the settings (port)	Die Einstellungen werden geschrieben (Port)
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Seerr not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Seerr nicht gestartet

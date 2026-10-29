@@ -1,0 +1,51 @@
+# German texts of the recipe tdarr (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+     "Homeserver: make it easy for Jellyfin" (search: Jellyfin) and nothing else.	     "Homeserver: make it easy for Jellyfin" (Suche: Jellyfin) einfügen, sonst nichts.
+     (all numbers 0) nothing is processed. The node also has a schedule per hour for the night.	     (alle Zahlen 0) wird nichts verarbeitet. Der Node hat auch einen Zeitplan pro Stunde für die Nacht.
+     (not /media/music, and never /media/_tdarr-originals).	     (nicht /media/music und nie /media/_tdarr-originals).
+     Back in the list of libraries: "Library options" -> "Scan (Fresh)".	     Zurück in der Liste der Libraries: "Library options" -> "Scan (Fresh)".
+     new file replaces the old one. In the plugin stack add the local plugin	     neue Datei die alte ersetzt. In den Plugin-Stack das lokale Plugin
+  1. "Library +" -> name "Movies", source  /media/movies ; a second one  "Series" with  /media/series	  1. "Library +" -> Name "Movies", Quelle  /media/movies ; eine zweite  "Series" mit  /media/series
+  2. Tab "Transcode options": transcode cache  /temp  ; leave "output folder" empty, so the	  2. Reiter "Transcode options": Transcode-Cache  /temp ; "Output folder" leer lassen, damit die
+  3. Tab "Source" of the library: switch "Folder watch" and "Scan on start" on.	  3. Reiter "Source" der Library: "Folder watch" und "Scan on start" einschalten.
+  4. Tdarr -> Nodes -> "hs-node": the recipe set 1 CPU transcode worker. Without a worker	  4. Tdarr -> Nodes -> "hs-node": das Rezept hat 1 CPU-Transcode-Worker eingestellt. Ohne Worker
+  Tdarr's page has no login. It is for you at home only: never give it a Zoraxy rule.	  Die Seite von Tdarr hat keine Anmeldung. Sie ist nur für dich zu Hause: gib ihr nie eine Zoraxy-Regel.
+  create the container '%s' (Docker inside, 4096 MB RAM limit) unless it exists, with a fixed address if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 4096 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse, wenn UniFi verbunden ist (hs net setup)
+  if the server has an NVIDIA card (and you say yes): pass it into the container for the rare video conversion	  wenn der Server eine NVIDIA-Karte hat (und du ja sagst): sie in den Container geben, für die seltene Video-Umwandlung
+  install Docker inside and start Tdarr (server and one worker, about 1 GB to download)	  Docker darin installieren und Tdarr starten (Server und ein Worker, etwa 1 GB Download)
+  install the Tdarr plugin of this server (extra AC3 track, old formats to H.264, hard link of every original)	  das Tdarr-Plugin dieses Servers installieren (zusätzliche AC3-Spur, alte Formate zu H.264, Hardlink von jedem Original)
+  mount the share for the films (asks for its name, default media) READ-WRITE at /media	  die Freigabe für die Filme (fragt nach dem Namen, Standard media) LESEND UND SCHREIBEND unter /media einbinden
+'%s' can see the NVIDIA card	'%s' sieht die NVIDIA-Karte
+Backup of the originals	Sicherung der Originale
+Could not set the worker. In Tdarr -> Nodes set the CPU transcode worker of 'hs-node' to 1, or nothing is processed.	Der Worker konnte nicht gesetzt werden. In Tdarr -> Nodes den CPU-Transcode-Worker von 'hs-node' auf 1 stellen, sonst wird nichts verarbeitet.
+Docker can't use the NVIDIA card. Videos are converted on the CPU; try again with: hs recipe tdarr --ask	Docker kann die NVIDIA-Karte nicht nutzen. Videos werden auf der CPU umgewandelt; nochmal versuchen mit: hs recipe tdarr --ask
+Done. Open in the browser:   %s	Fertig. Im Browser öffnen:   %s
+Downloading Tdarr (about 1 GB, this takes a while)	Tdarr wird heruntergeladen (etwa 1 GB, das dauert)
+Graphics card: %s	Grafikkarte: %s
+Hard links do not work on this storage. The plugin then leaves every film alone (no backup, no change).	Hardlinks funktionieren auf diesem Speicher nicht. Das Plugin lässt dann jeden Film in Ruhe (keine Sicherung, keine Änderung).
+Hard links work: originals are kept in /media/_tdarr-originals	Hardlinks funktionieren: Originale bleiben in /media/_tdarr-originals erhalten
+NVIDIA card in use for the rare video conversion.	NVIDIA-Karte wird für die seltene Video-Umwandlung genutzt.
+NVIDIA graphics card	NVIDIA-Grafikkarte
+Name of the share with the films (the one Jellyfin reads, under /bulk/shares)	Name der Freigabe mit den Filmen (die, die Jellyfin liest, unter /bulk/shares)
+One CPU transcode worker set for the node 'hs-node'	Ein CPU-Transcode-Worker für den Node 'hs-node' eingestellt
+Plugin installed: %s	Plugin installiert: %s
+Plugin of this server	Plugin dieses Servers
+Set it up once in the browser (Tdarr -> Libraries):	Einmal im Browser einrichten (Tdarr -> Libraries):
+Starting Tdarr	Tdarr wird gestartet
+Storage for the films	Speicher für die Filme
+Tdarr	Tdarr
+Tdarr can't write to /media. Look at the storage of '%s' in: hs ct list	Tdarr kann nicht nach /media schreiben. Sieh dir den Speicher von '%s' an in: hs ct list
+The NVIDIA card could not be passed in. Videos are converted on the CPU; try again with: hs recipe tdarr --ask	Die NVIDIA-Karte konnte nicht durchgereicht werden. Videos werden auf der CPU umgewandelt; nochmal versuchen mit: hs recipe tdarr --ask
+The Tdarr node has not registered yet. In Tdarr -> Nodes set the CPU transcode worker of 'hs-node' to 1, or nothing is processed.	Der Tdarr-Node hat sich noch nicht gemeldet. In Tdarr -> Nodes den CPU-Transcode-Worker von 'hs-node' auf 1 stellen, sonst wird nichts verarbeitet.
+The node has workers already	Der Node hat schon Worker
+Update Tdarr: hs recipe tdarr   (fetches the newest image and restarts it)	Tdarr aktualisieren: hs recipe tdarr   (holt das neueste Image und startet neu)
+Use the NVIDIA graphics card when a video has to be converted? yes or no	Die NVIDIA-Grafikkarte nutzen, wenn ein Video umgewandelt werden muss? ja oder nein
+User 'tdarr' (%s)	Benutzer 'tdarr' (%s)
+Worker	Worker
+Would:	Würde:
+Writing the settings (port, user, graphics card)	Die Einstellungen werden geschrieben (Port, Benutzer, Grafikkarte)
+no NVIDIA card in this server, videos are converted on the CPU.	keine NVIDIA-Karte in diesem Server, Videos werden auf der CPU umgewandelt.
+not used, videos are converted on the CPU. To use the NVIDIA card: hs recipe tdarr --ask, answer yes.	nicht genutzt, Videos werden auf der CPU umgewandelt. Um die NVIDIA-Karte zu nutzen: hs recipe tdarr --ask, mit ja antworten.
+passed in already	schon durchgereicht
+skipped (RECIPE_SKIP_PULL): no Tdarr running	übersprungen (RECIPE_SKIP_PULL): Tdarr läuft nicht
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Tdarr not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Tdarr nicht gestartet
+skipped (RECIPE_SKIP_STORAGE): the films stay inside the container	übersprungen (RECIPE_SKIP_STORAGE): die Filme bleiben im Container

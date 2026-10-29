@@ -1,0 +1,14 @@
+# German texts of the recipe bulwark (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  connect it to your Stalwart server (asked, default: the container 'stalwart' if there is one)	  mit deinem Stalwart-Server verbinden (wird gefragt, Standard: der Container 'stalwart', falls vorhanden)
+  create the container '%s' (1024 MB RAM limit) unless it exists, with a fixed address if UniFi is connected (hs net setup)	  den Container '%s' anlegen (1024 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse, wenn UniFi verbunden ist (hs net setup)
+  incus exec %s -- cat /opt/bulwark/.env	  incus exec %s -- cat /opt/bulwark/.env
+  install Docker inside and run ghcr.io/bulwarkmail/webmail with docker compose in /opt/bulwark (asks for the port, default 80)	  Docker darin installieren und ghcr.io/bulwarkmail/webmail mit docker compose in /opt/bulwark starten (fragt nach dem Port, Standard 80)
+  make an admin password for the admin page (/admin), kept in /opt/bulwark/.env	  ein Admin-Passwort für die Verwaltungsseite (/admin) anlegen, gespeichert in /opt/bulwark/.env
+Bulwark Mail	Bulwark Mail
+Downloading Bulwark Mail	Bulwark Mail wird heruntergeladen
+Log in with an account of your Stalwart server. The admin page is /admin, its password:	Mit einem Konto deines Stalwart-Servers anmelden. Die Admin-Seite ist /admin, ihr Passwort:
+Mail server: %s	Mailserver: %s
+Starting Bulwark Mail	Bulwark Mail wird gestartet
+Would:	Würde:
+Writing the settings (port, mail server)	Einstellungen werden geschrieben (Port, Mailserver)
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Bulwark not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Bulwark nicht gestartet

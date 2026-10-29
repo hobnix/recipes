@@ -1,0 +1,38 @@
+# German texts of the recipe steamos (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+     Sign in to Steam, then Steam -> Settings -> Remote Play -> Enable Remote Play.	     Bei Steam anmelden, dann Steam -> Einstellungen -> Remote Play -> Remote Play aktivieren.
+     Steam Link shows a PIN: type it on the VNC desktop.	     Steam Link zeigt eine PIN: auf dem VNC-Desktop eingeben.
+     incus exec %s -- systemctl disable --now hs-vnc	     incus exec %s -- systemctl disable --now hs-vnc
+     server is not found (another network), choose "Other computer" and enter  %s .	     Server nicht gefunden (anderes Netz): "Anderer Computer" wählen und  %s  eingeben.
+  1. Open a VNC viewer at  %s:5900  (login in /var/lib/hs/steamos-admin, password only).	  1. Ein VNC-Programm auf  %s:5900  öffnen (Zugang in /var/lib/hs/steamos-admin, nur das Passwort).
+  3. Games are installed from the desktop (Linux and Proton, Steam Play on).	  3. Spiele werden auf dem Desktop installiert (Linux und Proton, Steam Play einschalten).
+  create the container '%s' (Debian, no Docker, 8192 MB RAM limit) unless it exists, with a fixed address (.30-.39) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Debian, ohne Docker, 8192 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse (.30-.39), wenn UniFi verbunden ist (hs net setup)
+  install Xorg, Steam (from Valve), a window manager, sound and a VNC server inside	  Xorg, Steam (von Valve), einen Fenstermanager, Ton und einen VNC-Server darin installieren
+  keep the Steam library on the SSD pool (/home/steam in the container)	  die Steam-Bibliothek auf dem SSD-Pool halten (/home/steam im Container)
+  pass the NVIDIA card and the input devices (/dev/uinput, /dev/input) into the container	  die NVIDIA-Karte und die Eingabegeräte (/dev/uinput, /dev/input) in den Container reichen
+  start Xorg on the NVIDIA card with a virtual monitor, and Steam in Big Picture mode	  Xorg auf der NVIDIA-Karte mit einem virtuellen Monitor starten, dazu Steam im Big-Picture-Modus
+'%s' can see the NVIDIA card	'%s' sieht die NVIDIA-Karte
+/dev/uinput and /dev/input are passed in	/dev/uinput und /dev/input sind durchgereicht
+Copied nvidia_drv.so and the GLX extension from the server	nvidia_drv.so und die GLX-Erweiterung vom Server kopiert
+Downloading Steam (from Valve)	Steam wird geladen (von Valve)
+Input devices	Eingabegeräte
+Installing Xorg, sound and the 32-bit libraries	Xorg, Ton und die 32-Bit-Bibliotheken werden installiert
+Kept as it is (password in %s/steamos-admin)	Bleibt wie es ist (Passwort in %s/steamos-admin)
+NVIDIA graphics card	NVIDIA-Grafikkarte
+Other computer	Anderer Computer
+Password written to %s/steamos-admin	Passwort geschrieben nach %s/steamos-admin
+Starting the desktop and Steam	Desktop und Steam werden gestartet
+Steam is running on the server's NVIDIA card. Log in to Steam once:	Steam läuft auf der NVIDIA-Karte des Servers. Einmal bei Steam anmelden:
+The 32-bit NVIDIA libraries are missing: Steam draws its window in software and 32-bit games fall back to the CPU. Set hardware.graphics.enable32Bit = true on the server, rebuild and restart the container.	Die 32-Bit-NVIDIA-Bibliotheken fehlen: Steam zeichnet sein Fenster in Software und 32-Bit-Spiele rechnen auf der CPU. Auf dem Server hardware.graphics.enable32Bit = true setzen, neu bauen und den Container neu starten.
+The NVIDIA card could not be passed into the container.	Die NVIDIA-Karte konnte nicht in den Container gereicht werden.
+The VNC port 5900 is an admin door: never a Zoraxy rule. Stop it after the first login:	Der VNC-Port 5900 ist eine Verwaltungstür: nie eine Zoraxy-Regel. Nach der ersten Anmeldung schließen:
+The desktop is up but does not render on the NVIDIA card. Look at: incus exec %s -- bash -c "DISPLAY=:0 glxinfo -B"	Der Desktop läuft, rechnet aber nicht auf der NVIDIA-Karte. Nachsehen: incus exec %s -- bash -c "DISPLAY=:0 glxinfo -B"
+The desktop renders on the NVIDIA card	Der Desktop rechnet auf der NVIDIA-Karte
+The server has no /dev/uinput. Run  hs rebuild  (it loads the module), then  hs recipe steamos  again. Gamepads will not work until then.	Der Server hat kein /dev/uinput. Mit  hs rebuild  (lädt das Modul) bauen, dann  hs recipe steamos  noch einmal. Bis dahin gehen keine Controller.
+Waiting for the virtual screen	Warten auf den virtuellen Bildschirm
+Would:	Würde:
+Writing the desktop, sound and the units	Desktop, Ton und die Dienste werden geschrieben
+Xorg did not start on the NVIDIA card. Look at: incus exec %s -- journalctl -u hs-xorg -n 60 ; hs recipe steamos copies nvidia_drv.so from the server; run it again after a driver update.	Xorg startet auf der NVIDIA-Karte nicht. Nachsehen: incus exec %s -- journalctl -u hs-xorg -n 60 ; hs recipe steamos kopiert nvidia_drv.so vom Server; nach einem Treiber-Update das Rezept noch einmal ausführen.
+Xorg driver of the NVIDIA card	Xorg-Treiber der NVIDIA-Karte
+passed in already	schon durchgereicht
+skipped (RECIPE_SKIP_PULL): no packages, Steam not downloaded	übersprungen (RECIPE_SKIP_PULL): keine Pakete, Steam nicht geladen
+skipped (RECIPE_SKIP_PULL): nothing started	übersprungen (RECIPE_SKIP_PULL): nichts gestartet

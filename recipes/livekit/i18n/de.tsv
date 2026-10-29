@@ -1,0 +1,22 @@
+# German texts of the recipe livekit (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+       %s  ->  http://%s:7880      (signalling)	       %s  ->  http://%s:7880      (Signalisierung)
+       %s  ->  http://%s:8080      (ticket service)	       %s  ->  http://%s:8080      (Ticket-Dienst)
+     and the same ports for tag:vps in the Tailscale ACL, then nixos-rebuild switch on the VPS.	     und dieselben Ports für tag:vps in der Tailscale-ACL, dann auf dem VPS nixos-rebuild switch.
+  1. Zoraxy rules (both with WebSocket support; nothing else of this container, never a rule for another port):	  1. Zoraxy-Regeln (beide mit WebSocket-Unterstützung; sonst nichts von diesem Container, nie eine Regel für einen anderen Port):
+  3. hs recipe synapse  (asks for the ticket service address https://%s and advertises it to clients)	  3. hs recipe synapse  (fragt nach der Adresse des Ticket-Dienstes https://%s und gibt sie an die Clients weiter)
+  ask for the public address of the VPS and the two host names (signalling, ticket service)	  nach der öffentlichen Adresse des VPS und den zwei Namen fragen (Signalisierung, Ticket-Dienst)
+  create the container '%s' (1024 MB RAM limit) with Docker unless it exists, with a fixed address if UniFi is connected (hs net setup)	  den Container '%s' (1024 MB RAM-Grenze) mit Docker anlegen, falls es ihn nicht gibt, mit fester Adresse, wenn UniFi verbunden ist (hs net setup)
+  install Tailscale inside and sign it in (you open a link): the VPS reaches the media ports through it	  Tailscale darin installieren und anmelden (du öffnest einen Link): der VPS erreicht die Medien-Ports darüber
+  print the Zoraxy rules, the proxyserver machine.nix lines and the Tailscale ACL ports to set	  die Zoraxy-Regeln, die machine.nix-Zeilen des proxyserver und die Ports für die Tailscale-ACL ausgeben
+  run livekit-server and lk-jwt-service with Docker (/opt/livekit), with a random API key	  livekit-server und lk-jwt-service mit Docker starten (/opt/livekit), mit zufälligem API-Schlüssel
+Done. LiveKit runs, three things are still yours:	Fertig. LiveKit läuft, drei Dinge bleiben bei dir:
+LiveKit	LiveKit
+LiveKit does not answer at %s. Look at: incus exec %s -- docker compose -f /opt/livekit/compose.yaml logs	LiveKit antwortet nicht unter %s. Sieh nach mit: incus exec %s -- docker compose -f /opt/livekit/compose.yaml logs
+Starting it (downloads the images)	Wird gestartet (lädt die Abbilder)
+Tailscale address: %s	Tailscale-Adresse: %s
+The Matrix server name is needed (your domain, e.g. example.com): RECIPE_MATRIX_SERVER=<name> hs recipe livekit	Der Matrix-Servername wird gebraucht (deine Domain, z. B. example.com): RECIPE_MATRIX_SERVER=<Name> hs recipe livekit
+The last UDP port must be higher than the first.	Der letzte UDP-Port muss höher sein als der erste.
+The public address of the VPS is needed: RECIPE_PUBLIC_IP=<address> hs recipe livekit	Die öffentliche Adresse des VPS wird gebraucht: RECIPE_PUBLIC_IP=<Adresse> hs recipe livekit
+Waiting for it to answer	Warten, bis es antwortet
+Would:	Würde:
+Writing the configuration	Die Konfiguration wird geschrieben

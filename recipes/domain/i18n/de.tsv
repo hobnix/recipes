@@ -1,0 +1,75 @@
+# German texts of the recipe domain (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  DNS Server    %s	  DNS Server    %s
+  Domain Name   %s	  Domain Name   %s
+  Type          Forward Domain	  Type          Forward Domain
+  add adDomain to %s, rebuild, join this server to the domain (asks for the Administrator password)	  adDomain in %s eintragen, neu aufbauen, diesen Server der Domäne beitreten lassen (fragt nach dem Administrator-Passwort)
+  copy the domain from %s and check that the copying works	  die Domäne von %s kopieren und prüfen, dass das Kopieren funktioniert
+  create the virtual machine '%s' (2 GB RAM, 2 cores, 20 GB) unless it exists, with a fixed address (.40 to .49)	  die virtuelle Maschine '%s' anlegen (2 GB RAM, 2 Kerne, 20 GB), falls es sie nicht gibt, mit fester Adresse (.40 bis .49)
+  install Samba inside and create the domain (asks for its name and the Administrator password)	  Samba darin installieren und die Domäne anlegen (fragt nach ihrem Namen und dem Administrator-Passwort)
+  install Samba inside and join the existing domain as a second domain controller (asks for the Administrator password)	  Samba darin installieren und der vorhandenen Domäne als zweiter Domänencontroller beitreten (fragt das Administrator-Passwort)
+  tell you the DNS entry the router needs, and continue once it works	  dir den DNS-Eintrag nennen, den der Router braucht, und weitermachen, sobald er funktioniert
+  tell you the second DNS entry the router needs	  dir den zweiten DNS-Eintrag nennen, den der Router braucht
+%s does not resolve yet; the first controller may still be copying the new name	%s wird noch nicht aufgelöst; der erste Controller kopiert den neuen Namen vielleicht noch
+%s resolves to %s	%s wird zu %s aufgelöst
+'%s' does not answer. Look at it in: hs ct list	'%s' antwortet nicht. Ansehen in: hs ct list
+'%s' has a domain, but it does not answer. Look at: incus exec %s -- systemctl status samba-ad-dc	'%s' hat eine Domäne, sie antwortet aber nicht. Ansehen: incus exec %s -- systemctl status samba-ad-dc
+'%s' is not a usable name (letters, digits, at least one dot).	'%s' ist kein brauchbarer Name (Buchstaben, Ziffern, mindestens ein Punkt).
+'%s' is not a usable short name (letters and digits, at most 15).	'%s' ist kein brauchbarer Kurzname (Buchstaben und Ziffern, höchstens 15).
+'%s' joined, but does not say the short name of the domain. Look at: incus exec %s -- samba-tool domain info 127.0.0.1	'%s' ist beigetreten, nennt aber den Kurznamen der Domäne nicht. Sieh nach mit: incus exec %s -- samba-tool domain info 127.0.0.1
+A name that exists nowhere on the internet, ending in a name of yours, for example ad.home.lan.	Ein Name, den es im Internet nirgends gibt und der auf einen Namen von dir endet, zum Beispiel ad.home.lan.
+Added to %s:  %s	In %s eingetragen:  %s
+At least 7 characters with upper and lower case letters and digits. Typed twice, not shown.	Mindestens 7 Zeichen mit Groß- und Kleinbuchstaben und Ziffern. Zweimal tippen, wird nicht angezeigt.
+Check on a PC:   nslookup %s    (must answer %s)	Auf einem PC prüfen:   nslookup %s    (muss %s antworten)
+Checking that it answers	Es wird geprüft, ob er antwortet
+Checking that the first controller answers	Prüfen, ob der erste Controller antwortet
+Could not add adDomain to %s. Add this line by hand, run hs rebuild, then the recipe again:  %s	adDomain ließ sich nicht in %s eintragen. Diese Zeile von Hand ergänzen, hs rebuild ausführen, dann das Rezept noch einmal:  %s
+Could not let Domain Admins manage share permissions. Later: sudo net rpc rights grant '%s' SeDiskOperatorPrivilege -U Administrator	Domain Admins konnten nicht die Rechte für Freigaben bekommen. Später: sudo net rpc rights grant '%s' SeDiskOperatorPrivilege -U Administrator
+Create the domain %s	Die Domäne %s anlegen
+Creating the domain	Die Domäne wird angelegt
+Domain	Domäne
+Full name of the domain	Vollständiger Name der Domäne
+Full name of the existing domain	Vollständiger Name der vorhandenen Domäne
+Install Samba	Samba installieren
+Installing Samba (about 150 MB)	Samba wird installiert (etwa 150 MB)
+Is %s reserved for '%s' in UniFi (Client Devices -> Fixed IP Address)? Without that the domain breaks when the address changes.	Ist %s in UniFi für '%s' reserviert (Client Devices -> Fixed IP Address)? Ohne das geht die Domäne kaputt, wenn sich die Adresse ändert.
+Join the domain %s as a controller	Der Domäne %s als Controller beitreten
+Joining as a controller failed. Is the Administrator password right? Run the recipe again to retry.	Der Beitritt als Controller ist fehlgeschlagen. Stimmt das Administrator-Passwort? Starte das Rezept noch einmal, um es erneut zu versuchen.
+Joining failed. Is the password right? Run the recipe again to retry.	Der Beitritt ist fehlgeschlagen. Stimmt das Passwort? Das Rezept noch einmal ausführen.
+Name of the domain	Name der Domäne
+No domain controller for %s answers at %s. Is it running? Are the ports open between the two networks (53, 88, 135, 389, 445, 3268)?	Kein Domänencontroller für %s antwortet unter %s. Läuft er? Sind die Ports zwischen den beiden Netzen offen (53, 88, 135, 389, 445, 3268)?
+Password of the domain's Administrator	Passwort des Administrators der Domäne
+People log in to shares as   %s   with their domain password; a Windows PC joins with %s.	Man meldet sich an Freigaben an als   %s   mit dem Domänenpasswort; ein Windows-PC tritt bei mit %s.
+Preparing name and DNS of the controller	Name und DNS des Controllers werden vorbereitet
+Reserve the address first (or run: hs net setup), then start the recipe again.	Zuerst die Adresse reservieren (oder ausführen: hs net setup), dann das Rezept noch einmal starten.
+Shares that existed before are still open to everyone: close them in hs share <share> perm (Everyone: none). hs health lists them.	Freigaben, die es vorher gab, sind noch für alle offen: in hs share <share> perm schließen (Everyone: none). hs health listet sie auf.
+Short name (max. 15 letters)	Kurzname (höchstens 15 Buchstaben)
+Starting the controller	Der Controller wird gestartet
+Stopping the services the package started	Die vom Paket gestarteten Dienste werden angehalten
+Taking a snapshot of the fresh controller	Ein Snapshot des frischen Controllers wird gemacht
+Taking a snapshot of the new controller	Snapshot des neuen Controllers anlegen
+The Administrator password of the domain is asked for now (twice: joining, then a permission).	Jetzt wird nach dem Administrator-Passwort der Domäne gefragt (zweimal: Beitritt, dann eine Berechtigung).
+The Administrator password of the existing domain is asked for now. It is typed straight into Samba.	Jetzt wird das Administrator-Passwort der vorhandenen Domäne abgefragt. Es wird direkt in Samba eingegeben.
+The configuration already names a domain	Die Konfiguration nennt schon eine Domäne
+The controller does not answer for %s. Look at: incus exec %s -- journalctl -u samba-ad-dc -n 30	Der Controller antwortet nicht für %s. Ansehen: incus exec %s -- journalctl -u samba-ad-dc -n 30
+The copying does not work. Look at: incus exec %s -- samba-tool drs showrepl	Das Kopieren funktioniert nicht. Sieh nach mit: incus exec %s -- samba-tool drs showrepl
+The domain %s (short name %s) exists already, keeping it	Die Domäne %s (Kurzname %s) gibt es schon, sie bleibt
+The domain in your network	Die Domäne in deinem Netz
+The domain is running and this server is its file server.	Die Domäne läuft, und dieser Server ist ihr Dateiserver.
+The existing domain	Die vorhandene Domäne
+The first controller is %s. It must be running, and this server must reach it (DNS, Kerberos, LDAP, SMB).	Der erste Controller ist %s. Er muss laufen, und dieser Server muss ihn erreichen (DNS, Kerberos, LDAP, SMB).
+The password was not set. Do it later: incus exec %s -t -- samba-tool user setpassword Administrator	Das Passwort wurde nicht gesetzt. Später nachholen: incus exec %s -t -- samba-tool user setpassword Administrator
+The router already sends the domain to the first controller. Add a SECOND entry, so it asks this one when the first is off.	Der Router schickt die Domäne schon zum ersten Controller. Lege einen ZWEITEN Eintrag an, damit er diesen fragt, wenn der erste aus ist.
+The router does not know the domain yet. In UniFi, where the local DNS entries are:	Der Router kennt die Domäne noch nicht. In UniFi, dort wo die lokalen DNS-Einträge sind:
+The server joined, but can't talk to the domain. Look at: journalctl -u samba-winbindd -n 30	Der Server ist beigetreten, kann aber nicht mit der Domäne reden. Ansehen: journalctl -u samba-winbindd -n 30
+The short name is what people type before their user name: %s.	Der Kurzname ist das, was man vor den Benutzernamen tippt: %s.
+Then run this recipe again: it continues from here and joins this server to the domain.	Dann dieses Rezept noch einmal ausführen: es macht hier weiter und lässt diesen Server der Domäne beitreten.
+This account manages the domain; keep the password somewhere safe.	Dieses Konto verwaltet die Domäne; das Passwort gut aufbewahren.
+This server also holds a copy of the domain (controller %s); hs finds it by itself.	Dieser Server hält auch eine Kopie der Domäne (Controller %s); hs findet ihn selbst.
+This server as file server of the domain	Dieser Server als Dateiserver der Domäne
+This server is a member of the domain already	Dieser Server ist schon Mitglied der Domäne
+Waiting for the connection to the domain	Warten auf die Verbindung zur Domäne
+Waiting for the first copy of the domain	Warten auf die erste Kopie der Domäne
+Waiting for the virtual machine to accept commands	Warten, bis die virtuelle Maschine Befehle annimmt
+Would:	Würde:
+skipped (RECIPE_SKIP_HOST)	übersprungen (RECIPE_SKIP_HOST)
+skipped (RECIPE_SKIP_PASSWORD): the random one from the setup stays	übersprungen (RECIPE_SKIP_PASSWORD): das zufällige aus der Einrichtung bleibt
