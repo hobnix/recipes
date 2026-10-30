@@ -1,7 +1,9 @@
 # German texts of the recipe cloudflared (English text <TAB> translation; the shared helpers' texts are in the core catalog)
   ask for the tunnel token (unless it is stored already) and start the tunnel	  nach dem Tunnel-Token fragen (falls er nicht schon gespeichert ist) und den Tunnel starten
   create the container '%s' (512 MB RAM limit) unless it exists, with a fixed address (.10 to .19) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (512 MB RAM-Grenze), falls es ihn nicht gibt, mit fester Adresse (.10 bis .19), wenn UniFi verbunden ist (hs net setup)
+  give it a second network card on the internal link of Incus (hs-internal, no router in between)	  ihm eine zweite Netzwerkkarte am internen Link von Incus geben (hs-internal, kein Router dazwischen)
   install cloudflared inside	  cloudflared darin installieren
+  subdomain *  (and one without subdomain), your domain, service  %s	  Subdomain *  (und eine ohne Subdomain), deine Domain, Dienst  %s
   subdomain *  (and one without subdomain), your domain, service  HTTP  %s:80	  Subdomain *  (und eine ohne Subdomain), deine Domain, Dienst  HTTP  %s:80
 "eyJ" in it is the token. You can paste the whole command.	"eyJ" beginnt, ist der Token. Du kannst den ganzen Befehl einfügen.
 (type Cloudflared). The page then shows an install command; the long word starting with	(Typ Cloudflared). Die Seite zeigt dann einen Installationsbefehl; das lange Wort, das mit
@@ -10,6 +12,7 @@ A token is stored already, keeping it	Ein Token ist schon gespeichert, er bleibt
 Adding the Cloudflare package source	Die Cloudflare-Paketquelle wird hinzugefügt
 Another tunnel? Delete it first: incus exec %s -- rm /etc/cloudflared/token	Ein anderer Tunnel? Erst löschen: incus exec %s -- rm /etc/cloudflared/token
 In the Cloudflare dashboard, on the tunnel's page: Public Hostname -> Add	Im Cloudflare-Dashboard, auf der Seite des Tunnels: Public Hostname -> Add
+In the Cloudflare dashboard, on the tunnel's page: Public Hostname -> Add (or edit the existing ones)	Im Cloudflare-Dashboard, auf der Seite des Tunnels: Public Hostname -> Add (oder die bestehenden bearbeiten)
 Install cloudflared	cloudflared installieren
 Installing cloudflared	cloudflared wird installiert
 No connection confirmed yet. Look at: incus exec %s -- journalctl -u cloudflared -n 20	Noch keine Verbindung bestätigt. Ansehen: incus exec %s -- journalctl -u cloudflared -n 20
