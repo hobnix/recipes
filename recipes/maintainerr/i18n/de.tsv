@@ -1,0 +1,14 @@
+# German texts of the recipe maintainerr (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  create the container '%s' (Docker inside, 1024 MB RAM limit) unless it exists, with a fixed address (.50-.99) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 1024 MB RAM), falls es ihn nicht gibt, mit fester Adresse (.50-.99), wenn UniFi verbunden ist (hs net setup)
+  put the container in the nightly backup with a database dump	  den Container mit Datenbank-Dump in die nächtliche Sicherung aufnehmen
+  start Maintainerr (port 6246), with no rules: it deletes nothing until you write one	  Maintainerr starten (Port 6246), ohne Regeln: es löscht nichts, bis du eine schreibst
+'%s' is in the nightly backup (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung (hs backup ct %s off: herausnehmen)
+1. Settings: connect Jellyfin (or Plex), Radarr and Sonarr (addresses and API keys), Seerr if you have it	1. Settings: Jellyfin (oder Plex), Radarr und Sonarr verbinden (Adressen und API-Schlüssel), Seerr, wenn du es hast
+2. Rules: make a rule as a collection first, look at what it would hit, only then switch deleting on	2. Rules: eine Regel zuerst als Sammlung anlegen, ansehen, was sie treffen würde, erst dann das Löschen einschalten
+Downloading Maintainerr	Maintainerr wird heruntergeladen
+Maintainerr	Maintainerr
+No Zoraxy rule: it is for the home network only. The few clicks that cannot wait:	Keine Zoraxy-Regel: die Seite ist nur für das Heimnetz. Die wenigen Klicks, die nicht warten können:
+Starting Maintainerr	Maintainerr wird gestartet
+Would:	Würde:
+Writing the settings	Die Einstellungen werden geschrieben
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Maintainerr not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Maintainerr nicht gestartet

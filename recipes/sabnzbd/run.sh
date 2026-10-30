@@ -7,8 +7,8 @@
 set -euo pipefail
 
 # What it does: creates the container "sabnzbd" with Docker inside and runs SABnzbd (linuxserver.io image).
-#   downloads    unpacked into /media/downloads/usenet/complete on the share "media" (the same path the recipe
-#                "arr" uses, so Radarr and Sonarr move a finished download into the library by a hard link).
+#   downloads    unpacked into /media/downloads/usenet/complete on the share "media" (the same path the recipes
+#                radarr and sonarr use, so Radarr and Sonarr move a finished download into the library by a hard link).
 #                A user "sabnzbd" is mapped 1:1 to the share's owner: the files stay adminuser's on disk.
 #   unfinished   /var/tmp/sab-incomplete inside the container (SSD pool): the heavy writing of loading, repairing
 #                and unpacking stays off the big disks, and the backup skips /var/tmp.
@@ -181,5 +181,5 @@ $(say "  1. SABnzbd asks for your news provider the first time: server, port 563
 $(say "     about 20 connections. (The indexer goes into Prowlarr, not here.)")
 $(say "  2. Radarr and Sonarr: Settings -> Download Clients -> add SABnzbd with this address and the API key")
 $(say "     (SABnzbd: Config -> General), category  movies  /  tv.")
-$(docs_hint arr)
+$(docs_hint radarr)
 DONE

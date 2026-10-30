@@ -1,0 +1,27 @@
+# German texts of the recipe sonarr (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  create the container '%s' (Docker inside, 1536 MB RAM limit) unless it exists, with a fixed address (.50-.99) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 1536 MB RAM), falls es ihn nicht gibt, mit fester Adresse (.50-.99), wenn UniFi verbunden ist (hs net setup)
+  mount the share for the films (asks for its name, default media) READ-WRITE at /media, with folders movies, series, music, downloads	  die Freigabe für die Filme (fragt nach dem Namen, Standard media) LESEND UND SCHREIBEND unter /media einbinden, mit den Ordnern movies, series, music, downloads
+  start Sonarr (port 8989) and install Recyclarr as a tool	  Sonarr starten (Port 8989) und Recyclarr als Werkzeug bereitstellen
+  use the push topic of the film apps, and put the container in the nightly backup with a database dump	  das Push-Thema der Film-Apps verwenden und den Container mit Datenbank-Dump in die nächtliche Sicherung aufnehmen
+'%s' is in the nightly backup (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung (hs backup ct %s off: herausnehmen)
+1. Settings -> Media Management -> Root Folder:  /media/series	1. Settings -> Media Management -> Root Folder:  /media/series
+2. Settings -> Download Clients -> SABnzbd (hs recipe sabnzbd), category  tv, then run this recipe again	2. Settings -> Download Clients -> SABnzbd (hs recipe sabnzbd), Kategorie  tv, dann dieses Rezept noch einmal ausführen
+3. Prowlarr (hs recipe prowlarr): Settings -> Apps -> Sonarr, this address and the API key (Settings -> General)	3. Prowlarr (hs recipe prowlarr): Settings -> Apps -> Sonarr, diese Adresse und der API-Schlüssel (Settings -> General)
+Downloading Sonarr and Recyclarr	Sonarr und Recyclarr werden heruntergeladen
+Jellyfin: Settings -> Connect -> + -> Emby/Jellyfin: host, port 8096, API key (Jellyfin: Dashboard -> API Keys), tick Update Library. Not set by the recipe: the key needs a Jellyfin login	Jellyfin: Einstellungen -> Verbinden -> + -> Emby/Jellyfin: Host, Port 8096, API-Schlüssel (Jellyfin: Dashboard -> API-Schlüssel), Bibliothek aktualisieren ankreuzen. Vom Rezept nicht gesetzt: der Schlüssel braucht eine Jellyfin-Anmeldung
+Name of the share with the films (the one Jellyfin reads, under /bulk/shares)	Name der Freigabe mit den Filmen (die, die Jellyfin liest, unter /bulk/shares)
+No API key found yet, settings not written (run the recipe again)	Noch kein API-Schlüssel gefunden, Einstellungen nicht geschrieben (Rezept noch einmal ausführen)
+No SABnzbd client yet; add it (step 2 below), then run this recipe again for Remove Completed	Noch kein SABnzbd-Client; lege ihn an (Schritt 2 unten) und führe dieses Rezept dann noch einmal aus, damit Abgeschlossene entfernen gesetzt wird
+No Zoraxy rule: it is for the home network only. The few clicks that cannot wait:	Keine Zoraxy-Regel: die Seite ist nur für das Heimnetz. Die wenigen Klicks, die nicht warten können:
+Push messages (Settings -> Connect -> ntfy):  server %s   topic %s	Push-Nachrichten (Settings -> Connect -> ntfy):  Server %s   Thema %s
+Recycling Bin /media/downloads/recycle, emptied after 7 days	Papierkorb /media/downloads/recycle, nach 7 Tagen geleert
+Recycling Bin not set. Click: Settings -> Media Management -> Recycling Bin	Papierkorb nicht gesetzt. Klicke: Einstellungen -> Medienverwaltung -> Papierkorb
+Remove Completed not set. Click: Settings -> Download Clients -> SABnzbd -> Remove Completed	Abgeschlossene entfernen nicht gesetzt. Klicke: Einstellungen -> Download-Clients -> SABnzbd -> Abgeschlossene entfernen
+Settings	Einstellungen
+Sonarr	Sonarr
+Starting Sonarr	Sonarr wird gestartet
+The SABnzbd client removes completed downloads	Der SABnzbd-Client entfernt abgeschlossene Downloads
+Would:	Würde:
+Writing the settings	Die Einstellungen werden geschrieben
+skipped (RECIPE_SKIP_PULL): no settings written	übersprungen (RECIPE_SKIP_PULL): keine Einstellungen geschrieben
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Sonarr not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Sonarr nicht gestartet

@@ -7,7 +7,7 @@
 set -euo pipefail
 
 # What it does: creates the container "seerr" with Docker inside and runs Seerr (the merged successor of
-# Jellyseerr and Overseerr, ghcr.io/seerr-team/seerr). A request goes to Radarr or Sonarr (recipe "arr"), which
+# Jellyseerr and Overseerr, ghcr.io/seerr-team/seerr). A request goes to Radarr or Sonarr (recipes "radarr", "sonarr"), which
 # find and load it; Seerr shows what is available in Jellyfin (or Plex, later). People sign in with their
 # Jellyfin account, so there is no second set of passwords.
 #   config    /opt/seerr/config (SSD pool); `hs backup ct seerr on` is switched on and a dump of its database
@@ -88,7 +88,7 @@ declare_service seerr Seerr seerr private-ok Apps "Requests for films and series
 box <<DONE
 $(t 'Done. Open in the browser:   %s' "$(web)")
 $(say "  Finish the setup wizard first (it is open to whoever gets there first): sign in with your Jellyfin")
-$(say "  account, then add Radarr (http://<arr address>:7878) and Sonarr (:8989) with their API keys.")
+$(say "  account, then add Radarr (http://<radarr address>:7878) and Sonarr (<sonarr address>:8989) with their API keys.")
 $(say "  No Zoraxy rule yet: whether friends reach it from outside is described in the guide.")
-$(docs_hint arr)
+$(docs_hint radarr)
 DONE

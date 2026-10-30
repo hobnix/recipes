@@ -1,0 +1,13 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "bazarr"
+version = "1.0.0"
+kind = "recipe"
+title = "fetches subtitles for the films and series of Radarr and Sonarr"
+title_de = "holt Untertitel für die Filme und Serien von Radarr und Sonarr"
+requires_core = ">=1"
+audience = "generic"
+needs = ["docker", "share"]
+uses = []
+input = "none"
+script = "run.sh"

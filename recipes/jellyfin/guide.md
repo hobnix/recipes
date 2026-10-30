@@ -78,5 +78,5 @@ You can skip: Handbrake (MakeMKV plus Tdarr replace it; re-encoding a 30 GB Blu-
 | Jellyfin cannot see new files | The library has not been scanned | **Dashboard > Libraries > Scan** |
 
 ## Next
-- [Films and series on autopilot](arr.md)
+- [Films and series on autopilot](radarr.md)
 - [Convert films for Jellyfin](tdarr.md)

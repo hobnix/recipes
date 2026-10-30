@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The duplicate cleanup of the arr recipe (packages/arr/hs-arr-dedupe.py), the shared sender (files/hs-media-notify.py)
+# The duplicate cleanup of the radarr recipe (recipes/radarr/hs-arr-dedupe.py), the shared sender (files/hs-media-notify.py)
 # and the cards of the new services. Fake ffprobe (height from the file name), no root, no incus, no network.
 # The core checkout (CI puts it in ./core; HS_CORE names another). The packages under test are the ones of THIS repository.
 HERE=$(cd "$(dirname "$0")/.." && pwd)
@@ -12,7 +12,7 @@ PKGS=$HERE/recipes
 export HS_LANG=en HS_PLAIN=1
 P() { cygpath -m "$1" 2>/dev/null || echo "$1"; }   # Windows Python needs C:/ paths (Git bash)
 F=$(P "$SCRIPTS/recipes/files")            # shared: hs-media-notify.py, matrix-card
-A=$(P "$PKGS/arr")                 # the arr recipe: hs-arr-dedupe.py
+A=$(P "$PKGS/radarr")              # the radarr recipe: hs-arr-dedupe.py
 have python3 || { skip "python3 is needed"; finish; exit 0; }
 PY="python3 -X utf8"
 W=$(P "$WORK"); MEDIA=$W/movies; STATE=$W/dstate; LOG=$W/notify.log; mkdir -p "$MEDIA" "$WORK/bin"

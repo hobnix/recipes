@@ -1,0 +1,36 @@
+# German texts of the recipe radarr (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  (if you say yes) install a nightly job that announces and then deletes the lower-resolution file of a film that has two (messages to ntfy and Matrix)	  (bei yes) einen nächtlichen Auftrag einrichten, der die Datei mit der niedrigeren Auflösung eines Films mit zwei Dateien ankündigt und dann löscht (Meldungen an ntfy und Matrix)
+  create the container '%s' (Docker inside, 1536 MB RAM limit) unless it exists, with a fixed address (.50-.99) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 1536 MB RAM), falls es ihn nicht gibt, mit fester Adresse (.50-.99), wenn UniFi verbunden ist (hs net setup)
+  mount the share for the films (asks for its name, default media) READ-WRITE at /media, with folders movies, series, music, downloads	  die Freigabe für die Filme (fragt nach dem Namen, Standard media) LESEND UND SCHREIBEND unter /media einbinden, mit den Ordnern movies, series, music, downloads
+  start Radarr (port 7878) and install Recyclarr as a tool	  Radarr starten (Port 7878) und Recyclarr als Werkzeug bereitstellen
+  use the push topic of the film apps, and put the container in the nightly backup with a database dump	  das Push-Thema der Film-Apps verwenden und den Container mit Datenbank-Dump in die nächtliche Sicherung aufnehmen
+'%s' is in the nightly backup (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung (hs backup ct %s off: herausnehmen)
+1. Settings -> Media Management -> Root Folder:  /media/movies	1. Settings -> Media Management -> Root Folder:  /media/movies
+2. Settings -> Download Clients -> SABnzbd (hs recipe sabnzbd), category  movies, then run this recipe again	2. Settings -> Download Clients -> SABnzbd (hs recipe sabnzbd), Kategorie  movies, dann dieses Rezept noch einmal ausführen
+3. Prowlarr (hs recipe prowlarr): Settings -> Apps -> Radarr, this address and the API key (Settings -> General)	3. Prowlarr (hs recipe prowlarr): Settings -> Apps -> Radarr, diese Adresse und der API-Schlüssel (Settings -> General)
+Copying the programs	Die Programme werden kopiert
+Delete the lower-resolution file when a film has two (say 4K and FullHD) in its folder, after a grace period? yes or no	Die Datei mit der niedrigeren Auflösung löschen, wenn ein Film zwei hat (etwa 4K und FullHD in einem Ordner), nach einer Schonfrist? yes oder no
+Downloading Radarr and Recyclarr	Radarr und Recyclarr werden heruntergeladen
+Duplicates	Doppelte Filme
+Duplicates: list what would happen:  incus exec %s -- python3 /usr/local/lib/hs/hs-arr-dedupe.py --dry-run   (keep both: touch .keep-both in the film's folder)	Doppelte Filme, was passieren würde:  incus exec %s -- python3 /usr/local/lib/hs/hs-arr-dedupe.py --dry-run   (beide behalten: touch .keep-both im Ordner des Films)
+Every night at 03:30: a film with two resolutions is announced, its lower file deleted after %s days	Jede Nacht um 03:30: Ein Film mit zwei Auflösungen wird angekündigt, die niedrigere Datei nach %s Tagen gelöscht
+Installing ffprobe and Python	ffprobe und Python werden installiert
+Jellyfin: Settings -> Connect -> + -> Emby/Jellyfin: host, port 8096, API key (Jellyfin: Dashboard -> API Keys), tick Update Library. Not set by the recipe: the key needs a Jellyfin login	Jellyfin: Einstellungen -> Verbinden -> + -> Emby/Jellyfin: Host, Port 8096, API-Schlüssel (Jellyfin: Dashboard -> API-Schlüssel), Bibliothek aktualisieren ankreuzen. Vom Rezept nicht gesetzt: der Schlüssel braucht eine Jellyfin-Anmeldung
+Name of the share with the films (the one Jellyfin reads, under /bulk/shares)	Name der Freigabe mit den Filmen (die, die Jellyfin liest, unter /bulk/shares)
+No API key found yet, settings not written (run the recipe again)	Noch kein API-Schlüssel gefunden, Einstellungen nicht geschrieben (Rezept noch einmal ausführen)
+No SABnzbd client yet; add it (step 2 below), then run this recipe again for Remove Completed	Noch kein SABnzbd-Client; lege ihn an (Schritt 2 unten) und führe dieses Rezept dann noch einmal aus, damit Abgeschlossene entfernen gesetzt wird
+No Zoraxy rule: it is for the home network only. The few clicks that cannot wait:	Keine Zoraxy-Regel: die Seite ist nur für das Heimnetz. Die wenigen Klicks, die nicht warten können:
+Push messages (Settings -> Connect -> ntfy):  server %s   topic %s	Push-Nachrichten (Settings -> Connect -> ntfy):  Server %s   Thema %s
+Radarr	Radarr
+Recycling Bin /media/downloads/recycle, emptied after 7 days	Papierkorb /media/downloads/recycle, nach 7 Tagen geleert
+Recycling Bin not set. Click: Settings -> Media Management -> Recycling Bin	Papierkorb nicht gesetzt. Klicke: Einstellungen -> Medienverwaltung -> Papierkorb
+Remove Completed not set. Click: Settings -> Download Clients -> SABnzbd -> Remove Completed	Abgeschlossene entfernen nicht gesetzt. Klicke: Einstellungen -> Download-Clients -> SABnzbd -> Abgeschlossene entfernen
+Setting up the nightly job	Der nächtliche Auftrag wird eingerichtet
+Settings	Einstellungen
+Skipped: no duplicate cleanup (hs recipe radarr --ask turns it on)	Übersprungen: keine Bereinigung doppelter Filme (hs recipe radarr --ask schaltet sie ein)
+Starting Radarr	Radarr wird gestartet
+The SABnzbd client removes completed downloads	Der SABnzbd-Client entfernt abgeschlossene Downloads
+Would:	Würde:
+Writing the settings	Die Einstellungen werden geschrieben
+skipped (RECIPE_SKIP_PULL): no settings written	übersprungen (RECIPE_SKIP_PULL): keine Einstellungen geschrieben
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Radarr not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Radarr nicht gestartet

@@ -107,7 +107,7 @@ def rescan(folder):
     if os.environ.get("HS_DEDUPE_NO_RADARR"):
         return
     try:
-        with open("/opt/arr/radarr/config.xml") as f:
+        with open("/opt/radarr/config/config.xml") as f:
             key = re.search(r"<ApiKey>([^<]+)</ApiKey>", f.read()).group(1)
         base = "http://127.0.0.1:7878/api/v3"
 
@@ -127,7 +127,7 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--days", type=int, default=14)
     ap.add_argument("--media", default="/media/movies")
-    ap.add_argument("--state", default="/opt/arr/dedupe")
+    ap.add_argument("--state", default="/opt/radarr/dedupe")
     a = ap.parse_args()
 
     os.makedirs(a.state, exist_ok=True)

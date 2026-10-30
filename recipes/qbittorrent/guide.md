@@ -5,7 +5,7 @@ Run qBittorrent so that it can only reach the internet through your VPN, and han
 Not tested on hardware yet: the recipe is tested with dry runs and syntax checks; the containers themselves (gluetun, qBittorrent) have not been started on a real server.
 
 ## Before you start
-- The share `media` and the container `arr` ([Films and series on autopilot](arr.md)).
+- The share `media` and the containers `radarr` and `sonarr` ([Films and series on autopilot](radarr.md)).
 - A VPN account at a provider that gluetun knows and that allows P2P (for example Mullvad, ProtonVPN, AirVPN, IVPN, NordVPN, Surfshark, Private Internet Access; the list is in the gluetun wiki).
 - The login data: for WireGuard the private key and the address (`Address =` in the provider's config, like `10.2.0.2/32`); for OpenVPN the user name and password. Some providers use separate OpenVPN credentials, not the ones of their website.
 - Downloading copyrighted material without permission is generally not allowed, with or without a VPN. The recipe installs tools only.
@@ -92,4 +92,4 @@ sudo hs recipe qbittorrent --ask
 | "Permission denied" | The container's `qbittorrent` user cannot write to the share | `hs ct list`, check the container's storage |
 
 ## Next
-- [Films and series on autopilot](arr.md)
+- [Films and series on autopilot](radarr.md)

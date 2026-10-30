@@ -1,0 +1,18 @@
+# German texts of the recipe lidarr (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  create the container '%s' (Docker inside, 1024 MB RAM limit) unless it exists, with a fixed address (.50-.99) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 1024 MB RAM), falls es ihn nicht gibt, mit fester Adresse (.50-.99), wenn UniFi verbunden ist (hs net setup)
+  mount the share for the films (asks for its name, default media) READ-WRITE at /media, with folders movies, series, music, downloads	  die Freigabe für die Filme (fragt nach dem Namen, Standard media) LESEND UND SCHREIBEND unter /media einbinden, mit den Ordnern movies, series, music, downloads
+  start Lidarr (port 8686)	  Lidarr starten (Port 8686)
+  use the push topic of the film apps, and put the container in the nightly backup with a database dump	  das Push-Thema der Film-Apps verwenden und den Container mit Datenbank-Dump in die nächtliche Sicherung aufnehmen
+'%s' is in the nightly backup (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung (hs backup ct %s off: herausnehmen)
+1. Settings -> Media Management -> Root Folder:  /media/music	1. Settings -> Media Management -> Root Folder:  /media/music
+2. Settings -> Download Clients -> SABnzbd (hs recipe sabnzbd), category  audio	2. Settings -> Download Clients -> SABnzbd (hs recipe sabnzbd), Kategorie  audio
+3. Prowlarr (hs recipe prowlarr): Settings -> Apps -> Lidarr, this address and the API key (Settings -> General)	3. Prowlarr (hs recipe prowlarr): Settings -> Apps -> Lidarr, diese Adresse und der API-Schlüssel (Settings -> General)
+Downloading Lidarr	Lidarr wird heruntergeladen
+Lidarr	Lidarr
+Name of the share with the films (the one Jellyfin reads, under /bulk/shares)	Name der Freigabe mit den Filmen (die, die Jellyfin liest, unter /bulk/shares)
+No Zoraxy rule: it is for the home network only. The few clicks that cannot wait:	Keine Zoraxy-Regel: die Seite ist nur für das Heimnetz. Die wenigen Klicks, die nicht warten können:
+Push messages (Settings -> Connect -> ntfy):  server %s   topic %s	Push-Nachrichten (Settings -> Connect -> ntfy):  Server %s   Thema %s
+Starting Lidarr	Lidarr wird gestartet
+Would:	Würde:
+Writing the settings	Die Einstellungen werden geschrieben
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Lidarr not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Lidarr nicht gestartet

@@ -5,7 +5,7 @@ Let Tdarr add an audio track to your films once, at night, so Jellyfin starts th
 Not tested on hardware yet: the plugin is tested against real ffmpeg runs (`tests/tdarr-plugin.sh`), its cooperation with Tdarr itself is not.
 
 ## Before you start
-- The `jellyfin` recipe is set up: it creates the share `media` that Tdarr works on. See [Films and series on autopilot](arr.md).
+- The `jellyfin` recipe is set up: it creates the share `media` that Tdarr works on. See [Films and series on autopilot](radarr.md).
 - You accept that Tdarr changes files in the share (the original is kept as a hard link, see below).
 
 ## Why
@@ -64,7 +64,7 @@ sudo rm -r /bulk/shares/media/_tdarr-originals
 | Symptom | Cause | Fix |
 | --- | --- | --- |
 | Queue does not move | No transcode worker on the node | Set Transcode CPU to 1 on `hs-node` |
-| Film unchanged | The hard link could not be made | The share must allow links between its folders; see the arr guide |
+| Film unchanged | The hard link could not be made | The share must allow links between its folders; see the guide of radarr |
 | DVD rips take long | MPEG-2 video is converted to H.264 | Expected: minutes to half an hour per film; Blu-rays keep their picture |
 
 ## Next

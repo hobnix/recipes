@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Radarr / Sonarr settings through their v3 API (run on the host by the recipe arr):
+# Radarr / Sonarr settings through their v3 API (run on the host by the recipes radarr and sonarr, each has this same file:
+# tests/media-recipes.sh keeps the two copies equal):
 #   arr-tune.sh <ip> <port> <api key> <recycle folder> <days>
 # Prints key=value lines (recycle=set|same|failed, client=set|same|none|failed), never raw output. Idempotent.
 # Field names: MediaManagementConfigResource.RecycleBin / RecycleBinCleanupDays (PUT /api/v3/config/mediamanagement,
