@@ -1,4 +1,0 @@
-# Commands of the recipe package "arr" (docs/PLAN-packages.md): same columns and rules as an extension (scripts/lib/registry-load.sh).
-# kind	path	script	args	help	help.de	flags
-user	ext arr status	@/status.sh	-	-	-	topic:instances,reads
-sys	sys ext arr status	@/status.sh	--list	the services of the arr recipe as data: app, port, state (up|down|missing), url	-

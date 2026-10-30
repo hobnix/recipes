@@ -127,7 +127,7 @@ curl -fsS -m 5 "$hook/healthz" 2>/dev/null | grep -q '"cards": true' || warn "Ca
 
 # the helpers of the film containers (dedupe job, SABnzbd's script) learn the address
 . "${HS_RECIPE_MEDIA:-$scripts/recipes/_media.sh}"
-for c in arr:/usr/local/lib/hs sabnzbd:/opt/sabnzbd/config/scripts; do
+for c in radarr:/usr/local/lib/hs sabnzbd:/opt/sabnzbd/config/scripts; do
   if incus info "${c%%:*}" >/dev/null 2>&1 && incus exec "${c%%:*}" -- test -d "${c#*:}" </dev/null 2>/dev/null; then
     ( ct=${c%%:*}; media_notify_conf "$ct" "${c#*:}" "$([ "$ct" = sabnzbd ] && echo lookup)" ) || warn "$(t "Could not tell '%s' the Matrix address. Run its recipe again." "${c%%:*}")"
   fi
@@ -143,7 +143,7 @@ $(say "  1. Radarr and Sonarr: Settings -> Connect -> + -> Webhook, Method POST,
 $(say "     Triggers: On Grab, On Import, On Upgrade, On Health Issue, On Health Restored. Test sends a message.")
 $(say "  2. Seerr: Settings -> Notifications -> Webhook, Webhook URL = the address above, keep the JSON payload as it is.")
 $(say "     Enable: Request Approved and Request Automatically Approved.")
-$(say "  Maintainerr (Script) and SABnzbd need no click: their helpers got this address (hs recipe arr / sabnzbd run again if they were installed before).")
+$(say "  Maintainerr (Script) and SABnzbd need no click: their helpers got this address (hs recipe radarr / sabnzbd run again if they were installed before).")
 $(say "  3. Accept the second invitation too, the chat 'Homeserver bot', and type  help  there: the commands (clear, status, test, mute) work in it for your Matrix ID only.")
 $(say "     The room for the messages is read-only for you (you can still delete and react).")
 $(docs_hint containers-and-apps)

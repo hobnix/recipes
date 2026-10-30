@@ -1,19 +1,19 @@
 # The index of this repository (docs/PLAN-packages.md). `hs pkg` reads it at a signed release tag; the versions here must equal
 # the package.toml of each folder (`python3 scripts/pkg.py repo-check .` in the core checks that).
 
-[package.arr]
-version = "1.1.0"
-kind = "recipe"
-path = "recipes/arr"
-title = "Radarr, Sonarr and Lidarr keep your films, series and music in order, Prowlarr holds the indexers, Bazarr fetches subtitles"
-requires_core = ">=1"
-audience = "generic"
-
 [package.authentik]
 version = "1.0.0"
 kind = "recipe"
 path = "recipes/authentik"
 title = "one login for your services (AD accounts for you, local accounts for friends)"
+requires_core = ">=1"
+audience = "generic"
+
+[package.bazarr]
+version = "1.0.0"
+kind = "recipe"
+path = "recipes/bazarr"
+title = "fetches subtitles for the films and series of Radarr and Sonarr"
 requires_core = ">=1"
 audience = "generic"
 
@@ -91,6 +91,14 @@ title = "watch your films, series and music in the browser, on the TV and on the
 requires_core = ">=1"
 audience = "generic"
 
+[package.lidarr]
+version = "1.0.0"
+kind = "recipe"
+path = "recipes/lidarr"
+title = "keeps your music in order: searches albums, sends the download to SABnzbd, files it in the library"
+requires_core = ">=1"
+audience = "generic"
+
 [package.livekit]
 version = "1.0.0"
 kind = "recipe"
@@ -98,6 +106,14 @@ path = "recipes/livekit"
 title = "voice and video calls for Matrix (Element Call, Cinny), media through the VPS"
 requires_core = ">=1"
 audience = "personal"
+
+[package.maintainerr]
+version = "1.0.0"
+kind = "recipe"
+path = "recipes/maintainerr"
+title = "cleans up unwatched films and series by rules you write (it has none at first, deletes nothing)"
+requires_core = ">=1"
+audience = "generic"
 
 [package.matrix-hook]
 version = "1.0.0"
@@ -141,11 +157,27 @@ title = "game servers with a web panel (Panel and Wings, two containers)"
 requires_core = ">=1"
 audience = "personal"
 
+[package.prowlarr]
+version = "1.0.0"
+kind = "recipe"
+path = "recipes/prowlarr"
+title = "holds your Usenet indexers and hands them to Radarr, Sonarr and Lidarr"
+requires_core = ">=1"
+audience = "generic"
+
 [package.qbittorrent]
 version = "1.0.0"
 kind = "recipe"
 path = "recipes/qbittorrent"
 title = "torrent downloader that can only reach the internet through your VPN (gluetun)"
+requires_core = ">=1"
+audience = "generic"
+
+[package.radarr]
+version = "1.0.0"
+kind = "recipe"
+path = "recipes/radarr"
+title = "keeps your films in order: searches them, sends the download to SABnzbd, files it in the library"
 requires_core = ">=1"
 audience = "generic"
 
@@ -162,6 +194,14 @@ version = "1.0.0"
 kind = "recipe"
 path = "recipes/seerr"
 title = "a page where family and friends ask for films and series (works with Jellyfin and Plex)"
+requires_core = ">=1"
+audience = "generic"
+
+[package.sonarr]
+version = "1.0.0"
+kind = "recipe"
+path = "recipes/sonarr"
+title = "keeps your series in order: searches new episodes, sends the download to SABnzbd, files it in the library"
 requires_core = ">=1"
 audience = "generic"
 

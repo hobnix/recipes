@@ -1,0 +1,14 @@
+# German texts of the recipe prowlarr (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  create the container '%s' (Docker inside, 1024 MB RAM limit) unless it exists, with a fixed address (.50-.99) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 1024 MB RAM), falls es ihn nicht gibt, mit fester Adresse (.50-.99), wenn UniFi verbunden ist (hs net setup)
+  put the container in the nightly backup with a database dump	  den Container mit Datenbank-Dump in die nächtliche Sicherung aufnehmen
+  start Prowlarr (port 9696)	  Prowlarr starten (Port 9696)
+'%s' is in the nightly backup (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung (hs backup ct %s off: herausnehmen)
+1. Indexers -> Add Indexer: your indexer (an account you pay for yourself)	1. Indexers -> Add Indexer: dein Indexer (ein Konto, das du selbst bezahlst)
+2. Settings -> Apps: Radarr, Sonarr and Lidarr, each with its address and API key (in each app: Settings -> General)	2. Settings -> Apps: Radarr, Sonarr und Lidarr, jeweils mit Adresse und API-Schlüssel (in jeder App: Settings -> General)
+Downloading Prowlarr	Prowlarr wird heruntergeladen
+No Zoraxy rule: it is for the home network only. The few clicks that cannot wait:	Keine Zoraxy-Regel: die Seite ist nur für das Heimnetz. Die wenigen Klicks, die nicht warten können:
+Prowlarr	Prowlarr
+Starting Prowlarr	Prowlarr wird gestartet
+Would:	Würde:
+Writing the settings	Die Einstellungen werden geschrieben
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Prowlarr not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Prowlarr nicht gestartet

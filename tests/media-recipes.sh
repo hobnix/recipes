@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The film recipes (arr, sabnzbd, seerr, qbittorrent) and their shared helpers: syntax, dry runs, the guide hint,
+# The film recipes (radarr, sonarr, lidarr, prowlarr, bazarr, maintainerr, sabnzbd, seerr, qbittorrent) and their shared helpers: syntax, dry runs, the guide hint,
 # the push topic of their own and the backup switch. No root, no incus: a fake `incus` stands in.
 # The core checkout (CI puts it in ./core; HS_CORE names another). The packages under test are the ones of THIS repository.
 HERE=$(cd "$(dirname "$0")/.." && pwd)
@@ -29,9 +29,15 @@ chmod +x "$WORK/bin/incus"
 export PATH="$WORK/bin:$PATH"
 
 echo "-- syntax and dry runs"
-for r in arr sabnzbd seerr qbittorrent uchiyomi; do check "$r run.sh parses" bash -n "$R/$r/run.sh"; done
+for r in radarr sonarr lidarr prowlarr bazarr maintainerr sabnzbd seerr qbittorrent uchiyomi; do check "$r run.sh parses" bash -n "$R/$r/run.sh"; done
 for r in _media _lib; do check "$r.sh parses" bash -n "$L/$r.sh"; done
-check_out "arr names its container and the share" "container 'arr'.*|folders movies, series, downloads" env HS_STATE_DIR="$STATE" bash "$R/arr/run.sh" --dry-run
+for r in radarr sonarr lidarr prowlarr bazarr maintainerr; do
+  check_out "$r dry run names its container" "container '$r'" env HS_STATE_DIR="$STATE" bash "$R/$r/run.sh" --dry-run
+  check_out "the dry run follows RECIPE_NAME ($r)" "container 'throwaway-ct'" env HS_STATE_DIR="$STATE" RECIPE_NAME=throwaway-ct bash "$R/$r/run.sh" --dry-run
+done
+for r in radarr sonarr lidarr bazarr; do
+  check_out "$r mounts the share with the library folders" "folders movies, series, music, downloads" env HS_STATE_DIR="$STATE" bash "$R/$r/run.sh" --dry-run
+done
 check_out "sabnzbd dry run" "container 'sabnzbd'" env HS_STATE_DIR="$STATE" bash "$R/sabnzbd/run.sh" --dry-run
 check_out "seerr dry run" "container 'seerr'" env HS_STATE_DIR="$STATE" bash "$R/seerr/run.sh" --dry-run
 check_out "uchiyomi dry run names the container and the manga folder" "container .uchiyomi.*|folder manga" env HS_STATE_DIR="$STATE" bash "$R/uchiyomi/run.sh" --dry-run
@@ -40,9 +46,8 @@ check_out "qbittorrent dry run says there is no network outside the VPN" "no net
 check_out "qbittorrent dry run mentions the tunnel device" "/dev/net/tun" env HS_STATE_DIR="$STATE" bash "$R/qbittorrent/run.sh" --dry-run
 check_out "the dry run follows RECIPE_NAME (qbittorrent)" "container 'throwaway-ct'" env HS_STATE_DIR="$STATE" RECIPE_NAME=throwaway-ct bash "$R/qbittorrent/run.sh" --dry-run
 check_out "the dry run follows RECIPE_NAME (sabnzbd)" "container 'throwaway-ct'" env HS_STATE_DIR="$STATE" RECIPE_NAME=throwaway-ct bash "$R/sabnzbd/run.sh" --dry-run
-check_out "the dry run follows RECIPE_NAME (arr)" "container 'throwaway-ct'" env HS_STATE_DIR="$STATE" RECIPE_NAME=throwaway-ct bash "$R/arr/run.sh" --dry-run
 check_out "the dry run follows RECIPE_NAME (seerr)" "container 'throwaway-ct'" env HS_STATE_DIR="$STATE" RECIPE_NAME=throwaway-ct bash "$R/seerr/run.sh" --dry-run
-for r in arr sabnzbd seerr qbittorrent uchiyomi; do
+for r in radarr sonarr lidarr prowlarr bazarr maintainerr sabnzbd seerr qbittorrent uchiyomi; do
   check "$r is executable" test -x "$R/$r/run.sh"
   check "$r has a German one-liner" grep -q '^# recipe.de: ' "$R/$r/run.sh"
 done
@@ -67,7 +72,7 @@ done
 
 echo "-- full runs with the skip knobs (a fake incus, a throwaway container name)"
 if have jq; then
-  for r in sabnzbd arr seerr qbittorrent uchiyomi; do
+  for r in sabnzbd radarr sonarr lidarr prowlarr bazarr maintainerr seerr qbittorrent uchiyomi; do
     out=$(env FAKE_CT=throwaway-ct RECIPE_NAME=throwaway-ct RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1 HS_STATE_DIR="$STATE" bash "$R/$r/run.sh" 2>&1 </dev/null); rc=$?
     check_eq "$r runs through with the skip knobs" 0 "$rc"
     if grep -q "throwaway-ct" <<<"$out" && grep -q "nightly backup" <<<"$out"; then pass "$r names the container and the backup"; else fail "$r names the container and the backup ($(tail -n 3 <<<"$out" | tr '\n' ' '))"; fi
@@ -77,7 +82,8 @@ else
 fi
 
 echo "-- arr-tune.sh (Recycling Bin, Remove Completed) against a fake curl"
-check "arr-tune.sh parses" bash -n "$R/arr/arr-tune.sh"
+check "arr-tune.sh parses" bash -n "$R/radarr/arr-tune.sh"
+check "radarr and sonarr have the same arr-tune.sh" cmp -s "$R/radarr/arr-tune.sh" "$R/sonarr/arr-tune.sh"
 if have jq; then
   cat > "$WORK/bin/curl" <<'FAKE'
 #!/usr/bin/env bash
@@ -96,16 +102,16 @@ FAKE
   export FAKE_DIR=$WORK/fakeapp; mkdir -p "$FAKE_DIR"
   echo '{"id":1,"recycleBin":"","recycleBinCleanupDays":7,"copyUsingHardlinks":true}' > "$FAKE_DIR/mm.json"
   echo '[]' > "$FAKE_DIR/dc.json"; : > "$FAKE_DIR/log"
-  out=$(bash "$R/arr/arr-tune.sh" 10.0.0.1 7878 k /media/downloads/recycle 7)
+  out=$(bash "$R/radarr/arr-tune.sh" 10.0.0.1 7878 k /media/downloads/recycle 7)
   check_out "recycle bin is set" "recycle=set" echo "$out"
   check_out "no SABnzbd client: reported, nothing invented" "client=none" echo "$out"
   check_eq "the other fields are kept" true "$(jq -r .copyUsingHardlinks "$FAKE_DIR/mm.json")"
   echo '[{"id":3,"implementation":"Sabnzbd","removeCompletedDownloads":false,"name":"S"}]' > "$FAKE_DIR/dc.json"
-  out=$(bash "$R/arr/arr-tune.sh" 10.0.0.1 7878 k /media/downloads/recycle 7)
+  out=$(bash "$R/radarr/arr-tune.sh" 10.0.0.1 7878 k /media/downloads/recycle 7)
   check_out "second run: bin unchanged" "recycle=same" echo "$out"
   check_out "Remove Completed is switched on" "client=set" echo "$out"
   check_eq "removeCompletedDownloads true" true "$(jq -r '.[0].removeCompletedDownloads' "$FAKE_DIR/dc.json")"
-  out=$(bash "$R/arr/arr-tune.sh" 10.0.0.1 7878 k /media/downloads/recycle 7)
+  out=$(bash "$R/radarr/arr-tune.sh" 10.0.0.1 7878 k /media/downloads/recycle 7)
   check_out "third run changes nothing" "recycle=same.*|client=same" echo "$out"
   check_eq "exactly one PUT per setting over three runs" 2 "$(wc -l < "$FAKE_DIR/log" | tr -d ' ')"
   rm -f "$WORK/bin/curl"

@@ -103,7 +103,7 @@ h install_dump_tool >/dev/null 2>&1 || true
 check_out "the tool is pushed into the container" "file push .*hs-dump probe/usr/local/sbin/hs-dump" cat "$WORK/incus.log"
 
 echo "-- the recipes use it"
-for r in immich synapse authentik arr; do
+for r in immich synapse authentik radarr sonarr lidarr prowlarr bazarr maintainerr; do
   check "$r installs the dump tool" grep -q 'install_dump_tool' "$PKGS/$r/run.sh"
   check "$r declares its dump through the standard" grep -Eq 'backup_with_dump|media_backup' "$PKGS/$r/run.sh"
   check "$r parses" bash -n "$PKGS/$r/run.sh"
