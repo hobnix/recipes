@@ -42,11 +42,11 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.cloudflared]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/cloudflared"
 title = "the Cloudflare Tunnel that makes chosen services reachable from the internet"
-requires_core = ">=1"
+requires_core = ">=3"
 audience = "personal"
 
 [package.docker]

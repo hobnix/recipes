@@ -1,11 +1,11 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "cloudflared"
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 title = "the Cloudflare Tunnel that makes chosen services reachable from the internet"
 title_de = "der Cloudflare-Tunnel, der ausgewählte Dienste aus dem Internet erreichbar macht"
-requires_core = ">=1"
+requires_core = ">=3"
 audience = "personal"
 needs = []
 uses = []

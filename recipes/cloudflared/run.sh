@@ -23,6 +23,7 @@ if [ "${1:-}" = --dry-run ]; then
   say "Would:"
   printf '%s\n' "$(t "  create the container '%s' (512 MB RAM limit) unless it exists, with a fixed address (.10 to .19) if UniFi is connected (hs net setup)" "$ct")"
   say "  install cloudflared inside"
+  say "  give it a second network card on the internal link of Incus (hs-internal, no router in between)"
   say "  ask for the tunnel token (unless it is stored already) and start the tunnel"
   exit 0
 fi
@@ -99,10 +100,20 @@ SPIN_SOFT=1 spin "Waiting for the connection to Cloudflare" \
   incus exec "$ct" -- sh -c 'for _ in $(seq 1 20); do journalctl -u cloudflared -b --no-pager | grep -q "Registered tunnel connection" && exit 0; sleep 1; done; exit 1' ||
   warn "$(t 'No connection confirmed yet. Look at: incus exec %s -- journalctl -u cloudflared -n 20' "$ct")"
 
+internal_link || true
+
 zoraxy=$(address zoraxy 2>/dev/null || true)
 recipe_facts
-box <<DONE
+if [ "$(setting_get reverseProxy 2>/dev/null || true)" = traefik-public ] && [ -n "${link_url:-}" ]; then
+  box <<DONE
+$(say "In the Cloudflare dashboard, on the tunnel's page: Public Hostname -> Add (or edit the existing ones)")
+$(t '  subdomain *  (and one without subdomain), your domain, service  %s' "$link_url")
+$(docs_hint gateway)
+DONE
+else
+  box <<DONE
 $(say "In the Cloudflare dashboard, on the tunnel's page: Public Hostname -> Add")
 $(t '  subdomain *  (and one without subdomain), your domain, service  HTTP  %s:80' "${zoraxy:-$(_tr '<address of zoraxy>')}")
 $(docs_hint containers-and-apps)
 DONE
+fi
