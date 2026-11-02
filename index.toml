@@ -92,11 +92,11 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.lidarr]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/lidarr"
 title = "keeps your music in order: searches albums, sends the download to SABnzbd, files it in the library"
-requires_core = ">=1"
+requires_core = ">=5"
 audience = "generic"
 
 [package.livekit]
@@ -174,11 +174,11 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.radarr]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/radarr"
 title = "keeps your films in order: searches them, sends the download to SABnzbd, files it in the library"
-requires_core = ">=1"
+requires_core = ">=5"
 audience = "generic"
 
 [package.sabnzbd]
@@ -198,11 +198,11 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.sonarr]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/sonarr"
 title = "keeps your series in order: searches new episodes, sends the download to SABnzbd, files it in the library"
-requires_core = ">=1"
+requires_core = ">=5"
 audience = "generic"
 
 [package.stalwart]

@@ -38,6 +38,20 @@ sudo hs recipe sonarr
 
 Then, if you want them, `lidarr`, `bazarr`, `maintainerr` and `seerr`. Each recipe prints the address of its web page at the end; `<radarr>` below means the address of the container `radarr`, and so on. These pages are admin pages for the home network: never give them a public route. Radarr, Sonarr, Lidarr and Prowlarr ask you to create a login on first open (method Forms); do that straight away.
 
+## Where the apps run: own container or Docker
+`radarr`, `sonarr` and `lidarr` can run in one of two places; the recipe asks "Where it runs" (the answer `RUNS`, `lxc` or `docker`):
+- `lxc`: a container of its own with the app's name and Docker inside (the way described on this page). An app that is installed this way stays there.
+- `docker`: the app runs as a compose project inside the one container `docker` (turned on with `sudo hs docker enable`, see [Docker](containers-and-apps.md)). A new install proposes `docker` when Docker is on. The folder `/opt/apps/radarr` (the same for `sonarr`, `lidarr`) holds the compose file, and the settings are in `/opt/apps/radarr/config`. There is no container `radarr` then: look at the app with `sudo hs ct docker exec docker logs radarr --tail 50`.
+
+What is different in the `docker` mode:
+- All film apps in `docker` share one user `media` for the files, and the share `media` is mounted once into the container `docker` at `/media`. Mounting it restarts the container `docker` and with it every app in it. When other apps are already running there, the recipe does not mount by itself: it stops and prints the exact `hs docker mount ...` command. Run that command at a time that suits you, then run the recipe again.
+- The nightly duplicate cleanup of Radarr is not installed in `docker` mode (nothing is put into the container `docker` for it). Use the `lxc` mode if you want it.
+- The backup is the one of the container `docker`; the recipe only adds its database dump (`hs-dump sqlite-tree radarr /opt/apps/radarr`). If `docker` is not in the backup yet, the recipe says so and `sudo hs backup ct docker on` adds it.
+- The recipe stops when another app in Docker already uses the port, or when an instance with the app's name exists (then run `radarr` in that instance, or remove it first). The ports are fixed (7878, 8989, 8686), so a second instance of the same recipe (`--name`) in `docker` mode stops at `child_port_free`; this is intended. Use the `lxc` mode for a second copy.
+- Moving an installed app between the modes is not automated: back up in the app (**System > Backup**), install the recipe in the other mode, restore there.
+
+Not tested on hardware yet: the `docker` mode of `radarr`, `sonarr` and `lidarr`.
+
 ## Connect SABnzbd
 Open SABnzbd. The first-run wizard asks for your provider: server, port 563, SSL, user, password, connections. Press **Test Server**.
 
@@ -70,6 +84,14 @@ Create the file from a template, for example:
 ```bash
 sudo hs ct radarr exec bash -c 'cd /opt/radarr && docker compose --profile tools run --rm recyclarr config create -t radarr-german-hd-bluray-web'
 ```
+
+In `docker` mode the same commands run in the container `docker`, in the folder of the app, with the project name:
+
+```bash
+sudo hs ct docker exec bash -c 'cd /opt/apps/radarr && docker compose -p radarr --profile tools run --rm recyclarr config list templates'
+```
+
+The files are in `/opt/apps/radarr/recyclarr/configs/` (Sonarr: `/opt/apps/sonarr/...`) and `sync` is run the same way (`... recyclarr sync`). Not tested on hardware yet.
 
 Edit it in `/opt/radarr/recyclarr/configs/` inside the container: set `base_url` to `http://<radarr>:7878` and Radarr's API key. Several profiles go into the same file as several `quality_profiles` entries. For Sonarr, do the same in the container `sonarr` (`/opt/sonarr`, a `sonarr-...` template, `http://<sonarr>:8989`).
 
@@ -114,6 +136,7 @@ Earlier, one recipe `arr` ran all these apps in one container `arr`. Its setting
 ## Update and remove
 - Update: run the recipe again (`sudo hs recipe radarr`, `sonarr`, `sabnzbd`, ...); it fetches the newer image and restarts. Your settings stay.
 - Remove: `sudo hs ct radarr remove` asks you to type the container's name and deletes the container with its settings and databases (the same for the others). The share `media` and your films are not touched. Restore from the backup with `hs backup`.
+- Remove in `docker` mode: there is no container of the app. In the container `docker`, run `docker compose -p radarr down` in `/opt/apps/radarr` (`sudo hs ct docker exec bash -c 'cd /opt/apps/radarr && docker compose -p radarr down'`; the same with `sonarr`, `lidarr`). This stops and removes the app's container; the settings and databases in `/opt/apps/radarr` stay until you delete that folder yourself. The share `media` and your films are not touched. Not tested on hardware yet.
 
 ## If something goes wrong
 | Symptom | Cause | Fix |
