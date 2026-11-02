@@ -38,6 +38,11 @@ done
 for r in radarr sonarr lidarr bazarr; do
   check_out "$r mounts the share with the library folders" "folders movies, series, music, downloads" env HS_STATE_DIR="$STATE" bash "$R/$r/run.sh" --dry-run
 done
+for r in radarr sonarr lidarr; do
+  check_out "$r dry run names the docker path too" "docker mode: no container of its own: a compose project '$r' in /opt/apps/$r" env HS_STATE_DIR="$STATE" bash "$R/$r/run.sh" --dry-run
+  check "$r declares both runtimes (header and manifest)" bash -c 'grep -q "^# runs: lxc docker$" "$1/run.sh" && grep -q "^runs = \[\"lxc\", \"docker\"\]" "$1/package.toml" && grep -q "^requires_core = \">=5\"" "$1/package.toml"' _ "$R/$r"
+done
+check_out "radarr dry run says the duplicate job is not in docker mode" "no nightly duplicate job" env HS_STATE_DIR="$STATE" bash "$R/radarr/run.sh" --dry-run
 check_out "sabnzbd dry run" "container 'sabnzbd'" env HS_STATE_DIR="$STATE" bash "$R/sabnzbd/run.sh" --dry-run
 check_out "seerr dry run" "container 'seerr'" env HS_STATE_DIR="$STATE" bash "$R/seerr/run.sh" --dry-run
 check_out "uchiyomi dry run names the container and the manga folder" "container .uchiyomi.*|folder manga" env HS_STATE_DIR="$STATE" bash "$R/uchiyomi/run.sh" --dry-run
@@ -79,6 +84,60 @@ if have jq; then
   done
 else
   skip "full runs with the skip knobs need jq"
+fi
+
+echo "-- docker mode (a child of the container docker): fake incus that records, fake hs docker status"
+if have jq; then
+  mkdir -p "$WORK/dbin"
+  cat > "$WORK/dbin/incus" <<'FAKE'
+#!/usr/bin/env bash
+# records every call; `info` fails (no instance of the app's name), `exec docker -- sh -c "... id -u ..."` answers the mapped user,
+# the compose file arrives on stdin of `exec docker -- sh -c "... cat > /opt/apps/<app>/docker-compose.yml.new ..."` and is kept
+echo "$*" >> "$DLOG"
+case "$1" in
+  info) exit 1 ;;
+  query) echo '{"status":"Running","state":{"network":{"eth0":{"addresses":[{"family":"inet","address":"10.1.2.3"}]}}},"expanded_devices":{}}'; exit 0 ;;
+  exec) case "$*" in
+      *"cat > /opt/apps/"*) cat > "$DCOMPOSE" ;;
+      *"id -u"*) echo "1500:1500" ;;
+    esac; exit 0 ;;
+esac
+exit 0
+FAKE
+  chmod +x "$WORK/dbin/incus"
+  cat > "$WORK/dstatus" <<'FAKE'
+#!/bin/sh
+printf 'state	on
+running	yes
+address	10.1.2.3
+'
+FAKE
+  chmod +x "$WORK/dstatus"
+  for r in radarr sonarr lidarr; do
+    DST=$WORK/dstate-$r; rm -rf "$DST"; mkdir -p "$DST"; export DLOG=$WORK/dlog-$r DCOMPOSE=$WORK/dcompose-$r; : > "$DLOG"
+    out=$(env PATH="$WORK/dbin:$PATH" RECIPE_RUNS=docker HS_DOCKER_STATUS="$WORK/dstatus" RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1 HS_STATE_DIR="$DST" bash "$R/$r/run.sh" 2>&1 </dev/null); rc=$?
+    check_eq "$r in docker mode runs through" 0 "$rc"
+    check "$r docker: answers stay in recipe-$r.conf" test -f "$DST/recipe-$r.conf"
+    check "$r docker: no container of its own is created" bash -c '! grep -qE "^(launch|init|create) |manage-ct" "$1"' _ "$DLOG"
+    check "$r docker: nothing is installed in the parent for Docker" bash -c '! grep -q "get.docker.com\|docker-ce\|install -y.*docker" "$1"' _ "$DLOG"
+    check "$r docker: the compose file goes to /opt/apps/$r" grep -q "/opt/apps/$r/docker-compose.yml.new" "$DLOG"
+    check "$r docker: the compose file is checked with the project name" grep -q "docker compose -p $r config -q" "$DLOG"
+    check "$r docker: container_name is the app" grep -q "container_name: $r\$" "$DCOMPOSE"
+    check "$r docker: runs as the mapped user" grep -q "PUID=1500" "$DCOMPOSE"
+    check "$r docker: config under /opt/apps/$r/config" grep -q "/opt/apps/$r/config:/config" "$DCOMPOSE"
+    check "$r docker: the share is /media:/media" grep -q '"/media:/media"' "$DCOMPOSE"
+    check "$r docker: no nested volume of the old path" bash -c '! grep -q "/opt/$2/" "$1"' _ "$DCOMPOSE" "$r"
+    check "$r docker: the dump goes to the descriptor of docker" grep -q "sqlite-tree $r /opt/apps/$r" "$DST/backup-dump/docker"
+    check_out "$r docker: the summary names the parent" "docker" echo "$out"
+    case $r in radarr|sonarr) check "$r docker: Recyclarr gets a name of its own" grep -q "container_name: $r-recyclarr" "$DCOMPOSE" ;; esac
+  done
+  check "radarr docker: the dedupe job is not installed" bash -c '! grep -q "hs-arr-dedupe" "$1"' _ "$WORK/dlog-radarr"
+  out=$(env PATH="$WORK/dbin:$PATH" RECIPE_RUNS=docker HS_DOCKER_STATUS="$WORK/dstatus" RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1 RECIPE_NAME=radarr2 HS_STATE_DIR="$WORK/dstate-r2" bash "$R/radarr/run.sh" 2>&1 </dev/null); rc=$?
+  check_eq "a second radarr (--name) runs in docker mode" 0 "$rc"
+  check "the second radarr has its own answers file" test -f "$WORK/dstate-r2/recipe-radarr2.conf"
+  unset DLOG DCOMPOSE
+else
+  skip "docker mode checks need jq"
 fi
 
 echo "-- arr-tune.sh (Recycling Bin, Remove Completed) against a fake curl"

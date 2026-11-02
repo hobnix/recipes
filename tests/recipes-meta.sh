@@ -26,6 +26,9 @@ for f in "$R"/*/run.sh; do
     check "$n: question $qk has a label and a known kind" bash -c '[ -n "$1" ] && case $2 in text|secret|choice:*) ;; *) exit 1 ;; esac' _ "$ql" "$qt"
     check "$n: the recipe reads the answer to $qk" grep -qE "answer $qk|RECIPE_$qk|setting $qk" "$f"
   done < <(sed -n 's/^# ask: //p' "$f")
+  runs=$(sed -n 's/^# runs: *//p' "$f" | head -n1)
+  check "$n: runs (header, optional, none = lxc) lists known words (lxc docker vm)" bash -c 'for w in $1; do case $w in lxc|docker|vm) ;; *) exit 1 ;; esac; done' _ "$runs"
+  if [ -n "$runs" ]; then check "$n: the header runs agrees with package.toml" bash -c 'want=$(sed -n "s/^runs = //p" "$1/package.toml" | tr -d "[]\",") ; [ "$(echo $want)" = "$(echo $2)" ]' _ "$(dirname "$f")" "$runs"; fi
   has() { grep -qE "$1" "$f"; }
   if has '^ *(install_docker|nvidia_docker)\b'; then d=yes; else d=no; fi
   case " $needs " in *" docker "*) w=yes ;; *) w=no ;; esac

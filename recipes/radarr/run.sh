@@ -4,6 +4,7 @@
 # kind: generic
 # needs: docker share
 # uses: -
+# runs: lxc docker
 set -euo pipefail
 
 # What it does: creates the container "radarr" with Docker inside and runs, from their makers' images:
@@ -22,11 +23,15 @@ set -euo pipefail
 #                      (e.g. 2160p and 1080p): the lower resolution is announced, then deleted after 14 days; a
 #                      Maintainerr rule cannot do that (it deletes whole films). Messages go to ntfy and Matrix as
 #                      "Maintainerr (Script)". Veto: a file .keep-both in the film's folder.
+# Runs in one of two places (the question RUNS, `# runs: lxc docker`): the container "radarr" (above), or, when Docker is on
+# (hs docker enable), as an app inside the container docker: compose project "radarr" in /opt/apps/radarr (config in
+# /opt/apps/radarr/config), the share "media" at /media of the container docker with one mapped user "media" for all film apps,
+# and the dump of the databases in the backup of the container docker. The nightly duplicate job is not installed there (yet).
 # No Zoraxy rule: Radarr is an admin page for the home network.
 # Test knobs: RECIPE_NAME=<throwaway name> HS_STATE_DIR=/tmp/<dir> RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1
 scripts=${HS_SCRIPTS:-$(dirname "$0")/../../scripts}
 state=${HS_STATE_DIR:-/var/lib/hs}
-ct=${RECIPE_NAME:-radarr}
+ct=${RECIPE_NAME:-radarr}; app=$ct
 . "${HS_RECIPE_LIB:-$scripts/recipes/_lib.sh}"
 . "${HS_RECIPE_MEDIA:-$scripts/recipes/_media.sh}"
 PORT=7878   # Radarr's own port: Prowlarr, Seerr and Bazarr are told this one
@@ -34,6 +39,7 @@ PORT=7878   # Radarr's own port: Prowlarr, Seerr and Bazarr are told this one
 if [ "${1:-}" = --dry-run ]; then
   say "Would:"
   printf '%s\n' "$(t "  create the container '%s' (Docker inside, 1536 MB RAM limit) unless it exists, with a fixed address (.50-.99) if UniFi is connected (hs net setup)" "$ct")"
+  printf '%s\n' "$(t "  (docker mode: no container of its own: a compose project '%s' in /opt/apps/%s inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount; no nightly duplicate job)" "$app" "$app")"
   say "  mount the share for the films (asks for its name, default media) READ-WRITE at /media, with folders movies, series, music, downloads"
   say "  start Radarr (port 7878) and install Recyclarr as a tool"
   say "  use the push topic of the film apps, and put the container in the nightly backup with a database dump"
@@ -41,15 +47,23 @@ if [ "${1:-}" = --dry-run ]; then
   exit 0
 fi
 
+recipe_runtime lxc docker
 setting SHARE "Name of the share with the films (the one Jellyfin reads, under /bulk/shares)" media media "$a_name"
 share=$SHARE
-setting DEDUPE "Delete the lower-resolution file when a film has two (say 4K and FullHD) in its folder, after a grace period? yes or no" yes no "yes|no"
-setting DEDUPE_DAYS "Grace period in days before that file is deleted (it is announced first)" 14 14 "[1-9][0-9]{0,2}"
-ensure_container "$ct" 1536 --docker
-fixed_address "$ct" 50 99
+if $RUNS_DOCKER; then   # the nightly duplicate job stays out of the container docker for now (nothing is installed in the parent)
+  DEDUPE=no; DEDUPE_DAYS=14
+  child_port_free "$PORT" "$app"
+else
+  setting DEDUPE "Delete the lower-resolution file when a film has two (say 4K and FullHD) in its folder, after a grace period? yes or no" yes no "yes|no"
+  setting DEDUPE_DAYS "Grace period in days before that file is deleted (it is announced first)" 14 14 "[1-9][0-9]{0,2}"
+  ensure_container "$ct" 1536 --docker
+  fixed_address "$ct" 50 99
+fi
 wait_internet "$ct"
 media_storage radarr
-install_docker
+if ! $RUNS_DOCKER; then
+  install_docker
+fi
 
 step "Radarr"
 # docker-compose.yml is written again at every run; Radarr's own data stays in /opt/radarr/config
@@ -80,14 +94,49 @@ YML
   chown -R "$2:$3" /opt/radarr
   cd /opt/radarr && docker compose --profile tools config -q'
 tz=$(timedatectl show -p Timezone --value 2>/dev/null || echo Etc/UTC)
-in_ct "Writing the settings" "$compose" "$tz" "${ids%%:*}" "${ids##*:}"
+if $RUNS_DOCKER; then
+  dir=/opt/apps/$app
+  in_ct "Preparing the folders" 'mkdir -p "$1/config" "$1/recyclarr" && chown -R "$2:$3" "$1"' "$dir" "${ids%%:*}" "${ids##*:}"
+  # the share "media" is a local share: no rslave needed (only a folder from hs remote would need it)
+  child_compose "$app" <<YML
+services:
+  $app:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: $app
+    restart: unless-stopped
+    ports: ["7878:7878"]
+    environment:
+      - TZ=$tz
+      - PUID=${ids%%:*}
+      - PGID=${ids##*:}
+      - UMASK=002
+    volumes: ["$dir/config:/config", "/media:/media"]
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr:8
+    container_name: $app-recyclarr
+    user: "${ids%%:*}:${ids##*:}"
+    profiles: ["tools"]
+    environment:
+      - TZ=$tz
+    volumes: ["$dir/recyclarr:/config"]
+YML
+  in_ct "Setting the owner of the files" 'chown -R "$2:$3" "$1"' "$dir" "${ids%%:*}" "${ids##*:}"
+else
+  in_ct "Writing the settings" "$compose" "$tz" "${ids%%:*}" "${ids##*:}"
+fi
 
 if [ -n "${RECIPE_SKIP_PULL:-}" ]; then
   note "skipped (RECIPE_SKIP_PULL): nothing downloaded, Radarr not started"
 else
-  in_ct "Downloading Radarr and Recyclarr" 'cd /opt/radarr && docker compose --profile tools pull -q'
-  in_ct "Starting Radarr" 'cd /opt/radarr && docker compose up -d --remove-orphans'
-  wait_page Radarr "docker compose -f /opt/radarr/docker-compose.yml logs --tail 50"
+  if $RUNS_DOCKER; then
+    in_ct "Downloading Radarr and Recyclarr" 'cd "/opt/apps/$1" && docker compose -p "$1" --profile tools pull -q' "$app"
+    spin "Starting Radarr" child_up "$app"
+    wait_page Radarr "docker compose -p $app -f /opt/apps/$app/docker-compose.yml logs --tail 50"
+  else
+    in_ct "Downloading Radarr and Recyclarr" 'cd /opt/radarr && docker compose --profile tools pull -q'
+    in_ct "Starting Radarr" 'cd /opt/radarr && docker compose up -d --remove-orphans'
+    wait_page Radarr "docker compose -f /opt/radarr/docker-compose.yml logs --tail 50"
+  fi
 fi
 
 step "Settings"
@@ -96,7 +145,8 @@ step "Settings"
 if [ -n "${RECIPE_SKIP_PULL:-}" ]; then
   note "skipped (RECIPE_SKIP_PULL): no settings written"
 else
-  akey=$(incus exec "$ct" -- sed -n 's|.*<ApiKey>\(.*\)</ApiKey>.*|\1|p' /opt/radarr/config/config.xml </dev/null 2>/dev/null | head -n1 || true)
+  cfgdir=/opt/radarr/config; if $RUNS_DOCKER; then cfgdir=/opt/apps/$app/config; fi
+  akey=$(incus exec "$ct" -- sed -n 's|.*<ApiKey>\(.*\)</ApiKey>.*|\1|p' "$cfgdir/config.xml" </dev/null 2>/dev/null | head -n1 || true)
   if [ -z "$akey" ]; then
     warn "No API key found yet, settings not written (run the recipe again)"
   else
@@ -118,8 +168,12 @@ step "Backup"
 # /var/backups/hs/radarr (Radarr's files themselves are in the backup too); the posters/fanart cache
 # (MediaCover) is large and gets fetched again, but it is in the backup as well.
 install_dump_tool sqlite
-media_backup "/usr/local/sbin/hs-dump sqlite-tree radarr /opt/radarr"
-ok "$(t "'%s' is in the nightly backup (hs backup ct %s off: take it out)" "$ct" "$ct")"
+if $RUNS_DOCKER; then
+  media_backup "/usr/local/sbin/hs-dump sqlite-tree $app /opt/apps/$app"
+else
+  media_backup "/usr/local/sbin/hs-dump sqlite-tree radarr /opt/radarr"
+  ok "$(t "'%s' is in the nightly backup (hs backup ct %s off: take it out)" "$ct" "$ct")"
+fi
 
 media_ntfy
 
@@ -152,11 +206,17 @@ UNIT
     systemctl daemon-reload && systemctl enable --now hs-arr-dedupe.timer' "${ids%%:*}" "${ids##*:}" "$DEDUPE_DAYS"
   ok "$(t "Every night at 03:30: a film with two resolutions is announced, its lower file deleted after %s days" "$DEDUPE_DAYS")"
   dedupe_line="$(t "Duplicates: list what would happen:  incus exec %s -- python3 /usr/local/lib/hs/hs-arr-dedupe.py --dry-run   (keep both: touch .keep-both in the film's folder)" "$ct")"
+elif $RUNS_DOCKER; then
+  note "No duplicate cleanup in Docker yet (the nightly job runs in the container 'radarr' only; see the guide)"
 else
   note "Skipped: no duplicate cleanup (hs recipe radarr --ask turns it on)"
 fi
 
-declare_service radarr Radarr radarr never-public Media "Films: searches, downloads and files them"
+if $RUNS_DOCKER; then   # ct is docker here: the service is the app (RECIPE_NAME= keeps declare_service from renaming it to "docker"; remove when core has the declare_service fix)
+  RECIPE_NAME= declare_service "$app" Radarr radarr never-public Media "Films: searches, downloads and files them"
+else
+  declare_service radarr Radarr radarr never-public Media "Films: searches, downloads and files them"
+fi
 
 recipe_facts web
 box <<DONE
