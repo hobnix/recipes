@@ -1,0 +1,18 @@
+# German texts of the recipe navidrome (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  create the container '%s' (Docker inside, 1024 MB RAM limit) unless it exists, with a fixed address (.20-.29) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 1024 MB RAM), falls es ihn nicht gibt, mit fester Adresse (.20-.29), wenn UniFi verbunden ist (hs net setup)
+  (docker mode: no container of its own: a compose project '%s' in /opt/apps/%s inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)	  (Docker-Modus: kein eigener Container: ein Compose-Projekt '%s' in /opt/apps/%s im Container docker, der an sein muss (hs docker enable); die Freigabe kommt mit hs docker mount)
+  mount the share for the music (asks for its name, default media) at /media, with folders movies, series, music, downloads	  die Freigabe für die Musik (fragt nach dem Namen, Standard media) unter /media einbinden, mit den Ordnern movies, series, music, downloads
+  start Navidrome (port 4533) with /media/music read-only as its library	  Navidrome starten (Port 4533) mit /media/music als schreibgeschützter Bibliothek
+  put the container in the nightly backup with a database dump	  den Container mit Datenbank-Dump in die nächtliche Sicherung aufnehmen
+  (if you say yes) give it a public name through the gateway: Navidrome has logins of its own	  (bei yes) einen öffentlichen Namen über das Gateway vergeben: Navidrome hat eigene Logins
+Name of the share with the music (the one Jellyfin reads, under /bulk/shares)	Name der Freigabe mit der Musik (die, die Jellyfin liest, unter /bulk/shares)
+Preparing the folders	Die Ordner werden vorbereitet
+Checking the settings	Die Einstellungen werden geprüft
+Downloading Navidrome	Navidrome wird heruntergeladen
+Starting Navidrome	Navidrome wird gestartet
+'%s' is in the nightly backup (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung (hs backup ct %s off: herausnehmen)
+Could not write the compose file of '%s'.	Die Compose-Datei von '%s' konnte nicht geschrieben werden.
+Open the page and create the admin login straight away (the first person to open it becomes admin).	Öffne die Seite und lege sofort den Admin-Zugang an (wer sie zuerst öffnet, wird Admin).
+The library is /media/music; put albums there (hs recipe lidarr fills it) and Navidrome scans it every hour.	Die Bibliothek ist /media/music; leg Alben dort ab (hs recipe lidarr füllt sie), Navidrome durchsucht sie stündlich.
+Phone apps: any Subsonic app (Symfonium, DSub, Substreamer) with this address and your login.	Handy-Apps: jede Subsonic-App (Symfonium, DSub, Substreamer) mit dieser Adresse und deinem Zugang.
+A public name is asked for in the step Service; do the first login before you say yes.	Ein öffentlicher Name wird im Schritt Service gefragt; melde dich vorher einmal an, bevor du ja sagst.

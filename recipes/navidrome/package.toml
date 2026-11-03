@@ -1,0 +1,13 @@
+# Manifest of a package (docs/PLAN-packages.md). The header lines of run.sh say the same (tests/pkg.sh keeps both in step).
+name = "navidrome"
+version = "1.0.0"
+kind = "recipe"
+title = "streams your music library to phones and browsers (Subsonic apps work with it)"
+title_de = "streamt deine Musikbibliothek auf Handy und Browser (Subsonic-Apps funktionieren damit)"
+requires_core = ">=5"
+audience = "generic"
+needs = ["docker", "share"]
+uses = []
+input = "none"
+script = "run.sh"
+runs = ["lxc", "docker"]

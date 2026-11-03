@@ -1,0 +1,17 @@
+# German texts of the recipe musicseerr (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  create the container '%s' (Docker inside, 1536 MB RAM limit) unless it exists, with a fixed address (.20-.29) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 1536 MB RAM), falls es ihn nicht gibt, mit fester Adresse (.20-.29), wenn UniFi verbunden ist (hs net setup)
+  (docker mode: no container of its own: a compose project '%s' in /opt/apps/%s inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)	  (Docker-Modus: kein eigener Container: ein Compose-Projekt '%s' in /opt/apps/%s im Container docker, der an sein muss (hs docker enable); die Freigabe kommt mit hs docker mount)
+  mount the share for the music (asks for its name, default media) at /media, with folders movies, series, music, downloads	  die Freigabe für die Musik (fragt nach dem Namen, Standard media) unter /media einbinden, mit den Ordnern movies, series, music, downloads
+  start MusicSeerr (port 8688) with the share at /data	  MusicSeerr starten (Port 8688) mit der Freigabe unter /data
+  put the container in the nightly backup with a database dump	  den Container mit Datenbank-Dump in die nächtliche Sicherung aufnehmen
+  (if you say yes) give it a public name through the gateway: MusicSeerr has logins of its own	  (bei yes) einen öffentlichen Namen über das Gateway vergeben: MusicSeerr hat eigene Logins
+Name of the share with the music (the one Jellyfin reads, under /bulk/shares)	Name der Freigabe mit der Musik (die, die Jellyfin liest, unter /bulk/shares)
+Preparing the folders	Die Ordner werden vorbereitet
+Checking the settings	Die Einstellungen werden geprüft
+Downloading MusicSeerr	MusicSeerr wird heruntergeladen
+Starting MusicSeerr	MusicSeerr wird gestartet
+'%s' is in the nightly backup (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung (hs backup ct %s off: herausnehmen)
+Could not write the compose file of '%s'.	Die Compose-Datei von '%s' konnte nicht geschrieben werden.
+Open the page and create the admin login straight away (it is open to whoever gets there first).	Öffne die Seite und lege sofort den Admin-Zugang an (sie steht jedem offen, der zuerst kommt).
+Then Settings -> Download Client: SABnzbd (hs recipe sabnzbd) and/or slskd; the library is /data/music.	Danach Settings -> Download Client: SABnzbd (hs recipe sabnzbd) und/oder slskd; die Bibliothek ist /data/music.
+A public name is asked for in the step Service; do the first login before you say yes.	Ein öffentlicher Name wird im Schritt Service gefragt; melde dich vorher einmal an, bevor du ja sagst.
