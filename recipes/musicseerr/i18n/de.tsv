@@ -15,3 +15,5 @@ Could not write the compose file of '%s'.	Die Compose-Datei von '%s' konnte nich
 Open the page and create the admin login straight away (it is open to whoever gets there first).	Öffne die Seite und lege sofort den Admin-Zugang an (sie steht jedem offen, der zuerst kommt).
 Then Settings -> Download Client: SABnzbd (hs recipe sabnzbd) and/or slskd; the library is /data/music.	Danach Settings -> Download Client: SABnzbd (hs recipe sabnzbd) und/oder slskd; die Bibliothek ist /data/music.
 A public name is asked for in the step Service; do the first login before you say yes.	Ein öffentlicher Name wird im Schritt Service gefragt; melde dich vorher einmal an, bevor du ja sagst.
+Would:	Würde:
+skipped (RECIPE_SKIP_PULL): nothing downloaded, MusicSeerr not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, MusicSeerr nicht gestartet
