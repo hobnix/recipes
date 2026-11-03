@@ -38,9 +38,10 @@ done
 for r in radarr sonarr lidarr bazarr; do
   check_out "$r mounts the share with the library folders" "folders movies, series, music, downloads" env HS_STATE_DIR="$STATE" bash "$R/$r/run.sh" --dry-run
 done
-for r in radarr sonarr lidarr; do
+for r in radarr sonarr lidarr prowlarr bazarr maintainerr; do
   check_out "$r dry run names the docker path too" "docker mode: no container of its own: a compose project '$r' in the share apps .recipes/$r." env HS_STATE_DIR="$STATE" bash "$R/$r/run.sh" --dry-run
-  check "$r declares both runtimes (header and manifest)" bash -c 'grep -q "^# runs: lxc docker$" "$1/run.sh" && grep -q "^runs = \[\"lxc\", \"docker\"\]" "$1/package.toml" && grep -q "^requires_core = \">=5\"" "$1/package.toml"' _ "$R/$r"
+  check "$r never writes a literal /opt/apps" bash -c '! grep -q "/opt/apps" "$1/run.sh"' _ "$R/$r"
+  check "$r declares both runtimes (header and manifest)" bash -c 'grep -q "^# runs: lxc docker$" "$1/run.sh" && grep -q "^runs = \[\"lxc\", \"docker\"\]" "$1/package.toml" && grep -q "^requires_core = \">=6\"" "$1/package.toml"' _ "$R/$r"
 done
 check_out "radarr dry run says the duplicate job is not in docker mode" "no nightly duplicate job" env HS_STATE_DIR="$STATE" bash "$R/radarr/run.sh" --dry-run
 for r in navidrome musicseerr; do
@@ -123,7 +124,7 @@ address	10.1.2.3
 '
 FAKE
   chmod +x "$WORK/dstatus"
-  for r in radarr sonarr lidarr; do
+  for r in radarr sonarr lidarr bazarr; do
     DST=$WORK/dstate-$r; rm -rf "$DST"; mkdir -p "$DST"; export DLOG=$WORK/dlog-$r DCOMPOSE=$WORK/dcompose-$r; : > "$DLOG"
     out=$(env PATH="$WORK/dbin:$PATH" RECIPE_RUNS=docker HS_DOCKER_STATUS="$WORK/dstatus" RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1 HS_STATE_DIR="$DST" bash "$R/$r/run.sh" 2>&1 </dev/null); rc=$?
     check_eq "$r in docker mode runs through" 0 "$rc"
@@ -141,12 +142,14 @@ FAKE
     check_out "$r docker: the summary names the parent" "docker" echo "$out"
     case $r in radarr|sonarr) check "$r docker: Recyclarr gets a name of its own" grep -q "container_name: $r-recyclarr" "$DCOMPOSE" ;; esac
   done
-  for r in navidrome musicseerr; do
+  for r in navidrome musicseerr prowlarr maintainerr; do
     DST=$WORK/dstate-$r; rm -rf "$DST"; mkdir -p "$DST"; export DLOG=$WORK/dlog-$r DCOMPOSE=$WORK/dcompose-$r; : > "$DLOG"
     out=$(env PATH="$WORK/dbin:$PATH" RECIPE_RUNS=docker HS_DOCKER_STATUS="$WORK/dstatus" RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1 HS_STATE_DIR="$DST" bash "$R/$r/run.sh" 2>&1 </dev/null); rc=$?
     check_eq "$r in docker mode runs through" 0 "$rc"
     check "$r docker: no container of its own is created" bash -c '! grep -qE "^(launch|init|create) |manage-ct" "$1"' _ "$DLOG"
     check "$r docker: the compose file goes to the share apps" grep -q "/shares/apps/recipes/$r/docker-compose.yml.new" "$DLOG"
+    check "$r docker: answers stay in recipe-$r.conf" test -f "$DST/recipe-$r.conf"
+    check "$r docker: no literal /opt/apps in the compose file" bash -c '! grep -q "/opt/apps" "$1"' _ "$DCOMPOSE"
     check "$r docker: container_name is the app" grep -q "container_name: $r\$" "$DCOMPOSE"
     check "$r docker: data under the share apps" grep -q "/shares/apps/recipes/$r/" "$DCOMPOSE"
     check "$r docker: the dump goes to the descriptor of docker" grep -q "sqlite-tree $r /shares/apps/recipes/$r" "$DST/backup-dump/docker"
