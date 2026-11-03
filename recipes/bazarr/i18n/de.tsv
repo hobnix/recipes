@@ -14,3 +14,6 @@ Starting Bazarr	Bazarr wird gestartet
 Would:	Würde:
 Writing the settings	Die Einstellungen werden geschrieben
 skipped (RECIPE_SKIP_PULL): nothing downloaded, Bazarr not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Bazarr nicht gestartet
+  (docker mode: no container of its own: a compose project '%s' in the share apps (recipes/%s) inside the container docker, which must be on (hs docker enable))	  (Docker-Modus: kein eigener Container: ein Compose-Projekt '%s' in der Freigabe apps (recipes/%s) im Container docker, der an sein muss (hs docker enable))
+Preparing the folders	Ordner vorbereiten
+Setting the owner of the files	Besitzer der Dateien setzen
