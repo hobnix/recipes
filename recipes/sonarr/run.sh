@@ -19,8 +19,8 @@ set -euo pipefail
 #                      dump of the databases is written right before each backup (hs-dump sqlite-tree, into /var/backups/hs/sonarr)
 #   push messages      the topic of the film apps (state/media-ntfy), see the closing text
 # Runs in one of two places (the question RUNS, `# runs: lxc docker`): the container "sonarr" (above), or, when Docker is on
-# (hs docker enable), as an app inside the container docker: compose project "sonarr" in /opt/apps/sonarr (config in
-# /opt/apps/sonarr/config), the share "media" at /media of the container docker with one mapped user "media" for all film apps,
+# (hs docker enable), as an app inside the container docker: compose project "sonarr" in the share apps (recipes/sonarr, config in
+# its config folder), the share "media" at /media of the container docker with one mapped user "media" for all film apps,
 # and the dump of the databases in the backup of the container docker.
 # No Zoraxy rule: Sonarr is an admin page for the home network.
 # Test knobs: RECIPE_NAME=<throwaway name> HS_STATE_DIR=/tmp/<dir> RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1
@@ -34,7 +34,7 @@ PORT=8989   # Sonarr's own port: Prowlarr, Seerr and Bazarr are told this one
 if [ "${1:-}" = --dry-run ]; then
   say "Would:"
   printf '%s\n' "$(t "  create the container '%s' (Docker inside, 1536 MB RAM limit) unless it exists, with a fixed address (.50-.99) if UniFi is connected (hs net setup)" "$ct")"
-  printf '%s\n' "$(t "  (docker mode: no container of its own: a compose project '%s' in /opt/apps/%s inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)" "$app" "$app")"
+  printf '%s\n' "$(t "  (docker mode: no container of its own: a compose project '%s' in the share apps (recipes/%s) inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)" "$app" "$app")"
   say "  mount the share for the films (asks for its name, default media) READ-WRITE at /media, with folders movies, series, music, downloads"
   say "  start Sonarr (port 8989) and install Recyclarr as a tool"
   say "  use the push topic of the film apps, and put the container in the nightly backup with a database dump"
@@ -86,7 +86,7 @@ YML
   cd /opt/sonarr && docker compose --profile tools config -q'
 tz=$(timedatectl show -p Timezone --value 2>/dev/null || echo Etc/UTC)
 if $RUNS_DOCKER; then
-  dir=/opt/apps/$app
+  dir=$APP_DIR
   in_ct "Preparing the folders" 'mkdir -p "$1/config" "$1/recyclarr" && chown -R "$2:$3" "$1"' "$dir" "${ids%%:*}" "${ids##*:}"
   # the share "media" is a local share: no rslave needed (only a folder from hs remote would need it)
   child_compose "$app" <<YML
@@ -120,9 +120,9 @@ if [ -n "${RECIPE_SKIP_PULL:-}" ]; then
   note "skipped (RECIPE_SKIP_PULL): nothing downloaded, Sonarr not started"
 else
   if $RUNS_DOCKER; then
-    in_ct "Downloading Sonarr and Recyclarr" 'cd "/opt/apps/$1" && docker compose -p "$1" --profile tools pull -q' "$app"
+    in_ct "Downloading Sonarr and Recyclarr" 'cd "$2" && docker compose -p "$1" --profile tools pull -q' "$app" "$dir"
     spin "Starting Sonarr" child_up "$app"
-    wait_page Sonarr "docker compose -p $app -f /opt/apps/$app/docker-compose.yml logs --tail 50"
+    wait_page Sonarr "docker compose -p $app -f $dir/docker-compose.yml logs --tail 50"
   else
     in_ct "Downloading Sonarr and Recyclarr" 'cd /opt/sonarr && docker compose --profile tools pull -q'
     in_ct "Starting Sonarr" 'cd /opt/sonarr && docker compose up -d --remove-orphans'
@@ -136,7 +136,7 @@ step "Settings"
 if [ -n "${RECIPE_SKIP_PULL:-}" ]; then
   note "skipped (RECIPE_SKIP_PULL): no settings written"
 else
-  cfgdir=/opt/sonarr/config; if $RUNS_DOCKER; then cfgdir=/opt/apps/$app/config; fi
+  cfgdir=/opt/sonarr/config; if $RUNS_DOCKER; then cfgdir=$APP_DIR/config; fi
   akey=$(incus exec "$ct" -- sed -n 's|.*<ApiKey>\(.*\)</ApiKey>.*|\1|p' "$cfgdir/config.xml" </dev/null 2>/dev/null | head -n1 || true)
   if [ -z "$akey" ]; then
     warn "No API key found yet, settings not written (run the recipe again)"
@@ -158,7 +158,7 @@ step "Backup"
 # Sonarr keeps SQLite databases, which must not be copied while they are written. The dump goes to /var/backups/hs/sonarr.
 install_dump_tool sqlite
 if $RUNS_DOCKER; then
-  media_backup "/usr/local/sbin/hs-dump sqlite-tree $app /opt/apps/$app"
+  media_backup "/usr/local/sbin/hs-dump sqlite-tree $app $APP_DIR"
 else
   media_backup "/usr/local/sbin/hs-dump sqlite-tree sonarr /opt/sonarr"
   ok "$(t "'%s' is in the nightly backup (hs backup ct %s off: take it out)" "$ct" "$ct")"

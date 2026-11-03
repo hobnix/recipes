@@ -9,7 +9,7 @@ set -euo pipefail
 
 # What it does: runs Navidrome (navidrome/navidrome, port 4533) in one of two places (the question RUNS, `# runs: lxc docker`):
 # the container "navidrome" with Docker inside, or, when Docker is on (hs docker enable), as an app inside the container docker
-# (compose project "navidrome" in /opt/apps/navidrome).
+# (compose project "navidrome" in the share apps, recipes/navidrome).
 #   share     the share "media" (the one of Jellyfin and Lidarr), READ-WRITE at /media like the other music apps (a user mapped 1:1);
 #             Navidrome itself gets /media/music read-only at /music
 #   data      <app folder>/data (database, cover cache); `hs backup ct` is switched on and a dump of the database is written right
@@ -27,7 +27,7 @@ PORT=4533   # Navidrome's own port
 if [ "${1:-}" = --dry-run ]; then
   say "Would:"
   printf '%s\n' "$(t "  create the container '%s' (Docker inside, 1024 MB RAM limit) unless it exists, with a fixed address (.20-.29) if UniFi is connected (hs net setup)" "$ct")"
-  printf '%s\n' "$(t "  (docker mode: no container of its own: a compose project '%s' in /opt/apps/%s inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)" "$app" "$app")"
+  printf '%s\n' "$(t "  (docker mode: no container of its own: a compose project '%s' in the share apps (recipes/%s) inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)" "$app" "$app")"
   say "  mount the share for the music (asks for its name, default media) at /media, with folders movies, series, music, downloads"
   say "  start Navidrome (port 4533) with /media/music read-only as its library"
   say "  put the container in the nightly backup with a database dump"

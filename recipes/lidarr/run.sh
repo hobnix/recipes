@@ -16,8 +16,8 @@ set -euo pipefail
 #                      dump of the databases is written right before each backup (hs-dump sqlite-tree, into /var/backups/hs/lidarr)
 #   push messages      the topic of the film apps (state/media-ntfy), see the closing text
 # Runs in one of two places (the question RUNS, `# runs: lxc docker`): the container "lidarr" (above), or, when Docker is on
-# (hs docker enable), as an app inside the container docker: compose project "lidarr" in /opt/apps/lidarr (config in
-# /opt/apps/lidarr/config), the share "media" at /media of the container docker with one mapped user "media" for all film apps,
+# (hs docker enable), as an app inside the container docker: compose project "lidarr" in the share apps (recipes/lidarr, config in
+# its config folder), the share "media" at /media of the container docker with one mapped user "media" for all film apps,
 # and the dump of the databases in the backup of the container docker.
 # No Zoraxy rule: Lidarr is an admin page for the home network.
 # Test knobs: RECIPE_NAME=<throwaway name> HS_STATE_DIR=/tmp/<dir> RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1
@@ -31,7 +31,7 @@ PORT=8686   # Lidarr's own port: Prowlarr is told this one
 if [ "${1:-}" = --dry-run ]; then
   say "Would:"
   printf '%s\n' "$(t "  create the container '%s' (Docker inside, 1024 MB RAM limit) unless it exists, with a fixed address (.50-.99) if UniFi is connected (hs net setup)" "$ct")"
-  printf '%s\n' "$(t "  (docker mode: no container of its own: a compose project '%s' in /opt/apps/%s inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)" "$app" "$app")"
+  printf '%s\n' "$(t "  (docker mode: no container of its own: a compose project '%s' in the share apps (recipes/%s) inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)" "$app" "$app")"
   say "  mount the share for the films (asks for its name, default media) READ-WRITE at /media, with folders movies, series, music, downloads"
   say "  start Lidarr (port 8686)"
   say "  use the push topic of the film apps, and put the container in the nightly backup with a database dump"
@@ -75,7 +75,7 @@ YML
   cd /opt/lidarr && docker compose config -q'
 tz=$(timedatectl show -p Timezone --value 2>/dev/null || echo Etc/UTC)
 if $RUNS_DOCKER; then
-  dir=/opt/apps/$app
+  dir=$APP_DIR
   in_ct "Preparing the folders" 'mkdir -p "$1/config" && chown -R "$2:$3" "$1"' "$dir" "${ids%%:*}" "${ids##*:}"
   # the share "media" is a local share: no rslave needed (only a folder from hs remote would need it)
   child_compose "$app" <<YML
@@ -103,7 +103,7 @@ else
   if $RUNS_DOCKER; then
     spin "Downloading Lidarr" child_pull "$app"
     spin "Starting Lidarr" child_up "$app"
-    wait_page Lidarr "docker compose -p $app -f /opt/apps/$app/docker-compose.yml logs --tail 50"
+    wait_page Lidarr "docker compose -p $app -f $dir/docker-compose.yml logs --tail 50"
   else
     in_ct "Downloading Lidarr" 'cd /opt/lidarr && docker compose pull -q'
     in_ct "Starting Lidarr" 'cd /opt/lidarr && docker compose up -d --remove-orphans'
@@ -115,7 +115,7 @@ step "Backup"
 # Lidarr keeps SQLite databases, which must not be copied while they are written. The dump goes to /var/backups/hs/lidarr.
 install_dump_tool sqlite
 if $RUNS_DOCKER; then
-  media_backup "/usr/local/sbin/hs-dump sqlite-tree $app /opt/apps/$app"
+  media_backup "/usr/local/sbin/hs-dump sqlite-tree $app $APP_DIR"
 else
   media_backup "/usr/local/sbin/hs-dump sqlite-tree lidarr /opt/lidarr"
   ok "$(t "'%s' is in the nightly backup (hs backup ct %s off: take it out)" "$ct" "$ct")"
