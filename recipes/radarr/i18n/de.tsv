@@ -34,7 +34,7 @@ Would:	Würde:
 Writing the settings	Die Einstellungen werden geschrieben
 skipped (RECIPE_SKIP_PULL): no settings written	übersprungen (RECIPE_SKIP_PULL): keine Einstellungen geschrieben
 skipped (RECIPE_SKIP_PULL): nothing downloaded, Radarr not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Radarr nicht gestartet
-  (docker mode: no container of its own: a compose project '%s' in /opt/apps/%s inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount; no nightly duplicate job)	  (Docker-Modus: kein eigener Container: ein Compose-Projekt '%s' in /opt/apps/%s im Container docker, der an sein muss (hs docker enable); die Freigabe kommt mit hs docker mount; kein nächtlicher Auftrag für doppelte Dateien)
+  (docker mode: no container of its own: a compose project '%s' in the share apps (recipes/%s) inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount; no nightly duplicate job)	  (Docker-Modus: kein eigener Container: ein Compose-Projekt '%s' in der Freigabe apps (recipes/%s) im Container docker, der an sein muss (hs docker enable); die Freigabe kommt mit hs docker mount; kein nächtlicher Auftrag für doppelte Dateien)
 Preparing the folders	Ordner vorbereiten
 Setting the owner of the files	Besitzer der Dateien setzen
 No duplicate cleanup in Docker yet (the nightly job runs in the container 'radarr' only; see the guide)	Noch keine Aufräumhilfe für doppelte Dateien in Docker (der nächtliche Auftrag läuft nur im Container 'radarr'; siehe Anleitung)

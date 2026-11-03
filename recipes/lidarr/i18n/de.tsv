@@ -16,6 +16,6 @@ Starting Lidarr	Lidarr wird gestartet
 Would:	Würde:
 Writing the settings	Die Einstellungen werden geschrieben
 skipped (RECIPE_SKIP_PULL): nothing downloaded, Lidarr not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Lidarr nicht gestartet
-  (docker mode: no container of its own: a compose project '%s' in /opt/apps/%s inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)	  (Docker-Modus: kein eigener Container: ein Compose-Projekt '%s' in /opt/apps/%s im Container docker, der an sein muss (hs docker enable); die Freigabe kommt mit hs docker mount)
+  (docker mode: no container of its own: a compose project '%s' in the share apps (recipes/%s) inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)	  (Docker-Modus: kein eigener Container: ein Compose-Projekt '%s' in der Freigabe apps (recipes/%s) im Container docker, der an sein muss (hs docker enable); die Freigabe kommt mit hs docker mount)
 Preparing the folders	Ordner vorbereiten
 Setting the owner of the files	Besitzer der Dateien setzen

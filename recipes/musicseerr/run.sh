@@ -9,7 +9,7 @@ set -euo pipefail
 
 # What it does: runs MusicSeerr (image habirabbu/droppedneedle, port 8688) in one of two places (the question RUNS,
 # `# runs: lxc docker`): the container "musicseerr" with Docker inside, or, when Docker is on (hs docker enable), as an app inside the
-# container docker (compose project "musicseerr" in /opt/apps/musicseerr). Since v2.0.0 (July 2026) the project is called
+# container docker (compose project "musicseerr" in the share apps, recipes/musicseerr). Since v2.0.0 (July 2026) the project is called
 # DroppedNeedle and no longer needs Lidarr; the old image name habirabbu/musicseerr gets the same builds.
 #   share     the share "media" READ-WRITE at /media (a user mapped 1:1) and in the app at /data, so the library is /data/music and a
 #             finished download of SABnzbd (/data/downloads/usenet/complete) is on the same filesystem
@@ -28,7 +28,7 @@ PORT=8688   # the app's own port
 if [ "${1:-}" = --dry-run ]; then
   say "Would:"
   printf '%s\n' "$(t "  create the container '%s' (Docker inside, 1536 MB RAM limit) unless it exists, with a fixed address (.20-.29) if UniFi is connected (hs net setup)" "$ct")"
-  printf '%s\n' "$(t "  (docker mode: no container of its own: a compose project '%s' in /opt/apps/%s inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)" "$app" "$app")"
+  printf '%s\n' "$(t "  (docker mode: no container of its own: a compose project '%s' in the share apps (recipes/%s) inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)" "$app" "$app")"
   say "  mount the share for the music (asks for its name, default media) at /media, with folders movies, series, music, downloads"
   say "  start MusicSeerr (port 8688) with the share at /data"
   say "  put the container in the nightly backup with a database dump"
