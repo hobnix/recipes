@@ -43,6 +43,15 @@ for r in radarr sonarr lidarr; do
   check "$r declares both runtimes (header and manifest)" bash -c 'grep -q "^# runs: lxc docker$" "$1/run.sh" && grep -q "^runs = \[\"lxc\", \"docker\"\]" "$1/package.toml" && grep -q "^requires_core = \">=5\"" "$1/package.toml"' _ "$R/$r"
 done
 check_out "radarr dry run says the duplicate job is not in docker mode" "no nightly duplicate job" env HS_STATE_DIR="$STATE" bash "$R/radarr/run.sh" --dry-run
+for r in navidrome musicseerr; do
+  check "$r run.sh parses" bash -n "$R/$r/run.sh"
+  check "$r is executable" test -x "$R/$r/run.sh"
+  check "$r has a German one-liner" grep -q '^# recipe.de: ' "$R/$r/run.sh"
+  check_out "$r dry run names its container" "container '$r'" env HS_STATE_DIR="$STATE" bash "$R/$r/run.sh" --dry-run
+  check_out "$r dry run names the docker path" "docker mode: no container of its own: a compose project '$r' in /opt/apps/$r" env HS_STATE_DIR="$STATE" bash "$R/$r/run.sh" --dry-run
+  check "$r declares both runtimes (header and manifest)" bash -c 'grep -q "^# runs: lxc docker$" "$1/run.sh" && grep -q "^runs = \[\"lxc\", \"docker\"\]" "$1/package.toml"' _ "$R/$r"
+  check "$r may get a public name" grep -q 'declare_service .* public-ok ' "$R/$r/run.sh"
+done
 check_out "sabnzbd dry run" "container 'sabnzbd'" env HS_STATE_DIR="$STATE" bash "$R/sabnzbd/run.sh" --dry-run
 check_out "seerr dry run" "container 'seerr'" env HS_STATE_DIR="$STATE" bash "$R/seerr/run.sh" --dry-run
 check_out "uchiyomi dry run names the container and the manga folder" "container .uchiyomi.*|folder manga" env HS_STATE_DIR="$STATE" bash "$R/uchiyomi/run.sh" --dry-run

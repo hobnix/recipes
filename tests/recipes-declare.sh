@@ -13,6 +13,12 @@ PKGS=$HERE/recipes
 export HS_RECIPES_DIR=$PKGS
 R=$PKGS
 
+# recipes that may be public-ok, with the reason: the app has logins of its own and the owner asked for a public name
+declare -A PUBLIC_OK=(
+  [navidrome]="own logins; a music streamer for phones"
+  [musicseerr]="own logins; the request page for music"
+)
+
 # recipe -> why it declares nothing
 declare -A NONE=(
   [livekit]="not a web page"
@@ -42,11 +48,11 @@ bad=$(grep -h '^ *declare_service ' "$R"/*/run.sh | awk '{
   sub(/^[^ ]+ */, "", line)
   split(line, w, " ")
   if (w[1] == "public-ok") print $0
-}')
-check_eq "no recipe declares its service public-ok" "" "$bad"
+}' | awk -v ok="${!PUBLIC_OK[*]}" 'BEGIN { n = split(ok, a, " "); for (i = 1; i <= n; i++) allow[a[i]] = 1 } { if (!($2 in allow)) print $0 }')
+check_eq "no recipe declares its service public-ok (but those named in PUBLIC_OK)" "" "$bad"
 admin=$(for n in docker zoraxy authentik tdarr qbittorrent sabnzbd uptime-kuma monitoring paperclip stalwart; do grep -q "^ *declare_service $n .* never-public " "$R/$n/run.sh" 2>/dev/null || echo "$n "; done)
 check_eq "the admin pages and download tools are never-public" "" "$admin"
 count=$(grep -l '^ *declare_service ' "$R"/*/run.sh | wc -l | tr -d ' ')
-check_eq "so far (update this number with a new recipe)" "27" "$count"
+check_eq "so far (update this number with a new recipe)" "29" "$count"
 
 finish
