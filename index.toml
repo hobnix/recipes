@@ -42,7 +42,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.claude-vm]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/claude-vm"
 title = "Claude VM, a small Linux desktop in a virtual machine with Claude Desktop, your repos on a fast share and RustDesk to get in"
