@@ -41,6 +41,14 @@ title = "game server panel (TypeScript panel, Rust node agent, containerd), the 
 requires_core = ">=1"
 audience = "generic"
 
+[package.claude-vm]
+version = "1.0.0"
+kind = "recipe"
+path = "recipes/claude-vm"
+title = "Claude VM, a small Linux desktop in a virtual machine with Claude Desktop, your repos on a fast share and RustDesk to get in"
+requires_core = ">=1"
+audience = "generic"
+
 [package.cloudflared]
 version = "1.1.0"
 kind = "recipe"
