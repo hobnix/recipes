@@ -165,12 +165,16 @@ Type=Application
 Name=RustDesk
 Exec=rustdesk --tray
 DESKTOP
-    systemctl enable --now rustdesk >/dev/null 2>&1
-    sleep 4
-    rustdesk --password "$(cat /root/.hs-rd)" >/dev/null 2>&1
-    systemctl restart rustdesk' "$ver"
+    systemctl enable --now rustdesk >/dev/null 2>&1' "$ver"
 
-  in_ct "Starting the desktop" 'systemctl restart lightdm; rm -f /root/.hs-login /root/.hs-rd'
+  in_ct "Starting the desktop" 'systemctl restart lightdm'
+
+  # The password is set last, when the RustDesk server of the desktop session is up: earlier, the call is lost (seen on the server).
+  in_ct "Setting the RustDesk password" '
+    for _ in $(seq 1 30); do pgrep -f "rustdesk --server" >/dev/null && break; sleep 2; done
+    sleep 3
+    for _ in 1 2 3 4 5; do rustdesk --password "$(cat /root/.hs-rd)" >/dev/null 2>&1 && break; sleep 3; done
+    rm -f /root/.hs-login /root/.hs-rd'
 
   rdid=$(incus exec "$ct" -- bash -c 'for _ in $(seq 1 15); do i=$(rustdesk --get-id 2>/dev/null | grep -Eo "[0-9]{6,}" | tail -n1); [ -n "$i" ] && { echo "$i"; exit 0; }; sleep 2; done' </dev/null || true)
   if [ -n "$rdid" ]; then

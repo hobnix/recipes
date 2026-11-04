@@ -42,3 +42,4 @@ The share is passed into '%s' (virtiofs)	Die Freigabe wird in '%s' hineingereich
 Updates: sudo apt update && sudo apt upgrade in the VM. Claude Desktop does not update itself on Linux.	Updates: sudo apt update && sudo apt upgrade in der VM. Claude Desktop aktualisiert sich unter Linux nicht selbst.
 Would:	Würde:
 skipped (RECIPE_SKIP_PULL): no packages, nothing installed	übersprungen (RECIPE_SKIP_PULL): keine Pakete, nichts installiert
+Setting the RustDesk password	Setze das RustDesk-Passwort
