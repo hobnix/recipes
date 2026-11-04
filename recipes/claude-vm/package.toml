@@ -1,6 +1,6 @@
 # Manifest of a package (docs/PLAN-packages.md). The header lines of run.sh say the same (tests/pkg.sh keeps both in step).
 name = "claude-vm"
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 title = "Claude VM, a small Linux desktop in a virtual machine with Claude Desktop, your repos on a fast share and RustDesk to get in"
 title_de = "Claude-VM, ein kleiner Linux-Desktop in einer virtuellen Maschine mit Claude Desktop, deinen Repos auf einer schnellen Freigabe und RustDesk zum Hineinschauen"

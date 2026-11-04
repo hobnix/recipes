@@ -105,7 +105,7 @@ else
     apt-get update -qq
     apt-get install -y -qq --no-install-recommends ca-certificates curl gnupg sudo git openssh-client \
       xserver-xorg-core xserver-xorg-input-libinput x11-xserver-utils dbus-x11 \
-      xfce4 xfce4-terminal thunar lightdm lightdm-gtk-greeter policykit-1 \
+      xfce4 xfce4-terminal thunar lightdm lightdm-gtk-greeter polkitd pkexec \
       pulseaudio firefox-esr fonts-dejavu-core gnome-keyring libsecret-1-0 xdg-utils'
 
   in_ct "Making the user dev" '
