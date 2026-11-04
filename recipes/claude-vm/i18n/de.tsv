@@ -1,0 +1,44 @@
+# German texts of the recipe claude-vm (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+     User dev, password in %s/%s-admin (also the sudo password).	     Benutzer dev, Passwort in %s/%s-admin (auch das sudo-Passwort).
+  1. Connect to the ID  %s  (the address is %s).	  1. Verbinde dich mit der ID  %s  (die Adresse ist %s).
+  2. Open Claude on the desktop and sign in with your Anthropic account (it opens Firefox).	  2. Öffne Claude auf dem Desktop und melde dich mit deinem Anthropic-Konto an (es öffnet Firefox).
+  3. Your repos are in ~/repos (the share %s, also reachable from your PC).	  3. Deine Repos liegen in ~/repos (die Freigabe %s, auch von deinem PC aus erreichbar).
+  create the virtual machine '%s' (Debian, 4096 MB RAM, 2 CPUs, 40 GB disk, asks) unless it exists, with a fixed address (.40-.49) if UniFi is connected (hs net setup)	  die virtuelle Maschine '%s' anlegen (Debian, 4096 MB RAM, 2 Kerne, 40 GB Platte, fragt vorher), falls es sie nicht gibt, mit fester Adresse (.40-.49), wenn UniFi verbunden ist (hs net setup)
+  install Claude Desktop from Anthropic's apt repository	  Claude Desktop aus der apt-Quelle von Anthropic installieren
+  install RustDesk and set a random password for unattended access	  RustDesk installieren und ein zufälliges Passwort für den Zugriff ohne Bestätigung setzen
+  install the XFCE desktop with auto login of the user dev	  den XFCE-Desktop mit automatischer Anmeldung des Benutzers dev installieren
+  make the fast share for the repos (default: repos) unless it exists, and pass it into the VM at /srv/repos	  die schnelle Freigabe für die Repos anlegen (Standard: repos), falls es sie nicht gibt, und sie unter /srv/repos in die VM reichen
+%s, owner %s	%s, Besitzer %s
+'%s' got no address. Check the network (hs ct list), then run the recipe again.	'%s' hat keine Adresse bekommen. Prüfe das Netzwerk (hs ct list) und führe das Rezept dann noch einmal aus.
+'%s' has the share already	'%s' hat die Freigabe schon
+'%s' is not a RustDesk version number.	'%s' ist keine RustDesk-Versionsnummer.
+Could not ask GitHub for the newest RustDesk version. Try again, or name it: RECIPE_VERSION=1.4.0 hs recipe claude-vm	GitHub kennt die neueste RustDesk-Version nicht (keine Antwort). Versuche es nochmal oder nenne sie: RECIPE_VERSION=1.4.0 hs recipe claude-vm
+Disk size in GB (20 or more)	Plattengröße in GB (20 oder mehr)
+Installing Claude Desktop (from Anthropic)	Installiere Claude Desktop (von Anthropic)
+Installing RustDesk	Installiere RustDesk
+Installing the desktop (XFCE)	Installiere den Desktop (XFCE)
+Kept as it is (password in %s/%s-admin)	Bleibt wie es ist (Passwort in %s/%s-admin)
+Making the fast share '%s'	Lege die schnelle Freigabe '%s' an
+Making the user dev	Lege den Benutzer dev an
+Name of the fast share with the repos (made when it does not exist)	Name der schnellen Freigabe mit den Repos (wird angelegt, falls es sie nicht gibt)
+Nightly snapshots of '%s' could not be switched on: hs share <share> auto on	Die nächtlichen Snapshots von '%s' ließen sich nicht einschalten: hs share snapshots
+No password in %s/%s-admin	Kein Passwort in %s/%s-admin
+Number of CPUs	Anzahl der Kerne
+Password written to %s/%s-admin	Passwort in %s/%s-admin geschrieben
+Repos share	Repos-Freigabe
+Restarting '%s' to mount the share	Starte '%s' neu, damit die Freigabe eingebunden wird
+RustDesk %s	RustDesk %s
+RustDesk ID: %s	RustDesk-ID: %s
+RustDesk has no ID yet. Ask for it in a minute:  incus exec %s -- rustdesk --get-id	RustDesk hat noch keine ID. Frag in einer Minute danach:  incus exec %s -- rustdesk --get-id
+RustDesk is an admin door: never a Zoraxy rule.	RustDesk ist eine Admin-Tür: nie eine Zoraxy-Regel.
+Setting up the login screen (auto login of dev)	Richte den Anmeldebildschirm ein (automatische Anmeldung von dev)
+Starting the desktop	Starte den Desktop
+The VM is running. Get in with RustDesk (rustdesk.com, on your PC or phone):	Die VM läuft. Mit RustDesk kommst du hinein (rustdesk.com, am PC oder Handy):
+The name '%s' is taken by something that is not a share folder. Choose another: hs recipe %s --ask	Der Name '%s' ist schon von etwas belegt, das kein Freigabe-Ordner ist. Wähle einen anderen: hs recipe %s --ask
+The share '%s' is on the disks, not on the SSD pool. Repos need the fast one: choose another name (hs recipe %s --ask).	Die Freigabe '%s' liegt auf den Platten, nicht auf dem SSD-Pool. Repos brauchen die schnelle: wähle einen anderen Namen (hs recipe %s --ask).
+The share folder %s belongs to root. Run:  sudo chown adminuser:users %s	Der Freigabe-Ordner %s gehört root. Führe aus:  sudo chown adminuser:users %s
+The share is not mounted in the VM. Look at: incus config device show %s ; incus exec %s -- journalctl -u incus-agent -n 40	Die Freigabe ist in der VM nicht eingebunden. Sieh nach: incus config device show %s ; incus exec %s -- journalctl -u incus-agent -n 40
+The share is passed into '%s' (virtiofs)	Die Freigabe wird in '%s' hineingereicht (virtiofs)
+Updates: sudo apt update && sudo apt upgrade in the VM. Claude Desktop does not update itself on Linux.	Updates: sudo apt update && sudo apt upgrade in der VM. Claude Desktop aktualisiert sich unter Linux nicht selbst.
+Would:	Würde:
+skipped (RECIPE_SKIP_PULL): no packages, nothing installed	übersprungen (RECIPE_SKIP_PULL): keine Pakete, nichts installiert
