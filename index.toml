@@ -83,6 +83,14 @@ requires_core = ">=1"
 audience = "personal"
 core = true
 
+[package.droppedneedle]
+version = "2.0.0"
+kind = "recipe"
+path = "recipes/droppedneedle"
+title = "a page where family and friends discover music and ask for albums (formerly MusicSeerr)"
+requires_core = ">=6"
+audience = "generic"
+
 [package.homeassistant]
 version = "1.0.0"
 kind = "recipe"
@@ -147,14 +155,6 @@ title = "history of load, disks, pools, containers, and the server's logs"
 requires_core = ">=1"
 audience = "generic"
 core = true
-
-[package.musicseerr]
-version = "1.1.0"
-kind = "recipe"
-path = "recipes/musicseerr"
-title = "a page where family and friends discover music and ask for albums (since v2 its name is DroppedNeedle)"
-requires_core = ">=6"
-audience = "generic"
 
 [package.navidrome]
 version = "1.1.0"

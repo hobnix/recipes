@@ -16,7 +16,7 @@ R=$PKGS
 # recipes that may be public-ok, with the reason: the app has logins of its own and the owner asked for a public name
 declare -A PUBLIC_OK=(
   [navidrome]="own logins; a music streamer for phones"
-  [musicseerr]="own logins; the request page for music"
+  [droppedneedle]="own logins; the request page for music"
   [audiobookshelf]="own logins; audiobooks and podcasts for phones"
 )
 

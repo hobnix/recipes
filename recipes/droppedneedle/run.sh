@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
-# recipe: MusicSeerr: a page where family and friends discover music and ask for albums (since v2 its name is DroppedNeedle)
-# recipe.de: MusicSeerr: eine Seite, auf der Familie und Freunde Musik entdecken und Alben wünschen können (seit v2 heißt es DroppedNeedle)
+# recipe: DroppedNeedle: a page where family and friends discover music and ask for albums (formerly MusicSeerr)
+# recipe.de: DroppedNeedle: eine Seite, auf der Familie und Freunde Musik entdecken und Alben wünschen können (früher MusicSeerr)
 # kind: generic
 # needs: docker share
 # uses: -
 # runs: lxc docker
 set -euo pipefail
 
-# What it does: runs MusicSeerr (image habirabbu/droppedneedle, port 8688) in one of two places (the question RUNS,
-# `# runs: lxc docker`): the container "musicseerr" with Docker inside, or, when Docker is on (hs docker enable), as an app inside the
-# container docker (compose project "musicseerr" in the share apps, recipes/musicseerr). Since v2.0.0 (July 2026) the project is called
-# DroppedNeedle and no longer needs Lidarr; the old image name habirabbu/musicseerr gets the same builds.
+# What it does: runs DroppedNeedle (image ghcr.io/habirabbu/droppedneedle, port 8688) in one of two places (the question RUNS,
+# `# runs: lxc docker`): the container "droppedneedle" with Docker inside, or, when Docker is on (hs docker enable), as an app inside the
+# container docker (compose project "droppedneedle" in the share apps, recipes/droppedneedle). The project was called MusicSeerr before v2.0.0
+# (July 2026) and no longer needs Lidarr. This recipe was called musicseerr until its version 2.0.0: a server that has the container or app
+# "musicseerr" (its answers file recipe-musicseerr.conf, or an Incus instance of that name) keeps it, with its user, folder and backup,
+# as if it had been run with --name musicseerr; a new one is called droppedneedle.
 #   share     the share "media" READ-WRITE at /media (a user mapped 1:1) and in the app at /data, so the library is /data/music and a
 #             finished download of SABnzbd (/data/downloads/usenet/complete) is on the same filesystem
 #   config    <app folder>/config, cache, plugins; `hs backup ct` is switched on and a dump of the database is written before each backup
@@ -20,7 +22,9 @@ set -euo pipefail
 # Test knobs: RECIPE_NAME=<throwaway name> HS_STATE_DIR=/tmp/<dir> RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1
 scripts=${HS_SCRIPTS:-$(dirname "$0")/../../scripts}
 state=${HS_STATE_DIR:-/var/lib/hs}
-ct=${RECIPE_NAME:-musicseerr}; app=$ct
+# an install from before the rename keeps its old name (container or app, user, folder, answers, backup descriptor)
+if [ -z "${RECIPE_NAME:-}" ] && { [ -f "$state/recipe-musicseerr.conf" ] || incus info musicseerr >/dev/null 2>&1; }; then RECIPE_NAME=musicseerr; fi
+ct=${RECIPE_NAME:-droppedneedle}; app=$ct
 . "${HS_RECIPE_LIB:-$scripts/recipes/_lib.sh}"
 . "${HS_RECIPE_MEDIA:-$scripts/recipes/_media.sh}"
 PORT=8688   # the app's own port
@@ -30,9 +34,9 @@ if [ "${1:-}" = --dry-run ]; then
   printf '%s\n' "$(t "  create the container '%s' (Docker inside, 1536 MB RAM limit) unless it exists, with a fixed address (.20-.29) if UniFi is connected (hs net setup)" "$ct")"
   printf '%s\n' "$(t "  (docker mode: no container of its own: a compose project '%s' in the share apps (recipes/%s) inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)" "$app" "$app")"
   say "  mount the share for the music (asks for its name, default media) at /media, with folders movies, series, music, downloads"
-  say "  start MusicSeerr (port 8688) with the share at /data"
+  say "  start DroppedNeedle (port 8688) with the share at /data"
   say "  put the container in the nightly backup with a database dump"
-  say "  (if you say yes) give it a public name through the gateway: MusicSeerr has logins of its own"
+  say "  (if you say yes) give it a public name through the gateway: DroppedNeedle has logins of its own"
   exit 0
 fi
 
@@ -46,20 +50,20 @@ else
   fixed_address "$ct" 20 29
 fi
 wait_internet "$ct"
-media_storage musicseerr
+media_storage "$app"
 if ! $RUNS_DOCKER; then
   install_docker
 fi
 
-step "MusicSeerr"
+step "DroppedNeedle"
 tz=$(timedatectl show -p Timezone --value 2>/dev/null || echo Etc/UTC)
 uid=${ids%%:*}; gid=${ids##*:}
-if $RUNS_DOCKER; then dir=$APP_DIR; else dir=/opt/musicseerr; fi
+if $RUNS_DOCKER; then dir=$APP_DIR; else dir=/opt/$app; fi
 compose_file() {
   cat <<YML
 services:
   $app:
-    image: habirabbu/droppedneedle:latest
+    image: ghcr.io/habirabbu/droppedneedle:latest
     container_name: $app
     restart: unless-stopped
     ports: ["$PORT:8688"]
@@ -84,15 +88,15 @@ else
 fi
 
 if [ -n "${RECIPE_SKIP_PULL:-}" ]; then
-  note "skipped (RECIPE_SKIP_PULL): nothing downloaded, MusicSeerr not started"
+  note "skipped (RECIPE_SKIP_PULL): nothing downloaded, DroppedNeedle not started"
 elif $RUNS_DOCKER; then
-  in_ct "Downloading MusicSeerr" 'cd "$1" && docker compose -p "$2" pull -q' "$dir" "$app"
-  spin "Starting MusicSeerr" child_up "$app"
-  wait_page MusicSeerr "docker compose -p $app -f $dir/docker-compose.yml logs --tail 50"
+  in_ct "Downloading DroppedNeedle" 'cd "$1" && docker compose -p "$2" pull -q' "$dir" "$app"
+  spin "Starting DroppedNeedle" child_up "$app"
+  wait_page DroppedNeedle "docker compose -p $app -f $dir/docker-compose.yml logs --tail 50"
 else
-  in_ct "Downloading MusicSeerr" 'cd "$1" && docker compose pull -q' "$dir"
-  in_ct "Starting MusicSeerr" 'cd "$1" && docker compose up -d --remove-orphans' "$dir"
-  wait_page MusicSeerr "docker compose -f $dir/docker-compose.yml logs --tail 50"
+  in_ct "Downloading DroppedNeedle" 'cd "$1" && docker compose pull -q' "$dir"
+  in_ct "Starting DroppedNeedle" 'cd "$1" && docker compose up -d --remove-orphans' "$dir"
+  wait_page DroppedNeedle "docker compose -f $dir/docker-compose.yml logs --tail 50"
 fi
 
 step "Backup"
@@ -101,14 +105,14 @@ install_dump_tool sqlite
 if $RUNS_DOCKER; then
   media_backup "/usr/local/sbin/hs-dump sqlite-tree $app $dir/config"
 else
-  media_backup "/usr/local/sbin/hs-dump sqlite-tree musicseerr $dir/config"
+  media_backup "/usr/local/sbin/hs-dump sqlite-tree $app $dir/config"
   ok "$(t "'%s' is in the nightly backup (hs backup ct %s off: take it out)" "$ct" "$ct")"
 fi
 
 if $RUNS_DOCKER; then   # ct is docker here: the service is the app (RECIPE_NAME= keeps declare_service from renaming it to "docker")
-  RECIPE_NAME= declare_service "$app" MusicSeerr musicseerr public-ok Media "Music: discover and request albums"
+  RECIPE_NAME= declare_service "$app" DroppedNeedle droppedneedle public-ok Media "Music: discover and request albums"
 else
-  declare_service musicseerr MusicSeerr musicseerr public-ok Media "Music: discover and request albums"
+  declare_service droppedneedle DroppedNeedle droppedneedle public-ok Media "Music: discover and request albums"
 fi
 
 recipe_facts web
@@ -116,5 +120,5 @@ box <<DONE
 $(say "Open the page and create the admin login straight away (it is open to whoever gets there first).")
 $(say "Then Settings -> Download Client: SABnzbd (hs recipe sabnzbd) and/or slskd; the library is /data/music.")
 $(say "A public name is asked for in the step Service; do the first login before you say yes.")
-$(docs_hint musicseerr)
+$(docs_hint droppedneedle)
 DONE
