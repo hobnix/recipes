@@ -20,6 +20,6 @@ Open the page and create the admin login at once: it is open to whoever gets the
 The app has its own logins, so the recipe offers a public name in the step Service. Do the first login before you say yes. Apply it with `hs services apply`.
 
 ## Backup
-The container (or the app folder in the container `docker`) is in the nightly backup, with a safe copy of the databases. The image is `ghcr.io/habirabbu/droppedneedle`.
+The container (or the app folder in the container `docker`) is in the nightly backup, with a safe copy of the databases. The image is `droppedneedle/droppedneedle`.
 
 Not tested on hardware yet.
