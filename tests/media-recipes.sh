@@ -44,7 +44,7 @@ for r in radarr sonarr lidarr prowlarr bazarr maintainerr; do
   check "$r declares both runtimes (header and manifest)" bash -c 'grep -q "^# runs: lxc docker$" "$1/run.sh" && grep -q "^runs = \[\"lxc\", \"docker\"\]" "$1/package.toml" && grep -q "^requires_core = \">=6\"" "$1/package.toml"' _ "$R/$r"
 done
 check_out "radarr dry run says the duplicate job is not in docker mode" "no nightly duplicate job" env HS_STATE_DIR="$STATE" bash "$R/radarr/run.sh" --dry-run
-for r in navidrome musicseerr; do
+for r in navidrome musicseerr audiobookshelf; do
   check "$r run.sh parses" bash -n "$R/$r/run.sh"
   check "$r is executable" test -x "$R/$r/run.sh"
   check "$r has a German one-liner" grep -q '^# recipe.de: ' "$R/$r/run.sh"
@@ -142,7 +142,7 @@ FAKE
     check_out "$r docker: the summary names the parent" "docker" echo "$out"
     case $r in radarr|sonarr) check "$r docker: Recyclarr gets a name of its own" grep -q "container_name: $r-recyclarr" "$DCOMPOSE" ;; esac
   done
-  for r in navidrome musicseerr prowlarr maintainerr; do
+  for r in navidrome musicseerr audiobookshelf prowlarr maintainerr; do
     DST=$WORK/dstate-$r; rm -rf "$DST"; mkdir -p "$DST"; export DLOG=$WORK/dlog-$r DCOMPOSE=$WORK/dcompose-$r; : > "$DLOG"
     out=$(env PATH="$WORK/dbin:$PATH" RECIPE_RUNS=docker HS_DOCKER_STATUS="$WORK/dstatus" RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1 HS_STATE_DIR="$DST" bash "$R/$r/run.sh" 2>&1 </dev/null); rc=$?
     check_eq "$r in docker mode runs through" 0 "$rc"
