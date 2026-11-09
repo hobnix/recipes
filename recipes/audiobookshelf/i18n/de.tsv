@@ -1,0 +1,22 @@
+# German texts of the recipe audiobookshelf (English text <TAB> translation; the shared helpers' texts are in the core catalog)
+  create the container '%s' (Docker inside, 1024 MB RAM limit) unless it exists, with a fixed address (.20-.29) if UniFi is connected (hs net setup)	  den Container '%s' anlegen (Docker darin, 1024 MB RAM), falls es ihn nicht gibt, mit fester Adresse (.20-.29), wenn UniFi verbunden ist (hs net setup)
+  (docker mode: no container of its own: a compose project '%s' in the share apps (recipes/%s) inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)	  (Docker-Modus: kein eigener Container: ein Compose-Projekt '%s' in der Freigabe apps (recipes/%s) im Container docker, der an sein muss (hs docker enable); die Freigabe kommt mit hs docker mount)
+  mount the share for the books (asks for its name, default media) at /media, with folders movies, series, music, downloads, audiobooks, podcasts	  die Freigabe für die Bücher (fragt nach dem Namen, Standard media) unter /media einbinden, mit den Ordnern movies, series, music, downloads, audiobooks, podcasts
+  start Audiobookshelf (port 13378) with /media/audiobooks and /media/podcasts as its libraries	  Audiobookshelf starten (Port 13378) mit /media/audiobooks und /media/podcasts als Bibliotheken
+  put the container in the nightly backup with a database dump	  den Container mit Datenbank-Dump in die nächtliche Sicherung aufnehmen
+  (if you say yes) give it a public name through the gateway: Audiobookshelf has logins of its own	  (bei yes) einen öffentlichen Namen über das Gateway vergeben: Audiobookshelf hat eigene Logins
+Name of the share with the audiobooks and podcasts (the one Jellyfin reads, under /bulk/shares)	Name der Freigabe mit den Hörbüchern und Podcasts (die, die Jellyfin liest, unter /bulk/shares)
+Preparing the folders	Die Ordner werden vorbereitet
+Checking the settings	Die Einstellungen werden geprüft
+Downloading Audiobookshelf	Audiobookshelf wird heruntergeladen
+Starting Audiobookshelf	Audiobookshelf wird gestartet
+'%s' is in the nightly backup (hs backup ct %s off: take it out)	'%s' ist in der nächtlichen Sicherung (hs backup ct %s off: herausnehmen)
+Could not write the compose file of '%s'.	Die Compose-Datei von '%s' konnte nicht geschrieben werden.
+'%s' can't make the folders audiobooks and podcasts in /media.	'%s' kann die Ordner audiobooks und podcasts in /media nicht anlegen.
+Open the page and create the root login straight away (the first person to open it becomes root).	Öffne die Seite und lege sofort den Root-Zugang an (wer sie zuerst öffnet, wird Root).
+Then Settings -> Libraries -> Add: one library for /audiobooks (type Audiobooks) and one for /podcasts (type Podcasts).	Dann Einstellungen -> Bibliotheken -> Hinzufügen: eine Bibliothek für /audiobooks (Typ Hörbücher) und eine für /podcasts (Typ Podcasts).
+Put each book in its own folder, Author/Title, under /media/audiobooks; the app scans it and fetches covers and descriptions.	Leg jedes Buch in einen eigenen Ordner, Autor/Titel, unter /media/audiobooks; die App durchsucht ihn und holt Cover und Beschreibungen.
+Phone apps: the official Audiobookshelf app (Android, iOS) with this address and your login.	Handy-Apps: die offizielle Audiobookshelf-App (Android, iOS) mit dieser Adresse und deinem Zugang.
+A public name is asked for in the step Service; do the first login before you say yes.	Ein öffentlicher Name wird im Schritt Service gefragt; melde dich vorher einmal an, bevor du ja sagst.
+Would:	Würde:
+skipped (RECIPE_SKIP_PULL): nothing downloaded, Audiobookshelf not started	übersprungen (RECIPE_SKIP_PULL): nichts heruntergeladen, Audiobookshelf nicht gestartet
