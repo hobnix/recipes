@@ -7,7 +7,7 @@
 # runs: lxc docker
 set -euo pipefail
 
-# What it does: runs DroppedNeedle (image ghcr.io/habirabbu/droppedneedle, port 8688) in one of two places (the question RUNS,
+# What it does: runs DroppedNeedle (image droppedneedle/droppedneedle, port 8688) in one of two places (the question RUNS,
 # `# runs: lxc docker`): the container "droppedneedle" with Docker inside, or, when Docker is on (hs docker enable), as an app inside the
 # container docker (compose project "droppedneedle" in the share apps, recipes/droppedneedle). The project was called MusicSeerr before v2.0.0
 # (July 2026) and no longer needs Lidarr. This recipe was called musicseerr until its version 2.0.0: a server that has the container or app
@@ -63,7 +63,7 @@ compose_file() {
   cat <<YML
 services:
   $app:
-    image: ghcr.io/habirabbu/droppedneedle:latest
+    image: droppedneedle/droppedneedle:latest
     container_name: $app
     restart: unless-stopped
     ports: ["$PORT:8688"]
