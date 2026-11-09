@@ -1,6 +1,6 @@
-# MusicSeerr: discover and request music
+# DroppedNeedle: discover and request music
 
-MusicSeerr (since v2.0.0 its name is DroppedNeedle) is a page where people browse and discover music and ask for albums. It has users of its own and sends a request to a download client you run yourself.
+DroppedNeedle (called MusicSeerr before v2.0.0 of the project) is a page where people browse and discover music and ask for albums. It has users of its own and sends a request to a download client you run yourself.
 
 ## Before you start
 - A running server with the share `media`. The app sees it at `/data`, so the library is `/data/music` and the downloads of SABnzbd are in `/data/downloads/usenet/complete`.
@@ -9,7 +9,7 @@ MusicSeerr (since v2.0.0 its name is DroppedNeedle) is a page where people brows
 
 ## Set it up
 ```bash
-sudo hs recipe musicseerr
+sudo hs recipe droppedneedle
 ```
 
 The recipe asks where it runs: in a container of its own (`lxc`) or inside the container `docker`. Both give the page on port 8688.
@@ -20,6 +20,6 @@ Open the page and create the admin login at once: it is open to whoever gets the
 The app has its own logins, so the recipe offers a public name in the step Service. Do the first login before you say yes. Apply it with `hs services apply`.
 
 ## Backup
-The container (or the app folder in the container `docker`) is in the nightly backup, with a safe copy of the databases. The image name is `habirabbu/droppedneedle`; the older `habirabbu/musicseerr` gets the same builds.
+The container (or the app folder in the container `docker`) is in the nightly backup, with a safe copy of the databases. The image is `ghcr.io/habirabbu/droppedneedle`.
 
 Not tested on hardware yet.
