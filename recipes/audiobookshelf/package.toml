@@ -1,0 +1,13 @@
+# Manifest of a package (docs/PLAN-packages.md). The header lines of run.sh say the same (tests/pkg.sh keeps both in step).
+name = "audiobookshelf"
+version = "1.0.0"
+kind = "recipe"
+title = "streams your audiobooks and podcasts to phones and browsers, remembers where you stopped"
+title_de = "streamt deine Hörbücher und Podcasts auf Handy und Browser und merkt sich, wo du aufgehört hast"
+requires_core = ">=6"
+audience = "generic"
+needs = ["docker", "share"]
+uses = []
+input = "none"
+script = "run.sh"
+runs = ["lxc", "docker"]
