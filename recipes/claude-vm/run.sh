@@ -2,7 +2,7 @@
 # recipe: Claude VM, a Linux machine for Claude Code with Remote Desktop, SSH, dev tools and Docker, your repos on a fast share
 # recipe.de: Claude-VM, eine Linux-Maschine für Claude Code mit Remote Desktop, SSH, Entwickler-Werkzeugen und Docker, deine Repos auf einer schnellen Freigabe
 # kind: generic
-# needs: -
+# needs: docker
 # uses: -
 set -euo pipefail
 

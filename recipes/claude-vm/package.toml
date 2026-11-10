@@ -6,7 +6,7 @@ title = "Claude VM, a Linux machine for Claude Code with Remote Desktop, SSH, de
 title_de = "Claude-VM, eine Linux-Maschine für Claude Code mit Remote Desktop, SSH, Entwickler-Werkzeugen und Docker, deine Repos auf einer schnellen Freigabe"
 requires_core = ">=1"
 audience = "generic"
-needs = []
+needs = ["docker"]
 uses = []
 input = "none"
 script = "run.sh"
