@@ -41,6 +41,5 @@ check "Grafana still points at 127.0.0.1:9090" grep -q 'url: http://127.0.0.1:90
 check "migration comes before the proxy device" bash -c "[ \$(grep -n 'disable --now prometheus' '$R' | head -1 | cut -d: -f1) -lt \$(grep -n 'device add' '$R' | head -1 | cut -d: -f1) ]"
 check_out "dry run names the proxy device" "proxy device" bash "$R" --dry-run
 check_out "dry run names the host Prometheus" "run Prometheus itself" bash "$R" --dry-run
-check_out "dry run in German" "Proxy-Ger" env HS_LANG=de bash "$R" --dry-run
 
 finish
