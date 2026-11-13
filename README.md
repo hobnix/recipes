@@ -4,7 +4,7 @@
 
 Packages for Hobnix, the home server (https://github.com/hobnix/server) — recipes: each installs an app in its own container or VM.
 
-A package is a folder with a `package.toml` (name, semver `version`, `requires_core`), its scripts, translations and tests. `index.toml`
+A package is a folder with a `package.toml` (name, semver `version`, `requires_core`), its scripts and tests. `index.toml`
 lists them. The server installs a package only from a release tag (`v1.2.3`) whose SSH signature verifies against the repository's
 trusted key:
 
