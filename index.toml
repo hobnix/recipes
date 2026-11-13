@@ -75,7 +75,7 @@ audience = "generic"
 core = true
 
 [package.domain]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/domain"
 title = "the domain controller for users and groups, and this server joined to it"
