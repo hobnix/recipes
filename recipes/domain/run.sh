@@ -243,7 +243,13 @@ else
   machine_set adDomain "{ realm = \"$realm\", workgroup = \"$short\" }" recipe || true
   machine_has adDomain || fail "$(t 'Could not add adDomain to %s. Add this line by hand, run hs rebuild, then the recipe again:  %s' "$machine" "$line")"
   ok "$(t 'Added to %s:  %s' "$machine" "$line")"
-  bash "$scripts/rebuild.sh"
+  # winbind cannot start before the join, so the rebuild can end with an error although the new configuration is active:
+  # carry on when the configuration names the domain now (a rebuild that really failed does not)
+  if ! bash "$scripts/rebuild.sh"; then
+    [ "$(testparm -s --parameter-name=security 2>/dev/null)" = ADS ] ||
+      fail "$(t 'The rebuild failed. Read the messages above, fix it, run hs rebuild, then start the recipe again.')"
+    note "$(t 'The rebuild ended with an error from the domain service: it cannot start before this server has joined. Continuing with the join.')"
+  fi
 fi
 
 if wbinfo -t >/dev/null 2>&1; then

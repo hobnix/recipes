@@ -73,3 +73,5 @@ Waiting for the virtual machine to accept commands	Warten, bis die virtuelle Mas
 Would:	Würde:
 skipped (RECIPE_SKIP_HOST)	übersprungen (RECIPE_SKIP_HOST)
 skipped (RECIPE_SKIP_PASSWORD): the random one from the setup stays	übersprungen (RECIPE_SKIP_PASSWORD): das zufällige aus der Einrichtung bleibt
+The rebuild failed. Read the messages above, fix it, run hs rebuild, then start the recipe again.	Das Neuaufbauen ist fehlgeschlagen. Die Meldungen oben lesen, den Fehler beheben, hs rebuild ausführen und das Rezept dann neu starten.
+The rebuild ended with an error from the domain service: it cannot start before this server has joined. Continuing with the join.	Der Neuaufbau endete mit einem Fehler des Domänendienstes: Er kann erst starten, wenn dieser Server beigetreten ist. Der Beitritt wird fortgesetzt.
