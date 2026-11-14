@@ -1,7 +1,7 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "qbittorrent"
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 title = "torrent downloader that can only reach the internet through your VPN (gluetun)"
 title_de = "Torrent-Downloader, der nur durch dein VPN ins Internet kommt (gluetun)"
