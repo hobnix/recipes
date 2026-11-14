@@ -61,10 +61,12 @@ fixed_address "$ct" 20 29
 wait_internet "$ct"
 
 step "Tunnel device"
-if incus config device get "$ct" tun path >/dev/null 2>&1; then
+# Incus gives containers /dev/net/tun itself; adding the device on top fails. Add it only when the node is missing.
+if incus exec "$ct" -- test -c /dev/net/tun </dev/null 2>/dev/null; then
   ok "/dev/net/tun is in the container already"
 else
-  incus config device add "$ct" tun unix-char path=/dev/net/tun >/dev/null
+  spin "Adding the network device /dev/net/tun and restarting" bash -c 'incus config device add "$1" tun unix-char path=/dev/net/tun </dev/null && incus restart "$1" </dev/null' _ "$ct"
+  wait_internet "$ct"
   ok "/dev/net/tun added to the container"
 fi
 
