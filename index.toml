@@ -198,7 +198,7 @@ requires_core = ">=6"
 audience = "generic"
 
 [package.qbittorrent]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/qbittorrent"
 title = "torrent downloader that can only reach the internet through your VPN (gluetun)"
