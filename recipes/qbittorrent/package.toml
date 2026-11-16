@@ -1,16 +1,22 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "qbittorrent"
-version = "1.0.1"
+version = "1.1.0"
 kind = "recipe"
 title = "torrent downloader that can only reach the internet through your VPN (gluetun)"
 title_de = "Torrent-Downloader, der nur durch dein VPN ins Internet kommt (gluetun)"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
 needs = ["docker", "share"]
 uses = []
 input = "form"
 script = "run.sh"
+description = "Torrent client that downloads only through your VPN and files into the media share."
+description_de = "Torrent-Client, der nur über dein VPN lädt und in die Medienfreigabe ablegt."
+icon = "ph:download-simple"
+category = "media"
+upstream = "https://www.qbittorrent.org"
+app_version = "latest"
 
 [[ask]]
 key = "VPN_PROVIDER"
@@ -56,3 +62,32 @@ key = "OV_PASS"
 label = "OpenVPN password"
 type = "secret"
 when = "VPN_TYPE=openvpn"
+
+[app]
+instances = "one"
+autostart = true
+
+[app.health]
+check = "http"
+port = 8080
+path = "/"
+timeout = 5
+
+[app.backup]
+mode = "instance"
+
+[app.routes]
+default = "web"
+web = { port = 8080, scheme = "http", exposure = "never-public", admin = true }
+
+[app.update]
+kind = "manual"
+default = "notify"
+
+[app.remove]
+keeps = ["the media share (/media)"]
+data = ["/opt/qbittorrent"]
+
+[app.uses]
+ram_mb = 2048
+ports = [8080]

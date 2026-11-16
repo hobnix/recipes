@@ -1,13 +1,49 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "homeassistant"
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 title = "Home Assistant, smart home control in its own virtual machine (Home Assistant OS)"
 title_de = "Home Assistant, Smart-Home-Steuerung in einer eigenen virtuellen Maschine (Home Assistant OS)"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
 needs = []
 uses = []
 input = "none"
 script = "run.sh"
+
+description = "Your smart home in one place: devices, automations and dashboards."
+description_de = "Dein Smart Home an einer Stelle: Geräte, Automatisierungen und Dashboards."
+icon = "ph:house-line"
+category = "home"
+upstream = "https://www.home-assistant.io"
+app_version = "latest"
+
+[app]
+instances = "one"
+autostart = true
+
+[app.health]
+check = "http"
+port = 8123
+path = "/"
+timeout = 5
+
+[app.backup]
+mode = "instance"
+
+[app.routes]
+default = "web"
+web = { port = 8123, scheme = "http", exposure = "private-ok" }
+
+[app.update]
+kind = "manual"
+default = "notify"
+
+[app.remove]
+keeps = []
+data = []
+
+[app.uses]
+ram_mb = 4096
+ports = [8123]

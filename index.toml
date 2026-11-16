@@ -2,12 +2,15 @@
 # the package.toml of each folder (`python3 scripts/pkg.py repo-check .` in the core checks that).
 
 [package.audiobookshelf]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/audiobookshelf"
 title = "streams your audiobooks and podcasts to phones and browsers, remembers where you stopped"
-requires_core = ">=6"
+requires_core = ">=9"
 audience = "generic"
+icon = "ph:headphones"
+category = "media"
+app_version = "latest"
 
 [package.authentik]
 version = "1.0.0"
@@ -92,28 +95,37 @@ requires_core = ">=6"
 audience = "generic"
 
 [package.homeassistant]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/homeassistant"
 title = "Home Assistant, smart home control in its own virtual machine (Home Assistant OS)"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
+icon = "ph:house-line"
+category = "home"
+app_version = "latest"
 
 [package.immich]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/immich"
 title = "your own photo and video library with phone backup, like Google Photos"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
+icon = "ph:image"
+category = "files"
+app_version = "latest"
 
 [package.jellyfin]
-version = "1.1.0"
+version = "1.2.0"
 kind = "recipe"
 path = "recipes/jellyfin"
 title = "watch your films, series and music in the browser, on the TV and on the phone"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
+icon = "ph:film-slate"
+category = "media"
+app_version = "latest"
 
 [package.lidarr]
 version = "1.2.0"
@@ -157,12 +169,15 @@ audience = "generic"
 core = true
 
 [package.navidrome]
-version = "1.1.0"
+version = "1.2.0"
 kind = "recipe"
 path = "recipes/navidrome"
 title = "streams your music library to phones and browsers (Subsonic apps work with it)"
-requires_core = ">=6"
+requires_core = ">=9"
 audience = "generic"
+icon = "ph:music-notes"
+category = "media"
+app_version = "latest"
 
 [package.ntfy]
 version = "1.0.0"
@@ -190,28 +205,37 @@ requires_core = ">=1"
 audience = "personal"
 
 [package.prowlarr]
-version = "1.1.0"
+version = "1.2.0"
 kind = "recipe"
 path = "recipes/prowlarr"
 title = "holds your Usenet indexers and hands them to Radarr, Sonarr and Lidarr"
-requires_core = ">=6"
+requires_core = ">=9"
 audience = "generic"
+icon = "ph:magnifying-glass"
+category = "media"
+app_version = "latest"
 
 [package.qbittorrent]
-version = "1.0.1"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/qbittorrent"
 title = "torrent downloader that can only reach the internet through your VPN (gluetun)"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
+icon = "ph:download-simple"
+category = "media"
+app_version = "latest"
 
 [package.radarr]
-version = "1.2.0"
+version = "1.3.0"
 kind = "recipe"
 path = "recipes/radarr"
 title = "keeps your films in order: searches them, sends the download to SABnzbd, files it in the library"
-requires_core = ">=6"
+requires_core = ">=9"
 audience = "generic"
+icon = "ph:film-strip"
+category = "media"
+app_version = "latest"
 
 [package.sabnzbd]
 version = "1.0.0"
@@ -230,12 +254,15 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.sonarr]
-version = "1.2.0"
+version = "1.3.0"
 kind = "recipe"
 path = "recipes/sonarr"
 title = "keeps your series in order: searches new episodes, sends the download to SABnzbd, files it in the library"
-requires_core = ">=6"
+requires_core = ">=9"
 audience = "generic"
+icon = "ph:television"
+category = "media"
+app_version = "latest"
 
 [package.stalwart]
 version = "1.1.0"
@@ -294,12 +321,15 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.uptime-kuma]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/uptime-kuma"
 title = "checks that your services answer, keeps a history and warns when one is down"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
+icon = "ph:heartbeat"
+category = "admin"
+app_version = "latest"
 
 [package.zoraxy]
 version = "1.0.0"

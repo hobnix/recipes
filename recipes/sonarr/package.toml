@@ -1,14 +1,51 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "sonarr"
-version = "1.2.0"
+version = "1.3.0"
 kind = "recipe"
 title = "keeps your series in order: searches new episodes, sends the download to SABnzbd, files it in the library"
 title_de = "hält deine Serien in Ordnung: sucht neue Folgen, schickt den Download an SABnzbd, legt ihn in der Bibliothek ab"
-requires_core = ">=6"
+requires_core = ">=9"
 audience = "generic"
 needs = ["docker", "share"]
 uses = []
 input = "none"
 script = "run.sh"
 runs = ["lxc", "docker"]
+
+description = "Looks for new episodes of your series, sends them to the download client and files them in the library."
+description_de = "Sucht neue Folgen deiner Serien, schickt sie an den Download-Client und sortiert sie in die Mediathek."
+icon = "ph:television"
+category = "media"
+upstream = "https://sonarr.tv"
+app_version = "latest"
+
+[app]
+instances = "one"
+autostart = true
+
+[app.health]
+check = "http"
+port = 8989
+path = "/"
+timeout = 5
+
+[app.backup]
+mode = "instance"
+dump = "sqlite-tree"
+
+[app.routes]
+default = "web"
+web = { port = 8989, scheme = "http", exposure = "never-public", admin = true }
+
+[app.update]
+kind = "manual"
+default = "notify"
+
+[app.remove]
+keeps = ["the media share (/media)"]
+data = ["/opt/sonarr"]
+
+[app.uses]
+ram_mb = 1536
+ports = [8989]

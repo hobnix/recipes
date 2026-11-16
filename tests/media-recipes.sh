@@ -41,7 +41,7 @@ done
 for r in radarr sonarr lidarr prowlarr bazarr maintainerr; do
   check_out "$r dry run names the docker path too" "docker mode: no container of its own: a compose project '$r' in the share apps .recipes/$r." env HS_STATE_DIR="$STATE" bash "$R/$r/run.sh" --dry-run
   check "$r never writes a literal /opt/apps" bash -c '! grep -q "/opt/apps" "$1/run.sh"' _ "$R/$r"
-  check "$r declares both runtimes (header and manifest)" bash -c 'grep -q "^# runs: lxc docker$" "$1/run.sh" && grep -q "^runs = \[\"lxc\", \"docker\"\]" "$1/package.toml" && grep -q "^requires_core = \">=6\"" "$1/package.toml"' _ "$R/$r"
+  check "$r declares both runtimes (header and manifest)" bash -c 'grep -q "^# runs: lxc docker$" "$1/run.sh" && grep -q "^runs = \[\"lxc\", \"docker\"\]" "$1/package.toml" && grep -Eq "^requires_core = \">=(6|9)\"" "$1/package.toml"' _ "$R/$r"
 done
 check_out "radarr dry run says the duplicate job is not in docker mode" "no nightly duplicate job" env HS_STATE_DIR="$STATE" bash "$R/radarr/run.sh" --dry-run
 for r in navidrome droppedneedle audiobookshelf; do

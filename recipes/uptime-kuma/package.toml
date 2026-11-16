@@ -1,13 +1,49 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "uptime-kuma"
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 title = "checks that your services answer, keeps a history and warns when one is down"
 title_de = "prüft, ob deine Dienste antworten, führt einen Verlauf und warnt, wenn einer ausfällt"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
 needs = []
 uses = []
 input = "none"
 script = "run.sh"
+
+description = "Checks your services and websites around the clock and tells you when one stops answering."
+description_de = "Prüft deine Dienste und Webseiten rund um die Uhr und meldet, wenn einer nicht mehr antwortet."
+icon = "ph:heartbeat"
+category = "admin"
+upstream = "https://uptime.kuma.pet"
+app_version = "latest"
+
+[app]
+instances = "many"
+autostart = true
+
+[app.health]
+check = "http"
+port = 3001
+path = "/"
+timeout = 5
+
+[app.backup]
+mode = "instance"
+
+[app.routes]
+default = "web"
+web = { port = 3001, scheme = "http", exposure = "never-public", admin = true }
+
+[app.update]
+kind = "manual"
+default = "notify"
+
+[app.remove]
+keeps = []
+data = ["/opt/uptime-kuma"]
+
+[app.uses]
+ram_mb = 1024
+ports = [3001]
