@@ -1,13 +1,50 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "immich"
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 title = "your own photo and video library with phone backup, like Google Photos"
 title_de = "deine eigene Foto- und Videosammlung mit Handy-Sicherung, wie Google Fotos"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
 needs = ["docker", "share"]
 uses = ["gpu"]
 input = "none"
 script = "run.sh"
+
+description = "Photos and videos with phone backup and face search, like Google Photos."
+description_de = "Fotos und Videos mit Handy-Sicherung und Gesichtersuche, wie Google Fotos."
+icon = "ph:image"
+category = "files"
+upstream = "https://immich.app"
+app_version = "latest"
+
+[app]
+instances = "one"
+autostart = true
+
+[app.health]
+check = "http"
+port = 2283
+path = "/api/server/ping"
+timeout = 5
+
+[app.backup]
+mode = "instance"
+dump = "postgres-compose"
+
+[app.routes]
+default = "web"
+web = { port = 2283, scheme = "http", exposure = "private-ok" }
+
+[app.update]
+kind = "manual"
+default = "notify"
+
+[app.remove]
+keeps = ["the photo folder on the share (/mnt/immich)"]
+data = ["/opt/immich"]
+
+[app.uses]
+ram_mb = 6144
+ports = [2283]

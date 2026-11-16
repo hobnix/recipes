@@ -1,14 +1,51 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "prowlarr"
-version = "1.1.0"
+version = "1.2.0"
 kind = "recipe"
 title = "holds your Usenet indexers and hands them to Radarr, Sonarr and Lidarr"
 title_de = "verwaltet deine Usenet-Indexer und gibt sie an Radarr, Sonarr und Lidarr weiter"
-requires_core = ">=6"
+requires_core = ">=9"
 audience = "generic"
 needs = ["docker"]
 uses = []
 input = "none"
 script = "run.sh"
 runs = ["lxc", "docker"]
+
+description = "One place for the indexers of Radarr, Sonarr and Lidarr."
+description_de = "Eine Stelle für die Indexer von Radarr, Sonarr und Lidarr."
+icon = "ph:magnifying-glass"
+category = "media"
+upstream = "https://prowlarr.com"
+app_version = "latest"
+
+[app]
+instances = "one"
+autostart = true
+
+[app.health]
+check = "http"
+port = 9696
+path = "/"
+timeout = 5
+
+[app.backup]
+mode = "instance"
+dump = "sqlite-tree"
+
+[app.routes]
+default = "web"
+web = { port = 9696, scheme = "http", exposure = "never-public", admin = true }
+
+[app.update]
+kind = "manual"
+default = "notify"
+
+[app.remove]
+keeps = []
+data = ["/opt/prowlarr"]
+
+[app.uses]
+ram_mb = 1024
+ports = [9696]

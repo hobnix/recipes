@@ -1,13 +1,50 @@
 # Manifest of a package (docs/PLAN-packages.md). The header lines of run.sh say the same (tests/pkg.sh keeps both in step).
 name = "audiobookshelf"
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 title = "streams your audiobooks and podcasts to phones and browsers, remembers where you stopped"
 title_de = "streamt deine Hörbücher und Podcasts auf Handy und Browser und merkt sich, wo du aufgehört hast"
-requires_core = ">=6"
+requires_core = ">=9"
 audience = "generic"
 needs = ["docker", "share"]
 uses = []
 input = "none"
 script = "run.sh"
 runs = ["lxc", "docker"]
+
+description = "Streams your audiobooks and podcasts to phones and browsers and remembers where you stopped."
+description_de = "Streamt deine Hörbücher und Podcasts auf Handys und Browser und merkt sich, wo du aufgehört hast."
+icon = "ph:headphones"
+category = "media"
+upstream = "https://www.audiobookshelf.org"
+app_version = "latest"
+
+[app]
+instances = "one"
+autostart = true
+
+[app.health]
+check = "http"
+port = 13378
+path = "/"
+timeout = 5
+
+[app.backup]
+mode = "instance"
+dump = "sqlite-tree"
+
+[app.routes]
+default = "web"
+web = { port = 13378, scheme = "http", exposure = "public-ok" }
+
+[app.update]
+kind = "manual"
+default = "notify"
+
+[app.remove]
+keeps = ["the media share (/media)"]
+data = ["/opt/audiobookshelf"]
+
+[app.uses]
+ram_mb = 1024
+ports = [13378]
