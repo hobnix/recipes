@@ -66,13 +66,16 @@ requires_core = ">=3"
 audience = "personal"
 
 [package.docker]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/docker"
 title = "run your own Docker apps (compose files), with Arcane or Portainer as the web page that manages them"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
 core = true
+icon = "ph:cube"
+category = "dev"
+app_version = "latest"
 
 [package.domain]
 version = "1.0.1"
@@ -148,13 +151,16 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.monitoring]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/monitoring"
 title = "history of load, disks, pools, containers, and the server's logs"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
 core = true
+icon = "ph:chart-line"
+category = "admin"
+app_version = "latest"
 
 [package.navidrome]
 version = "1.1.0"
@@ -165,13 +171,16 @@ requires_core = ">=6"
 audience = "generic"
 
 [package.ntfy]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/ntfy"
 title = "ntfy, your own server for push messages; this server's warnings are sent through it"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
 core = true
+icon = "ph:bell-ringing"
+category = "network"
+app_version = "latest"
 
 [package.paperclip]
 version = "1.0.0"
@@ -302,10 +311,13 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.zoraxy]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/zoraxy"
 title = "the reverse proxy that sends each public name to the right container"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "personal"
 core = true
+icon = "ph:arrows-split"
+category = "network"
+app_version = "latest"

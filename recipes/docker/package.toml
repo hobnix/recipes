@@ -1,13 +1,45 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "docker"
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 title = "run your own Docker apps (compose files), with Arcane or Portainer as the web page that manages them"
 title_de = "eigene Docker-Anwendungen (Compose-Dateien) betreiben, mit Arcane oder Portainer als Verwaltungsseite"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
 needs = []
 uses = []
 input = "none"
 script = "run.sh"
+
+description = "Run your own Docker apps from compose files, with Arcane or Portainer as the web page that manages them."
+description_de = "Eigene Docker-Anwendungen aus Compose-Dateien betreiben, mit Arcane oder Portainer als Verwaltungsseite."
+icon = "ph:cube"
+category = "dev"
+upstream = "https://docs.docker.com"
+app_version = "latest"
+
+[app]
+instances = "one"
+autostart = true
+
+[app.health]
+check = "http"
+port = 80
+path = "/"
+timeout = 5
+
+[app.backup]
+mode = "instance"
+
+[app.routes]
+default = "web"
+web = { port = 80, scheme = "http", exposure = "never-public", admin = true }
+
+[app.update]
+kind = "os"
+default = "notify"
+
+[app.remove]
+keeps = ["Compose projects in /opt/projects", "the manager's data volume and compose file"]
+data = ["/opt/projects", "/opt/arcane", "/opt/portainer"]

@@ -1,13 +1,45 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "ntfy"
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 title = "ntfy, your own server for push messages; this server's warnings are sent through it"
 title_de = "ntfy, dein eigener Server für Handy-Nachrichten; die Warnungen dieses Servers laufen darüber"
-requires_core = ">=1"
+requires_core = ">=9"
 audience = "generic"
 needs = []
 uses = []
 input = "none"
 script = "run.sh"
+
+description = "Your own server for push messages; this server's warnings reach your phone through it."
+description_de = "Dein eigener Server für Handy-Nachrichten; die Warnungen dieses Servers erreichen dein Handy darüber."
+icon = "ph:bell-ringing"
+category = "network"
+upstream = "https://ntfy.sh"
+app_version = "latest"
+
+[app]
+instances = "one"
+autostart = true
+
+[app.health]
+check = "http"
+port = 80
+path = "/v1/health"
+timeout = 5
+
+[app.backup]
+mode = "instance"
+
+[app.routes]
+default = "web"
+web = { port = 80, scheme = "http", exposure = "private-ok" }
+
+[app.update]
+kind = "os"
+default = "notify"
+
+[app.remove]
+keeps = ["the topic address in the server's notify-url"]
+data = ["/var/cache/ntfy"]
