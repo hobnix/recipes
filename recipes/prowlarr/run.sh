@@ -9,7 +9,7 @@ set -euo pipefail
 
 # What it does: creates the container "prowlarr" with Docker inside and runs Prowlarr (9696, linuxserver.io image):
 # your indexer(s) in one place, synced into Radarr, Sonarr and Lidarr (Settings -> Apps). The other apps of the group
-# are recipes of their own (radarr, sonarr, lidarr, bazarr, maintainerr); the guide is the one of the recipe radarr.
+# are recipes of their own (radarr, sonarr, lidarr, bazarr, maintainerr); its guide is guide.md beside this file; the overview of the film apps is in the guide of jellyfin.
 #   config    /opt/prowlarr/config inside the container (SSD pool); `hs backup ct prowlarr on` is switched on and a
 #             dump of the databases is written right before each backup (hs-dump sqlite-tree, into /var/backups/hs/prowlarr)
 # No share is mounted: Prowlarr never touches a file of the library.
@@ -129,5 +129,5 @@ box <<DONE
 $(say "No Zoraxy rule: it is for the home network only. The few clicks that cannot wait:")
 $(say "1. Indexers -> Add Indexer: your indexer (an account you pay for yourself)")
 $(say "2. Settings -> Apps: Radarr, Sonarr and Lidarr, each with its address and API key (in each app: Settings -> General)")
-$(docs_hint radarr)
+$(docs_hint prowlarr)
 DONE

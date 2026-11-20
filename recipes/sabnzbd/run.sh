@@ -4,6 +4,7 @@
 # kind: generic
 # needs: docker share
 # uses: -
+# runs: lxc docker
 set -euo pipefail
 
 # What it does: creates the container "sabnzbd" with Docker inside and runs SABnzbd (linuxserver.io image).
@@ -19,16 +20,23 @@ set -euo pipefail
 #   backup       `hs backup ct sabnzbd on` is switched on (the settings hold your news provider's login).
 # The news provider (server, user, password) is typed in SABnzbd's own page: the recipe never asks for it.
 # SABnzbd's page has an API key but should still never get a Zoraxy rule.
+# Runs in one of two places (the question RUNS, `# runs: lxc docker`): the container "sabnzbd" (above), or, when Docker is on
+# (hs docker enable), as an app inside the container docker: compose project "sabnzbd" in the share apps (recipes/sabnzbd, settings in
+# its config folder), the share "media" at /media of the container docker (the same path as for Radarr and Sonarr, whatever mode they
+# run in, so the hard links keep working), unfinished downloads in /var/tmp/hs-sabnzbd/sabnzbd of the container docker (the backup skips
+# /var/tmp). The API settings need curl in the container docker; without it they are left to you (see the guide).
 # Test knobs: RECIPE_NAME=<throwaway name> HS_STATE_DIR=/tmp/<dir> RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1
 scripts=${HS_SCRIPTS:-$(dirname "$0")/../../scripts}
 state=${HS_STATE_DIR:-/var/lib/hs}
-ct=${RECIPE_NAME:-sabnzbd}
+ct=${RECIPE_NAME:-sabnzbd}; app=$ct
 . "${HS_RECIPE_LIB:-$scripts/recipes/_lib.sh}"
 . "${HS_RECIPE_MEDIA:-$scripts/recipes/_media.sh}"
+PORT=8080   # SABnzbd's own port (the lxc mode asks for it)
 
 if [ "${1:-}" = --dry-run ]; then
   say "Would:"
   printf '%s\n' "$(t "  create the container '%s' (Docker inside, 2048 MB RAM limit) unless it exists, with a fixed address (.20-.29) if UniFi is connected (hs net setup)" "$ct")"
+  printf '%s\n' "$(t "  (docker mode: no container of its own: a compose project '%s' in the share apps (recipes/%s) inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)" "$app" "$app")"
   say "  mount the share for the films (asks for its name, default media) READ-WRITE at /media"
   say "  start SABnzbd (asks for the port, default 80), finished downloads in /media/downloads/usenet/complete"
   say "  switch on SABnzbd's notification script: queued, finished and failed downloads go to ntfy and Matrix"
@@ -36,14 +44,26 @@ if [ "${1:-}" = --dry-run ]; then
   exit 0
 fi
 
-port_setting "SABnzbd" 8080
+recipe_runtime lxc docker
+if ! $RUNS_DOCKER; then
+  port_setting "SABnzbd" 8080
+fi
 setting SHARE "Name of the share with the films (the one Jellyfin reads, under /bulk/shares)" media media "$a_name"
 share=$SHARE
-ensure_container "$ct" 2048 --docker
-fixed_address "$ct" 20 29
+if $RUNS_DOCKER; then
+  child_port_free "$PORT" "$app"
+else
+  ensure_container "$ct" 2048 --docker
+  fixed_address "$ct" 20 29
+fi
 wait_internet "$ct"
 media_storage sabnzbd
-install_docker
+if ! $RUNS_DOCKER; then
+  install_docker
+fi
+# where the settings live: the API snippets below get these two folders as $2 and $3
+cfg=/opt/sabnzbd/config; mark=/opt/sabnzbd
+if $RUNS_DOCKER; then cfg=$APP_DIR/config; mark=$APP_DIR; fi
 
 step "SABnzbd"
 compose='mkdir -p /opt/sabnzbd /var/tmp/sab-incomplete
@@ -66,28 +86,63 @@ YML
   chown -R "$2:$3" /opt/sabnzbd /var/tmp/sab-incomplete
   cd /opt/sabnzbd && docker compose config -q'
 tz=$(timedatectl show -p Timezone --value 2>/dev/null || echo Etc/UTC)
-in_ct "Writing the settings (port, user)" "$compose" "$tz" "${ids%%:*}" "${ids##*:}" "$PORT"
+if $RUNS_DOCKER; then
+  dir=$APP_DIR
+  in_ct "Preparing the folders" 'mkdir -p "$1/config/scripts" "$4" && chown -R "$2:$3" "$1" "$4"' "$dir" "${ids%%:*}" "${ids##*:}" "/var/tmp/hs-sabnzbd/$app"
+  child_compose "$app" <<YML
+services:
+  $app:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: $app
+    restart: unless-stopped
+    ports: ["8080:8080"]
+    environment:
+      - TZ=$tz
+      - PUID=${ids%%:*}
+      - PGID=${ids##*:}
+      - UMASK=002
+    volumes: ["$dir/config:/config", "/media:/media", "/var/tmp/hs-sabnzbd/$app:/incomplete"]
+YML
+  in_ct "Setting the owner of the files" 'chown -R "$2:$3" "$1"' "$dir" "${ids%%:*}" "${ids##*:}"
+else
+  in_ct "Writing the settings (port, user)" "$compose" "$tz" "${ids%%:*}" "${ids##*:}" "$PORT"
+fi
+
+# the API steps run curl inside the container; the container docker is not touched (nothing is installed in the parent)
+api=true
+if $RUNS_DOCKER && [ -z "${RECIPE_SKIP_PULL:-}" ] && ! incus exec docker -- sh -c 'command -v curl' </dev/null >/dev/null 2>&1; then
+  warn "curl is missing in the container docker: set the folders by hand (see the guide)"
+  api=false
+fi
 
 if [ -n "${RECIPE_SKIP_PULL:-}" ]; then
   note "skipped (RECIPE_SKIP_PULL): nothing downloaded, SABnzbd not started"
 else
-  in_ct "Downloading SABnzbd" 'cd /opt/sabnzbd && docker compose pull -q'
-  in_ct "Starting SABnzbd" 'cd /opt/sabnzbd && docker compose up -d --remove-orphans'
-  wait_page SABnzbd "docker compose -f /opt/sabnzbd/docker-compose.yml logs --tail 50"
+  if $RUNS_DOCKER; then
+    in_ct "Downloading SABnzbd" 'cd "$2" && docker compose -p "$1" pull -q' "$app" "$dir"
+    spin "Starting SABnzbd" child_up "$app"
+    wait_page SABnzbd "docker compose -p $app -f $dir/docker-compose.yml logs --tail 50"
+  else
+    in_ct "Downloading SABnzbd" 'cd /opt/sabnzbd && docker compose pull -q'
+    in_ct "Starting SABnzbd" 'cd /opt/sabnzbd && docker compose up -d --remove-orphans'
+    wait_page SABnzbd "docker compose -f /opt/sabnzbd/docker-compose.yml logs --tail 50"
+  fi
+fi
 
+if [ -z "${RECIPE_SKIP_PULL:-}" ] && $api; then
   step "Folders"
   # The two folders are set once, through the API, at the first run (marker file); after that a folder
   # you have changed yourself is never touched.
   if incus exec "$ct" -- bash -c '
-      ini=/opt/sabnzbd/config/sabnzbd.ini
+      ini=$2/sabnzbd.ini
       for _ in $(seq 1 30); do [ -s "$ini" ] && break; sleep 2; done
       key=$(sed -n "s/^api_key *= *//p" "$ini" | head -n1)
       [ -n "$key" ] || exit 1
       api="http://localhost:$1/api?apikey=$key&output=json&mode=set_config&section=misc"
-      [ ! -e /opt/sabnzbd/.hs-folders-set ] || exit 0
+      [ ! -e "$3/.hs-folders-set" ] || exit 0
       curl -fsS -m 10 -o /dev/null "$api&keyword=complete_dir&value=/media/downloads/usenet/complete"
       curl -fsS -m 10 -o /dev/null "$api&keyword=download_dir&value=/incomplete"
-      touch /opt/sabnzbd/.hs-folders-set' bash "$PORT" </dev/null; then
+      touch "$3/.hs-folders-set"' bash "$PORT" "$cfg" "$mark" </dev/null; then
     ok "Finished downloads go to /media/downloads/usenet/complete, unfinished ones to the SSD"
   else
     warn "Could not set the folders. In SABnzbd: Config -> Folders: Completed Download Folder  /media/downloads/usenet/complete  and Temporary  /incomplete."
@@ -97,18 +152,24 @@ else
   # container knows its full DNS name (hostname -f has a dot), it goes into host_whitelist once, at the first
   # run (marker file), so a list you edit yourself is never overwritten. No domain = nothing is changed.
   step "Host name"
-  rc=0
-  fqdn=$(incus exec "$ct" -- bash -c '
-      [ ! -e /opt/sabnzbd/.hs-whitelist-set ] || exit 0
+  rc=0; fqdn=""
+  if $RUNS_DOCKER; then
+    note "The app container has no domain name of its own: SABnzbd answers on the address only. Other names: Config -> Special -> host_whitelist."
+  else
+    fqdn=$(incus exec "$ct" -- bash -c '
+      [ ! -e "$3/.hs-whitelist-set" ] || exit 0
       name=$(hostname -f 2>/dev/null || true)
       case "$name" in *.*) ;; *) exit 0 ;; esac
-      ini=/opt/sabnzbd/config/sabnzbd.ini
+      ini=$2/sabnzbd.ini
       key=$(sed -n "s/^api_key *= *//p" "$ini" | head -n1)
       [ -n "$key" ] || exit 1
       curl -fsS -m 10 -o /dev/null "http://localhost:$1/api?apikey=$key&output=json&mode=set_config&section=misc&keyword=host_whitelist&value=$name" || exit 1
-      touch /opt/sabnzbd/.hs-whitelist-set
-      echo "$name"' bash "$PORT" </dev/null) || rc=$?
-  if [ "$rc" != 0 ]; then
+      touch "$3/.hs-whitelist-set"
+      echo "$name"' bash "$PORT" "$cfg" "$mark" </dev/null) || rc=$?
+  fi
+  if $RUNS_DOCKER; then
+    :
+  elif [ "$rc" != 0 ]; then
     warn "Could not set host_whitelist. In SABnzbd: Config -> Special -> host_whitelist."
   elif [ -n "$fqdn" ]; then
     ok "$(t "SABnzbd accepts the name %s" "$fqdn")"
@@ -121,18 +182,18 @@ step "Messages"
 # SABnzbd runs the script in its own container (/config/scripts). The addresses sit next to it; the settings
 # are made once, through the API (marker file), then checked in sabnzbd.ini: a name the version does not
 # know would be accepted silently, so the check is what tells the truth.
-scriptdir=/opt/sabnzbd/config/scripts
+scriptdir=$cfg/scripts
 incus exec "$ct" -- mkdir -p "$scriptdir" </dev/null
 incus file push -q --mode 0755 "$scripts/recipes/files/hs-media-notify.py" "$ct$scriptdir/hs-media-notify.py"
 incus exec "$ct" -- chown -R "${ids%%:*}:${ids##*:}" "$scriptdir" </dev/null
 media_notify_conf "$ct" "$scriptdir" lookup
 incus exec "$ct" -- chown "${ids%%:*}:${ids##*:}" "$scriptdir/hs-media-notify.json" </dev/null
-if [ -z "${RECIPE_SKIP_PULL:-}" ]; then
+if [ -z "${RECIPE_SKIP_PULL:-}" ] && $api; then
   if incus exec "$ct" -- bash -c '
-      ini=/opt/sabnzbd/config/sabnzbd.ini
+      ini=$2/sabnzbd.ini
       key=$(sed -n "s/^api_key *= *//p" "$ini" | head -n1)
       [ -n "$key" ] || exit 1
-      if [ ! -e /opt/sabnzbd/.hs-notify-set ]; then
+      if [ ! -e "$3/.hs-notify-set" ]; then
         api="http://localhost:$1/api?apikey=$key&output=json&mode=set_config&section=misc"
         # only these event switches can be set through the API ("Config item does not exist" for disk_full, error, ...)
         for kv in script_dir=/config/scripts nscript_enable=1 nscript_script=hs-media-notify.py                   nscript_prio_download=1 nscript_prio_complete=1 nscript_prio_failed=1; do
@@ -140,8 +201,8 @@ if [ -z "${RECIPE_SKIP_PULL:-}" ]; then
         done
         sleep 3
         grep -Eq "^nscript_enable *= *1" "$ini" && grep -q "^nscript_script *= *hs-media-notify.py" "$ini" || exit 1
-        touch /opt/sabnzbd/.hs-notify-set
-      fi' bash "$PORT" </dev/null; then
+        touch "$3/.hs-notify-set"
+      fi' bash "$PORT" "$cfg" "$mark" </dev/null; then
     ok "SABnzbd posts queued, finished and failed downloads to ntfy and Matrix"
     note "Disk full, errors and warnings: tick them yourself in SABnzbd, Config -> Notifications (the API cannot set them)"
   else
@@ -153,14 +214,14 @@ step "Encrypted releases"
 # An encrypted RAR can only be seen after its first part is downloaded. SABnzbd's default is to pause the job
 # and wait for you; "abort" (pause_on_pwrar=2) fails it instead, so Radarr/Sonarr blacklist the release and
 # search the next one by themselves. Set once (marker file), so a choice you make in the page stays.
-if [ -z "${RECIPE_SKIP_PULL:-}" ]; then
+if [ -z "${RECIPE_SKIP_PULL:-}" ] && $api; then
   if incus exec "$ct" -- bash -c '
-      ini=/opt/sabnzbd/config/sabnzbd.ini
+      ini=$2/sabnzbd.ini
       key=$(sed -n "s/^api_key *= *//p" "$ini" | head -n1)
       [ -n "$key" ] || exit 1
-      [ ! -e /opt/sabnzbd/.hs-pwrar-set ] || exit 0
+      [ ! -e "$3/.hs-pwrar-set" ] || exit 0
       curl -fsS -m 10 -o /dev/null "http://localhost:$1/api?apikey=$key&output=json&mode=set_config&section=misc&keyword=pause_on_pwrar&value=2" || exit 1
-      touch /opt/sabnzbd/.hs-pwrar-set' bash "$PORT" </dev/null; then
+      touch "$3/.hs-pwrar-set"' bash "$PORT" "$cfg" "$mark" </dev/null; then
     ok "Encrypted downloads are aborted, so Radarr and Sonarr try another release"
   else
     warn "Could not set it. In SABnzbd: Config -> Switches -> Action when encrypted RAR is downloaded: Abort."
@@ -169,9 +230,15 @@ fi
 
 step "Backup"
 media_backup ""
-ok "$(t "'%s' is in the nightly backup (hs backup ct %s off: take it out)" "$ct" "$ct")"
+if ! $RUNS_DOCKER; then
+  ok "$(t "'%s' is in the nightly backup (hs backup ct %s off: take it out)" "$ct" "$ct")"
+fi
 
-declare_service sabnzbd SABnzbd sabnzbd never-public Apps "Usenet downloads"
+if $RUNS_DOCKER; then   # ct is docker here: the service is the app (RECIPE_NAME= keeps declare_service from renaming it to "docker")
+  RECIPE_NAME= declare_service "$app" SABnzbd sabnzbd never-public Apps "Usenet downloads"
+else
+  declare_service sabnzbd SABnzbd sabnzbd never-public Apps "Usenet downloads"
+fi
 box <<DONE
 $(t 'Done. Open in the browser:   %s' "$(web)")
 $(say "  No Zoraxy rule: it is for the home network only.")
@@ -181,5 +248,5 @@ $(say "  1. SABnzbd asks for your news provider the first time: server, port 563
 $(say "     about 20 connections. (The indexer goes into Prowlarr, not here.)")
 $(say "  2. Radarr and Sonarr: Settings -> Download Clients -> add SABnzbd with this address and the API key")
 $(say "     (SABnzbd: Config -> General), category  movies  /  tv.")
-$(docs_hint radarr)
+$(docs_hint sabnzbd)
 DONE

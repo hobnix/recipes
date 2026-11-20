@@ -1,11 +1,12 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "catalyst-node"
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 title = "runs the game servers of the Catalyst panel (containerd and the Rust agent)"
 title_de = "führt die Spieleserver des Catalyst-Panels aus (containerd und der Rust-Agent)"
 requires_core = ">=1"
+permissions = ["host:incus", "net:internet"]
 audience = "generic"
 needs = []
 uses = []

@@ -1,13 +1,15 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "seerr"
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 title = "a page where family and friends ask for films and series (works with Jellyfin and Plex)"
 title_de = "eine Seite, auf der Familie und Freunde Filme und Serien wünschen können (läuft mit Jellyfin und Plex)"
-requires_core = ">=1"
+requires_core = ">=6"
+permissions = ["host:incus", "net:internet"]
 audience = "generic"
 needs = ["docker"]
 uses = []
 input = "none"
 script = "run.sh"
+runs = ["lxc", "docker"]

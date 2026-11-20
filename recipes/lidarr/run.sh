@@ -9,7 +9,7 @@ set -euo pipefail
 
 # What it does: creates the container "lidarr" with Docker inside and runs Lidarr (8686, linuxserver.io image):
 # music, searched, sent to SABnzbd, renamed and filed in /media/music. The other apps of the group are recipes of
-# their own (radarr, sonarr, prowlarr, bazarr, maintainerr); the guide is the one of the recipe radarr.
+# their own (radarr, sonarr, prowlarr, bazarr, maintainerr); its guide is guide.md beside this file; the overview of the film apps is in the guide of jellyfin.
 #   share              the share "media" (the one of Jellyfin), READ-WRITE at /media with a user "lidarr" mapped 1:1,
 #                      the same path SABnzbd uses: a finished download moves into the library by a hard link
 #   config             /opt/lidarr/config inside the container (SSD pool); `hs backup ct lidarr on` is switched on and a
@@ -136,5 +136,5 @@ $(say "1. Settings -> Media Management -> Root Folder:  /media/music")
 $(say "2. Settings -> Download Clients -> SABnzbd (hs recipe sabnzbd), category  audio")
 $(say "3. Prowlarr (hs recipe prowlarr): Settings -> Apps -> Lidarr, this address and the API key (Settings -> General)")
 $(t 'Push messages (Settings -> Connect -> ntfy):  server %s   topic %s' "$ntfy_server" "$ntfy_topic")
-$(docs_hint radarr)
+$(docs_hint lidarr)
 DONE

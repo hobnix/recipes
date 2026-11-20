@@ -2,7 +2,7 @@
 # the package.toml of each folder (`python3 scripts/pkg.py repo-check .` in the core checks that).
 
 [package.audiobookshelf]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/audiobookshelf"
 title = "streams your audiobooks and podcasts to phones and browsers, remembers where you stopped"
@@ -10,7 +10,7 @@ requires_core = ">=6"
 audience = "generic"
 
 [package.authentik]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/authentik"
 title = "one login for your services (AD accounts for you, local accounts for friends)"
@@ -18,7 +18,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.bazarr]
-version = "1.1.0"
+version = "1.1.1"
 kind = "recipe"
 path = "recipes/bazarr"
 title = "fetches subtitles for the films and series of Radarr and Sonarr"
@@ -26,7 +26,7 @@ requires_core = ">=6"
 audience = "generic"
 
 [package.bulwark]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/bulwark"
 title = "a webmail page (mail, calendar, contacts) for your Stalwart mail server"
@@ -34,7 +34,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.catalyst-node]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/catalyst-node"
 title = "runs the game servers of the Catalyst panel (containerd and the Rust agent)"
@@ -42,7 +42,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.catalyst-panel]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/catalyst-panel"
 title = "game server panel (TypeScript panel, Rust node agent, containerd), the web page"
@@ -50,7 +50,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.claude-vm]
-version = "1.1.0"
+version = "1.1.1"
 kind = "recipe"
 path = "recipes/claude-vm"
 title = "Claude VM, a Linux machine for Claude Code with Remote Desktop, SSH, dev tools and Docker, your repos on a fast share"
@@ -58,15 +58,23 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.cloudflared]
-version = "1.1.0"
+version = "1.1.1"
 kind = "recipe"
 path = "recipes/cloudflared"
 title = "the Cloudflare Tunnel that makes chosen services reachable from the internet"
 requires_core = ">=3"
 audience = "personal"
 
-[package.docker]
+[package.configarr]
 version = "1.0.0"
+kind = "recipe"
+path = "recipes/configarr"
+title = "syncs the quality profiles and custom formats of Radarr and Sonarr from your own git repository, every night"
+requires_core = ">=6"
+audience = "generic"
+
+[package.docker]
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/docker"
 title = "run your own Docker apps (compose files), with Arcane or Portainer as the web page that manages them"
@@ -75,7 +83,7 @@ audience = "generic"
 core = true
 
 [package.domain]
-version = "1.0.1"
+version = "1.0.2"
 kind = "recipe"
 path = "recipes/domain"
 title = "the domain controller for users and groups, and this server joined to it"
@@ -84,7 +92,7 @@ audience = "personal"
 core = true
 
 [package.droppedneedle]
-version = "2.0.1"
+version = "2.0.2"
 kind = "recipe"
 path = "recipes/droppedneedle"
 title = "a page where family and friends discover music and ask for albums (formerly MusicSeerr)"
@@ -92,7 +100,7 @@ requires_core = ">=6"
 audience = "generic"
 
 [package.homeassistant]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/homeassistant"
 title = "Home Assistant, smart home control in its own virtual machine (Home Assistant OS)"
@@ -100,7 +108,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.immich]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/immich"
 title = "your own photo and video library with phone backup, like Google Photos"
@@ -108,15 +116,15 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.jellyfin]
-version = "1.1.0"
+version = "1.2.0"
 kind = "recipe"
 path = "recipes/jellyfin"
 title = "watch your films, series and music in the browser, on the TV and on the phone"
-requires_core = ">=1"
+requires_core = ">=6"
 audience = "generic"
 
 [package.lidarr]
-version = "1.2.0"
+version = "1.2.1"
 kind = "recipe"
 path = "recipes/lidarr"
 title = "keeps your music in order: searches albums, sends the download to SABnzbd, files it in the library"
@@ -124,7 +132,7 @@ requires_core = ">=6"
 audience = "generic"
 
 [package.livekit]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/livekit"
 title = "voice and video calls for Matrix (Element Call, Cinny), media through the VPS"
@@ -132,7 +140,7 @@ requires_core = ">=1"
 audience = "personal"
 
 [package.maintainerr]
-version = "1.1.0"
+version = "1.2.0"
 kind = "recipe"
 path = "recipes/maintainerr"
 title = "cleans up unwatched films and series by rules you write (it has none at first, deletes nothing)"
@@ -140,7 +148,7 @@ requires_core = ">=6"
 audience = "generic"
 
 [package.matrix-hook]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/matrix-hook"
 title = "Radarr, Sonarr, Seerr, the duplicate cleanup and SABnzbd post their events to a Matrix room (needs Synapse)"
@@ -148,7 +156,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.monitoring]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/monitoring"
 title = "history of load, disks, pools, containers, and the server's logs"
@@ -157,7 +165,7 @@ audience = "generic"
 core = true
 
 [package.navidrome]
-version = "1.1.0"
+version = "1.1.1"
 kind = "recipe"
 path = "recipes/navidrome"
 title = "streams your music library to phones and browsers (Subsonic apps work with it)"
@@ -165,7 +173,7 @@ requires_core = ">=6"
 audience = "generic"
 
 [package.ntfy]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/ntfy"
 title = "ntfy, your own server for push messages; this server's warnings are sent through it"
@@ -174,7 +182,7 @@ audience = "generic"
 core = true
 
 [package.paperclip]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/paperclip"
 title = "a team of AI agents (Claude Code, local models) with tickets, budgets and an audit trail"
@@ -182,7 +190,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.pelican]
-version = "1.1.0"
+version = "1.1.1"
 kind = "recipe"
 path = "recipes/pelican"
 title = "game servers with a web panel (Panel and Wings, two containers)"
@@ -190,7 +198,7 @@ requires_core = ">=1"
 audience = "personal"
 
 [package.prowlarr]
-version = "1.1.0"
+version = "1.1.1"
 kind = "recipe"
 path = "recipes/prowlarr"
 title = "holds your Usenet indexers and hands them to Radarr, Sonarr and Lidarr"
@@ -198,7 +206,7 @@ requires_core = ">=6"
 audience = "generic"
 
 [package.qbittorrent]
-version = "1.0.1"
+version = "1.0.2"
 kind = "recipe"
 path = "recipes/qbittorrent"
 title = "torrent downloader that can only reach the internet through your VPN (gluetun)"
@@ -206,7 +214,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.radarr]
-version = "1.2.0"
+version = "2.0.0"
 kind = "recipe"
 path = "recipes/radarr"
 title = "keeps your films in order: searches them, sends the download to SABnzbd, files it in the library"
@@ -214,23 +222,23 @@ requires_core = ">=6"
 audience = "generic"
 
 [package.sabnzbd]
-version = "1.0.0"
+version = "1.2.0"
 kind = "recipe"
 path = "recipes/sabnzbd"
 title = "the Usenet downloader that Radarr and Sonarr send their downloads to"
-requires_core = ">=1"
+requires_core = ">=6"
 audience = "generic"
 
 [package.seerr]
-version = "1.0.0"
+version = "1.1.0"
 kind = "recipe"
 path = "recipes/seerr"
 title = "a page where family and friends ask for films and series (works with Jellyfin and Plex)"
-requires_core = ">=1"
+requires_core = ">=6"
 audience = "generic"
 
 [package.sonarr]
-version = "1.2.0"
+version = "2.0.0"
 kind = "recipe"
 path = "recipes/sonarr"
 title = "keeps your series in order: searches new episodes, sends the download to SABnzbd, files it in the library"
@@ -238,7 +246,7 @@ requires_core = ">=6"
 audience = "generic"
 
 [package.stalwart]
-version = "1.1.0"
+version = "1.1.1"
 kind = "recipe"
 path = "recipes/stalwart"
 title = "your own mail server (SMTP, IMAP, JMAP, CalDAV/CardDAV) with a web admin page"
@@ -246,7 +254,7 @@ requires_core = ">=1"
 audience = "personal"
 
 [package.steamos]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/steamos"
 title = "play from the server on the TV or phone with Steam Remote Play, on the NVIDIA card"
@@ -254,7 +262,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.sunshine]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/sunshine"
 title = "play games from the server on the TV (Moonlight), with Steam and the NVIDIA card"
@@ -262,7 +270,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.synapse]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/synapse"
 title = "your own Matrix chat server (Element Synapse), with PostgreSQL"
@@ -270,7 +278,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.tdarr]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/tdarr"
 title = "converts the films once, so Jellyfin starts them at once (extra AC3 audio, old formats to H.264)"
@@ -278,7 +286,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.uchiyomi]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/uchiyomi"
 title = "a manga reader and downloader that watches for new chapters (webtoons and manhwa too)"
@@ -286,7 +294,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.upload-storage]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/upload-storage"
 title = "your own file sync and upload server (Seafile or ownCloud), with apps for phone and PC"
@@ -294,7 +302,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.uptime-kuma]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/uptime-kuma"
 title = "checks that your services answer, keeps a history and warns when one is down"
@@ -302,7 +310,7 @@ requires_core = ">=1"
 audience = "generic"
 
 [package.zoraxy]
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 path = "recipes/zoraxy"
 title = "the reverse proxy that sends each public name to the right container"

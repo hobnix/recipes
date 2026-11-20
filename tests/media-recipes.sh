@@ -22,6 +22,7 @@ case "$1" in
   query) echo '{"status":"Running","state":{"network":{"eth0":{"addresses":[{"family":"inet","address":"10.10.95.77"}]}}},"expanded_devices":{"eth0":{"hwaddr":"00:16:3e:00:00:01"}}}'; exit 0 ;;
   config) [ "$2 $3" = "device get" ] && exit 1; exit 0 ;;
   list) [ "$2" = docs ] && [ -n "${FAKE_DOCS:-}" ] && echo "10.10.95.20 (eth0)"; exit 0 ;;
+  exec) case "$*" in *"<ApiKey>"*) echo fakekey-123 ;; esac; exit 0 ;;   # the API key of an app (configarr)
 esac
 exit 0
 FAKE
@@ -29,7 +30,7 @@ chmod +x "$WORK/bin/incus"
 export PATH="$WORK/bin:$PATH"
 
 echo "-- syntax and dry runs"
-for r in radarr sonarr lidarr prowlarr bazarr maintainerr sabnzbd seerr qbittorrent uchiyomi; do check "$r run.sh parses" bash -n "$R/$r/run.sh"; done
+for r in radarr sonarr lidarr prowlarr bazarr maintainerr sabnzbd seerr jellyfin qbittorrent uchiyomi configarr; do check "$r run.sh parses" bash -n "$R/$r/run.sh"; done
 for r in _media _lib; do check "$r.sh parses" bash -n "$L/$r.sh"; done
 for r in radarr sonarr lidarr prowlarr bazarr maintainerr; do
   check_out "$r dry run names its container" "container '$r'" env HS_STATE_DIR="$STATE" bash "$R/$r/run.sh" --dry-run
@@ -43,6 +44,15 @@ for r in radarr sonarr lidarr prowlarr bazarr maintainerr; do
   check "$r never writes a literal /opt/apps" bash -c '! grep -q "/opt/apps" "$1/run.sh"' _ "$R/$r"
   check "$r declares both runtimes (header and manifest)" bash -c 'grep -q "^# runs: lxc docker$" "$1/run.sh" && grep -q "^runs = \[\"lxc\", \"docker\"\]" "$1/package.toml" && grep -q "^requires_core = \">=6\"" "$1/package.toml"' _ "$R/$r"
 done
+for r in radarr sonarr; do check "$r has no Recyclarr" bash -c '! grep -qi recyclarr "$1/run.sh"' _ "$R/$r"; done
+check_out "configarr dry run names its container" "container 'configarr'" env HS_STATE_DIR="$STATE" bash "$R/configarr/run.sh" --dry-run
+check_out "the dry run follows RECIPE_NAME (configarr)" "container 'throwaway-ct'" env HS_STATE_DIR="$STATE" RECIPE_NAME=throwaway-ct bash "$R/configarr/run.sh" --dry-run
+check_out "configarr dry run names the docker path too" "docker mode: no container of its own: a compose project 'configarr'" env HS_STATE_DIR="$STATE" bash "$R/configarr/run.sh" --dry-run
+check "configarr never writes a literal /opt/apps" bash -c '! grep -q "/opt/apps" "$1/run.sh"' _ "$R/configarr"
+check "configarr declares both runtimes (header and manifest)" bash -c 'grep -q "^# runs: lxc docker$" "$1/run.sh" && grep -q "^runs = \[\"lxc\", \"docker\"\]" "$1/package.toml" && grep -q "^requires_core = \">=6\"" "$1/package.toml"' _ "$R/configarr"
+check "configarr has a German one-liner" grep -q '^# recipe.de: ' "$R/configarr/run.sh"
+check "configarr points at its own guide" grep -q "docs_hint configarr)" "$R/configarr/run.sh"
+check "configarr has a guide" test -f "$R/configarr/guide.md"
 check_out "radarr dry run says the duplicate job is not in docker mode" "no nightly duplicate job" env HS_STATE_DIR="$STATE" bash "$R/radarr/run.sh" --dry-run
 for r in navidrome droppedneedle audiobookshelf; do
   check "$r run.sh parses" bash -n "$R/$r/run.sh"
@@ -54,6 +64,13 @@ for r in navidrome droppedneedle audiobookshelf; do
   check "$r may get a public name" grep -q 'declare_service .* public-ok ' "$R/$r/run.sh"
 done
 check_out "sabnzbd dry run" "container 'sabnzbd'" env HS_STATE_DIR="$STATE" bash "$R/sabnzbd/run.sh" --dry-run
+for r in seerr sabnzbd jellyfin; do
+  check_out "$r dry run names the docker path too" "docker mode: no container of its own: a compose project '$r'" env HS_STATE_DIR="$STATE" bash "$R/$r/run.sh" --dry-run
+  check "$r never writes a literal /opt/apps" bash -c '! grep -q "/opt/apps" "$1/run.sh"' _ "$R/$r"
+  check "$r declares both runtimes (header and manifest)" bash -c 'grep -q "^# runs: lxc docker$" "$1/run.sh" && grep -q "^runs = \[\"lxc\", \"docker\"\]" "$1/package.toml" && grep -q "^requires_core = \">=6\"" "$1/package.toml"' _ "$R/$r"
+done
+check_out "jellyfin dry run names its container" "container 'jellyfin'" env HS_STATE_DIR="$STATE" bash "$R/jellyfin/run.sh" --dry-run
+check_out "jellyfin dry run says a card only when docker has one" "a graphics card only when the container docker has one" env HS_STATE_DIR="$STATE" bash "$R/jellyfin/run.sh" --dry-run
 check_out "seerr dry run" "container 'seerr'" env HS_STATE_DIR="$STATE" bash "$R/seerr/run.sh" --dry-run
 check_out "uchiyomi dry run names the container and the manga folder" "container .uchiyomi.*|folder manga" env HS_STATE_DIR="$STATE" bash "$R/uchiyomi/run.sh" --dry-run
 check_out "qbittorrent dry run names the container" "container 'qbittorrent'" env HS_STATE_DIR="$STATE" bash "$R/qbittorrent/run.sh" --dry-run
@@ -62,7 +79,7 @@ check_out "qbittorrent dry run mentions the tunnel device" "/dev/net/tun" env HS
 check_out "the dry run follows RECIPE_NAME (qbittorrent)" "container 'throwaway-ct'" env HS_STATE_DIR="$STATE" RECIPE_NAME=throwaway-ct bash "$R/qbittorrent/run.sh" --dry-run
 check_out "the dry run follows RECIPE_NAME (sabnzbd)" "container 'throwaway-ct'" env HS_STATE_DIR="$STATE" RECIPE_NAME=throwaway-ct bash "$R/sabnzbd/run.sh" --dry-run
 check_out "the dry run follows RECIPE_NAME (seerr)" "container 'throwaway-ct'" env HS_STATE_DIR="$STATE" RECIPE_NAME=throwaway-ct bash "$R/seerr/run.sh" --dry-run
-for r in radarr sonarr lidarr prowlarr bazarr maintainerr sabnzbd seerr qbittorrent uchiyomi; do
+for r in radarr sonarr lidarr prowlarr bazarr maintainerr sabnzbd seerr jellyfin qbittorrent uchiyomi configarr; do
   check "$r is executable" test -x "$R/$r/run.sh"
   check "$r has a German one-liner" grep -q '^# recipe.de: ' "$R/$r/run.sh"
 done
@@ -83,6 +100,10 @@ for f in "$R"/*/run.sh; do
   n=$(sed -n 's/.*docs_hint \([a-z0-9-]*\).*/\1/p' "$f" | head -n1)
   if [ -z "$n" ]; then fail "$(basename "$(dirname "$f")"): the closing text has no guide hint"; continue; fi
   case "$slugs" in *" $n "*) pass "$(basename "$(dirname "$f")"): guide $n exists" ;; *) fail "$(basename "$(dirname "$f")"): no guide with the slug $n" ;; esac
+done
+for r in radarr sonarr lidarr prowlarr bazarr maintainerr sabnzbd seerr; do
+  check "$r has a guide of its own" test -f "$R/$r/guide.md"
+  check "$r points at its own guide" grep -q "docs_hint $r)" "$R/$r/run.sh"
 done
 
 echo "-- full runs with the skip knobs (a fake incus, a throwaway container name)"
@@ -110,6 +131,7 @@ case "$1" in
   exec) case "$*" in
       *"for d in"*) exit 1 ;;   # no folder of the app yet: a new app goes to the share apps
       *"docker-compose.yml.new"*)  cat > "$DCOMPOSE" ;;
+      *"<ApiKey>"*) echo fakekey-123 ;;   # the API key of Radarr/Sonarr (the sed on config.xml)
       *"id -u"*) echo "1500:1500" ;;
     esac; exit 0 ;;
 esac
@@ -140,7 +162,7 @@ FAKE
     check "$r docker: no nested volume of the old path" bash -c '! grep -q "/opt/$2/" "$1"' _ "$DCOMPOSE" "$r"
     check "$r docker: the dump goes to the descriptor of docker" grep -q "sqlite-tree $r /shares/apps/recipes/$r" "$DST/backup-dump/docker"
     check_out "$r docker: the summary names the parent" "docker" echo "$out"
-    case $r in radarr|sonarr) check "$r docker: Recyclarr gets a name of its own" grep -q "container_name: $r-recyclarr" "$DCOMPOSE" ;; esac
+    case $r in radarr|sonarr) check "$r docker: no Recyclarr any more" bash -c '! grep -qi recyclarr "$1"' _ "$DCOMPOSE" ;; esac
   done
   for r in navidrome droppedneedle audiobookshelf prowlarr maintainerr; do
     DST=$WORK/dstate-$r; rm -rf "$DST"; mkdir -p "$DST"; export DLOG=$WORK/dlog-$r DCOMPOSE=$WORK/dcompose-$r; : > "$DLOG"
@@ -158,10 +180,110 @@ FAKE
   out=$(env PATH="$WORK/dbin:$PATH" RECIPE_RUNS=docker HS_DOCKER_STATUS="$WORK/dstatus" RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1 RECIPE_NAME=radarr2 HS_STATE_DIR="$WORK/dstate-r2" bash "$R/radarr/run.sh" 2>&1 </dev/null); rc=$?
   check_eq "a second radarr (--name) runs in docker mode" 0 "$rc"
   check "the second radarr has its own answers file" test -f "$WORK/dstate-r2/recipe-radarr2.conf"
+  # sabnzbd: the share at /media, unfinished downloads off the share, no dump (the settings are in the share apps)
+  for r in sabnzbd; do
+    DST=$WORK/dstate-$r; rm -rf "$DST"; mkdir -p "$DST"; export DLOG=$WORK/dlog-$r DCOMPOSE=$WORK/dcompose-$r; : > "$DLOG"
+    out=$(env PATH="$WORK/dbin:$PATH" RECIPE_RUNS=docker HS_DOCKER_STATUS="$WORK/dstatus" RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1 HS_STATE_DIR="$DST" bash "$R/$r/run.sh" 2>&1 </dev/null); rc=$?
+    check_eq "$r in docker mode runs through" 0 "$rc"
+    check "$r docker: no container of its own is created" bash -c '! grep -qE "^(launch|init|create) |manage-ct" "$1"' _ "$DLOG"
+    check "$r docker: the compose file goes to the share apps" grep -q "/shares/apps/recipes/$r/docker-compose.yml.new" "$DLOG"
+    check "$r docker: container_name is the app" grep -q "container_name: $r\$" "$DCOMPOSE"
+    check "$r docker: runs as the mapped user" grep -q "PUID=1500" "$DCOMPOSE"
+    check "$r docker: the share is /media:/media" grep -q '"/media:/media"' "$DCOMPOSE"
+    check "$r docker: config under the share apps" grep -q "/shares/apps/recipes/$r/config:/config" "$DCOMPOSE"
+    check "$r docker: no literal /opt/apps in the compose file" bash -c '! grep -q "/opt/apps" "$1"' _ "$DCOMPOSE"
+    check "$r docker: answers stay in recipe-$r.conf" test -f "$DST/recipe-$r.conf"
+    check "$r docker: in the backup list, no dump" test ! -s "$DST/backup-dump/docker"
+  done
+  # seerr: its database goes to the descriptor of docker
+  for r in seerr; do
+    DST=$WORK/dstate-$r; rm -rf "$DST"; mkdir -p "$DST"; export DLOG=$WORK/dlog-$r DCOMPOSE=$WORK/dcompose-$r; : > "$DLOG"
+    out=$(env PATH="$WORK/dbin:$PATH" RECIPE_RUNS=docker HS_DOCKER_STATUS="$WORK/dstatus" RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1 HS_STATE_DIR="$DST" bash "$R/$r/run.sh" 2>&1 </dev/null); rc=$?
+    check_eq "$r in docker mode runs through" 0 "$rc"
+    check "$r docker: no container of its own is created" bash -c '! grep -qE "^(launch|init|create) |manage-ct" "$1"' _ "$DLOG"
+    check "$r docker: the compose file goes to the share apps" grep -q "/shares/apps/recipes/$r/docker-compose.yml.new" "$DLOG"
+    check "$r docker: container_name is the app" grep -q "container_name: $r\$" "$DCOMPOSE"
+    check "$r docker: runs as the mapped user" grep -q 'user: "1500:1500"' "$DCOMPOSE"
+    check "$r docker: init is on" grep -q "init: true" "$DCOMPOSE"
+    check "$r docker: config under the share apps" grep -q "/shares/apps/recipes/$r/config:/app/config" "$DCOMPOSE"
+    check "$r docker: no literal /opt/apps in the compose file" bash -c '! grep -q "/opt/apps" "$1"' _ "$DCOMPOSE"
+    check "$r docker: answers stay in recipe-$r.conf" test -f "$DST/recipe-$r.conf"
+    check "$r docker: the dump goes to the descriptor of docker" grep -q "sqlite seerr /shares/apps/recipes/seerr/config/db/db.sqlite3" "$DST/backup-dump/docker"
+  done
+  # jellyfin: the library read-only, no device is ever added to docker, no card in the fake: the CPU warning
+  for r in jellyfin; do
+    DST=$WORK/dstate-$r; rm -rf "$DST"; mkdir -p "$DST"; export DLOG=$WORK/dlog-$r DCOMPOSE=$WORK/dcompose-$r; : > "$DLOG"
+    out=$(env PATH="$WORK/dbin:$PATH" RECIPE_RUNS=docker HS_DOCKER_STATUS="$WORK/dstatus" RECIPE_SKIP_STORAGE=1 RECIPE_SKIP_PULL=1 HS_STATE_DIR="$DST" bash "$R/$r/run.sh" 2>&1 </dev/null); rc=$?
+    check_eq "$r in docker mode runs through" 0 "$rc"
+    check "$r docker: no container of its own is created" bash -c '! grep -qE "^(launch|init|create) |manage-ct" "$1"' _ "$DLOG"
+    check "$r docker: the compose file goes to the share apps" grep -q "/shares/apps/recipes/$r/docker-compose.yml.new" "$DLOG"
+    check "$r docker: container_name is the app" grep -q "container_name: $r\$" "$DCOMPOSE"
+    check "$r docker: the library is read-only" grep -q '"/media:/media:ro"' "$DCOMPOSE"
+    check "$r docker: no graphics device without a card in docker" bash -c '! grep -q "/dev/dri" "$1"' _ "$DCOMPOSE"
+    check "$r docker: no device is added to the container docker" bash -c '! grep -q "config device add" "$1"' _ "$DLOG"
+    check "$r docker: no literal /opt/apps in the compose file" bash -c '! grep -q "/opt/apps" "$1"' _ "$DCOMPOSE"
+    check_out "$r docker: says it converts on the CPU" "converts videos on the CPU" echo "$out"
+    check "$r docker: answers stay in recipe-$r.conf" test -f "$DST/recipe-$r.conf"
+    check "$r docker: the dump goes to the descriptor of docker" grep -q "sqlite-tree $r /shares/apps/recipes/$r/config" "$DST/backup-dump/docker"
+  done
+  # configarr: a git repository over SSH, secrets.yml through stdin only, pinned images
+  r=configarr
+  DST=$WORK/dstate-$r; rm -rf "$DST"; mkdir -p "$DST"; export DLOG=$WORK/dlog-$r DCOMPOSE=$WORK/dcompose-$r; : > "$DLOG"
+  out=$(env PATH="$WORK/dbin:$PATH" RECIPE_RUNS=docker RECIPE_PROFILE_REPO=git@github.com:example/profiles.git HS_DOCKER_STATUS="$WORK/dstatus" RECIPE_SKIP_PULL=1 HS_STATE_DIR="$DST" bash "$R/$r/run.sh" 2>&1 </dev/null); rc=$?
+  check_eq "$r in docker mode runs through" 0 "$rc"
+  check "$r docker: no container of its own is created" bash -c '! grep -qE "^(launch|init|create) |manage-ct" "$1"' _ "$DLOG"
+  check "$r docker: the compose file goes to the share apps" grep -q "/shares/apps/recipes/$r/docker-compose.yml.new" "$DLOG"
+  check "$r docker: container_name is the app" grep -q "container_name: $r\$" "$DCOMPOSE"
+  check "$r docker: the git service has its own name" grep -q "container_name: $r-git\$" "$DCOMPOSE"
+  check "$r docker: Configarr reads the config of the repository" grep -q "CONFIG_LOCATION=/profile/config.yml" "$DCOMPOSE"
+  check "$r docker: the repository is mounted read-only" grep -q '"/shares/apps/recipes/configarr/profile:/profile:ro"' "$DCOMPOSE"
+  check "$r docker: templates and custom formats are mounted" grep -q '/profile/templates:/app/templates:ro", "/shares/apps/recipes/configarr/profile/cfs:/app/cfs:ro"' "$DCOMPOSE"
+  check "$r docker: secrets.yml comes from its own folder" grep -q '"/shares/apps/recipes/configarr/secrets:/secrets:ro"' "$DCOMPOSE"
+  check "$r docker: both images are pinned (no :latest)" bash -c '! grep -q ":latest" "$1" && grep -q "image: ghcr.io/raydak-labs/configarr:[0-9]" "$1" && grep -q "image: alpine/git:[0-9]" "$1"' _ "$DCOMPOSE"
+  check "$r docker: no port is published" bash -c '! grep -q "ports:" "$1"' _ "$DCOMPOSE"
+  check "$r docker: nothing is skipped when both apps are found" grep -q "SKIP_KINDS=\$" "$DCOMPOSE"
+  check "$r docker: no API key in any command line" bash -c '! grep -q "fakekey-123" "$1"' _ "$DLOG"
+  check "$r docker: secrets.yml is written with umask 077" grep -q "umask 077; cat > .\$1/secrets/secrets.yml.new" "$DLOG"
+  check "$r docker: GitHub's host key is written" grep -q "/shares/apps/recipes/configarr/hs/ssh/known_hosts" "$DLOG"
+  check "$r docker: the backup list names docker, no dump" test ! -s "$DST/backup-dump/docker"
+  check "$r docker: answers stay in recipe-$r.conf" test -f "$DST/recipe-$r.conf"
+  check "$r docker: the repository address is remembered" grep -q "^PROFILE_REPO=git@github.com:example/profiles.git$" "$DST/recipe-$r.conf"
+  check_out "$r docker: the run does not print the key" "." echo "$out"
+  check "$r docker: the output has no API key" bash -c '! grep -q "fakekey-123" <<<"$1"' _ "$out"
+  # no repository: stops and says how to ask
+  DST=$WORK/dstate-$r-norepo; rm -rf "$DST"; mkdir -p "$DST"; : > "$DLOG"
+  out=$(env PATH="$WORK/dbin:$PATH" RECIPE_RUNS=docker HS_DOCKER_STATUS="$WORK/dstatus" RECIPE_SKIP_PULL=1 HS_STATE_DIR="$DST" bash "$R/$r/run.sh" 2>&1 </dev/null); rc=$?
+  check "$r without a repository stops" test "$rc" -ne 0
+  check_out "$r without a repository names the fix" "hs recipe configarr --ask" echo "$out"
+  # a repository address that is not SSH is refused
+  out=$(env PATH="$WORK/dbin:$PATH" RECIPE_RUNS=docker RECIPE_PROFILE_REPO=https://github.com/example/profiles.git HS_DOCKER_STATUS="$WORK/dstatus" RECIPE_SKIP_PULL=1 HS_STATE_DIR="$DST" bash "$R/$r/run.sh" 2>&1 </dev/null); rc=$?
+  check "$r refuses an address that is not SSH" test "$rc" -ne 0
+  # the same under another name
+  DST=$WORK/dstate-$r-2; rm -rf "$DST"; mkdir -p "$DST"; : > "$DLOG"
+  out=$(env PATH="$WORK/dbin:$PATH" RECIPE_RUNS=docker RECIPE_PROFILE_REPO=git@github.com:example/profiles.git HS_DOCKER_STATUS="$WORK/dstatus" RECIPE_SKIP_PULL=1 RECIPE_NAME=configarr2 HS_STATE_DIR="$DST" bash "$R/$r/run.sh" 2>&1 </dev/null); rc=$?
+  check_eq "a second configarr (--name) runs in docker mode" 0 "$rc"
+  check "the second configarr has its own answers file" test -f "$DST/recipe-configarr2.conf"
+  # its own container (lxc mode)
+  DST=$WORK/dstate-$r-lxc; rm -rf "$DST"; mkdir -p "$DST"
+  out=$(env FAKE_CT=throwaway-ct RECIPE_NAME=throwaway-ct RECIPE_PROFILE_REPO=git@github.com:example/profiles.git RECIPE_SKIP_PULL=1 HS_STATE_DIR="$DST" bash "$R/$r/run.sh" 2>&1 </dev/null); rc=$?
+  check_eq "$r runs through in its own container" 0 "$rc"
+  check "$r lxc: the container is in the nightly backup" grep -q "nightly backup" <<<"$out"
   unset DLOG DCOMPOSE
 else
   skip "docker mode checks need jq"
 fi
+
+echo "-- configarr: the four scripts written by the recipe are valid POSIX sh"
+mkdir -p "$WORK/cscripts"
+check "the scripts can be written for the test" env CONFIGARR_WRITE_SCRIPTS="$WORK/cscripts" bash "$R/configarr/run.sh"
+for f in pull loop-git run loop-run; do check "configarr $f.sh parses (sh -n)" sh -n "$WORK/cscripts/$f.sh"; done
+check "configarr run.sh leaves out the block of a missing app" bash -c 'printf "radarr:
+  main:
+    base_url: x
+sonarr:
+  main:
+    api_key: y
+" > "$1/in.yml" && awk -v skip="sonarr" '"'"'BEGIN { n = split(skip, a, " "); for (i = 1; i <= n; i++) s[a[i]] = 1 } /^[A-Za-z_]/ { k = $0; sub(/:.*/, "", k); drop = (k in s) } !drop { print }'"'"' "$1/in.yml" | grep -q radarr && ! awk -v skip="sonarr" '"'"'BEGIN { n = split(skip, a, " "); for (i = 1; i <= n; i++) s[a[i]] = 1 } /^[A-Za-z_]/ { k = $0; sub(/:.*/, "", k); drop = (k in s) } !drop { print }'"'"' "$1/in.yml" | grep -q sonarr' _ "$WORK"
 
 echo "-- arr-tune.sh (Recycling Bin, Remove Completed) against a fake curl"
 check "arr-tune.sh parses" bash -n "$R/radarr/arr-tune.sh"

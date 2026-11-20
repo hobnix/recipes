@@ -1,14 +1,43 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "maintainerr"
-version = "1.1.0"
+version = "1.2.0"
 kind = "recipe"
 title = "cleans up unwatched films and series by rules you write (it has none at first, deletes nothing)"
 title_de = "räumt nicht angesehene Filme und Serien nach deinen eigenen Regeln auf (hat zuerst keine, löscht nichts)"
 requires_core = ">=6"
+permissions = ["events.emit:pkg.maintainerr.*", "host:incus", "net:internet"]
 audience = "generic"
 needs = ["docker"]
 uses = []
 input = "none"
 script = "run.sh"
 runs = ["lxc", "docker"]
+
+# Events this package sends (hobnix/server#313; the helper hs-media-notify.py only emits them). Declared here, not in the core.
+[[events]]
+kind = "planned"
+level = "info"
+label = "Duplicate found"
+icon = "warning"
+meaning = "a lower version of a film was found and is announced (media helper; subject: the service)"
+payload = ["service", "name", "label", "icon", "title", "sub?", "body", "fields?", "footer?", "poster_url?"]
+notify = { category = "info", priority = "default", title = "{name}: {label}", message = "{body}" }
+
+[[events]]
+kind = "deleted"
+level = "info"
+label = "Lower version deleted"
+icon = "trash"
+meaning = "a lower version of a film was deleted (media helper; subject: the service)"
+payload = ["service", "name", "label", "icon", "title", "sub?", "body", "fields?", "footer?", "poster_url?"]
+notify = { category = "info", priority = "default", title = "{name}: {label}", message = "{body}" }
+
+[[events]]
+kind = "test"
+level = "info"
+label = "Test"
+icon = "check-circle"
+meaning = "the test message of Maintainerr (Script) (media helper; subject: the service)"
+payload = ["service", "name", "label", "icon", "title", "sub?", "body", "fields?", "footer?", "poster_url?"]
+notify = { category = "info", priority = "low", title = "{name}: {label}", message = "{body}" }

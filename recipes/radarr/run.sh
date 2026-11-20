@@ -9,11 +9,10 @@ set -euo pipefail
 
 # What it does: creates the container "radarr" with Docker inside and runs, from their makers' images:
 #   Radarr (7878)      films: searches, sends the download to SABnzbd, renames and files it in /media/movies
-#   Recyclarr          not running: a tool for `docker compose run`, which syncs the quality profiles of the
-#                      TRaSH guides (German ones included) into Radarr
+#   quality profiles   not here: the recipe configarr syncs them from your own git repository
 # The other apps of the group are recipes of their own: sonarr (series), lidarr (music), prowlarr (indexers),
 # bazarr (subtitles), maintainerr (clean-up rules); the downloader is "sabnzbd", the request page "seerr", the
-# conversion at night "tdarr". Their guide is the one of this recipe.
+# conversion at night "tdarr". Its guide is guide.md beside this file; the overview of the film apps is in the guide of jellyfin.
 #   share              the share "media" (the one of Jellyfin), READ-WRITE at /media with a user "radarr" mapped 1:1,
 #                      the same path SABnzbd uses: a finished download moves into the library by a hard link
 #   config             /opt/radarr/config inside the container (SSD pool); `hs backup ct radarr on` is switched on and a
@@ -41,7 +40,7 @@ if [ "${1:-}" = --dry-run ]; then
   printf '%s\n' "$(t "  create the container '%s' (Docker inside, 1536 MB RAM limit) unless it exists, with a fixed address (.50-.99) if UniFi is connected (hs net setup)" "$ct")"
   printf '%s\n' "$(t "  (docker mode: no container of its own: a compose project '%s' in the share apps (recipes/%s) inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount; no nightly duplicate job)" "$app" "$app")"
   say "  mount the share for the films (asks for its name, default media) READ-WRITE at /media, with folders movies, series, music, downloads"
-  say "  start Radarr (port 7878) and install Recyclarr as a tool"
+  say "  start Radarr (port 7878)"
   say "  use the push topic of the film apps, and put the container in the nightly backup with a database dump"
   say "  (if you say yes) install a nightly job that announces and then deletes the lower-resolution file of a film that has two (messages to ntfy and Matrix)"
   exit 0
@@ -67,7 +66,7 @@ fi
 
 step "Radarr"
 # docker-compose.yml is written again at every run; Radarr's own data stays in /opt/radarr/config
-compose='mkdir -p /opt/radarr/config /opt/radarr/recyclarr
+compose='mkdir -p /opt/radarr/config
   cat > /opt/radarr/docker-compose.yml.new <<YML
 services:
   radarr:
@@ -81,22 +80,14 @@ services:
       - PGID=$3
       - UMASK=002
     volumes: ["/opt/radarr/config:/config", "/media:/media"]
-  recyclarr:
-    image: ghcr.io/recyclarr/recyclarr:8
-    container_name: recyclarr
-    user: "$2:$3"
-    profiles: ["tools"]
-    environment:
-      - TZ=$1
-    volumes: ["/opt/radarr/recyclarr:/config"]
 YML
   mv /opt/radarr/docker-compose.yml.new /opt/radarr/docker-compose.yml
   chown -R "$2:$3" /opt/radarr
-  cd /opt/radarr && docker compose --profile tools config -q'
+  cd /opt/radarr && docker compose config -q'
 tz=$(timedatectl show -p Timezone --value 2>/dev/null || echo Etc/UTC)
 if $RUNS_DOCKER; then
   dir=$APP_DIR
-  in_ct "Preparing the folders" 'mkdir -p "$1/config" "$1/recyclarr" && chown -R "$2:$3" "$1"' "$dir" "${ids%%:*}" "${ids##*:}"
+  in_ct "Preparing the folders" 'mkdir -p "$1/config" && chown -R "$2:$3" "$1"' "$dir" "${ids%%:*}" "${ids##*:}"
   # the share "media" is a local share: no rslave needed (only a folder from hs remote would need it)
   child_compose "$app" <<YML
 services:
@@ -111,14 +102,6 @@ services:
       - PGID=${ids##*:}
       - UMASK=002
     volumes: ["$dir/config:/config", "/media:/media"]
-  recyclarr:
-    image: ghcr.io/recyclarr/recyclarr:8
-    container_name: $app-recyclarr
-    user: "${ids%%:*}:${ids##*:}"
-    profiles: ["tools"]
-    environment:
-      - TZ=$tz
-    volumes: ["$dir/recyclarr:/config"]
 YML
   in_ct "Setting the owner of the files" 'chown -R "$2:$3" "$1"' "$dir" "${ids%%:*}" "${ids##*:}"
 else
@@ -129,11 +112,11 @@ if [ -n "${RECIPE_SKIP_PULL:-}" ]; then
   note "skipped (RECIPE_SKIP_PULL): nothing downloaded, Radarr not started"
 else
   if $RUNS_DOCKER; then
-    in_ct "Downloading Radarr and Recyclarr" 'cd "$2" && docker compose -p "$1" --profile tools pull -q' "$app" "$dir"
+    in_ct "Downloading Radarr" 'cd "$2" && docker compose -p "$1" pull -q' "$app" "$dir"
     spin "Starting Radarr" child_up "$app"
     wait_page Radarr "docker compose -p $app -f $dir/docker-compose.yml logs --tail 50"
   else
-    in_ct "Downloading Radarr and Recyclarr" 'cd /opt/radarr && docker compose --profile tools pull -q'
+    in_ct "Downloading Radarr" 'cd /opt/radarr && docker compose pull -q'
     in_ct "Starting Radarr" 'cd /opt/radarr && docker compose up -d --remove-orphans'
     wait_page Radarr "docker compose -f /opt/radarr/docker-compose.yml logs --tail 50"
   fi

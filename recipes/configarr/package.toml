@@ -1,0 +1,15 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "configarr"
+version = "1.0.0"
+kind = "recipe"
+title = "syncs the quality profiles and custom formats of Radarr and Sonarr from your own git repository, every night"
+title_de = "überträgt Qualitätsprofile und Custom Formats aus deinem eigenen Git-Repository jede Nacht nach Radarr und Sonarr"
+requires_core = ">=6"
+permissions = ["host:incus", "net:internet"]
+audience = "generic"
+needs = ["docker"]
+uses = []
+input = "none"
+script = "run.sh"
+runs = ["lxc", "docker"]

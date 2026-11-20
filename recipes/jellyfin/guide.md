@@ -17,6 +17,61 @@ The recipe creates the container `jellyfin` and installs Jellyfin from its packa
 
 Jellyfin's own data (users, posters, what was watched) is on the SSD pool inside the container. Open the address the recipe prints (port 8096 unless you chose another); the first visit sets up the admin account. Add libraries for `/media/movies`, `/media/series` and `/media/music`.
 
+## Films and series on autopilot
+Jellyfin creates the share `media` that every film app uses. Each app below is a recipe of its own; install only the ones you want. All of them see the share at the same path, `/media`: a finished download moves into the library by a hard link, with no copy. The recipes try the hard link when they set up and warn when it does not work.
+
+| Recipe | Port | Job |
+| --- | --- | --- |
+| `radarr` | 7878 | Films, with a nightly duplicate cleanup ([guide](radarr.md)) |
+| `sonarr` | 8989 | Series ([guide](sonarr.md)) |
+| `lidarr` | 8686 | Music ([guide](lidarr.md)) |
+| `prowlarr` | 9696 | Holds your indexers and hands them to Radarr, Sonarr and Lidarr ([guide](prowlarr.md)) |
+| `bazarr` | 6767 | Subtitles for what Radarr and Sonarr hold ([guide](bazarr.md)) |
+| `maintainerr` | 6246 | Clean-up rules for unwatched media ([guide](maintainerr.md)) |
+| `sabnzbd` | 8080 | Downloads from Usenet into `/media/downloads/usenet/complete` ([guide](sabnzbd.md)) |
+| `configarr` | | Syncs quality profiles from your git repository into Radarr and Sonarr every night ([guide](configarr.md)) |
+| `qbittorrent` | | Torrents, only through a VPN ([guide](qbittorrent.md)) |
+| `seerr` | | The page where people request films and series ([guide](seerr.md)) |
+| `tdarr` | | Converts audio at night so Jellyfin starts films at once ([guide](tdarr.md)) |
+
+You need a Usenet provider and one indexer (accounts you pay for yourself). What you download is your decision and your responsibility: the recipes install tools only. Run the recipes in this order (leave out what you do not need), one command at a time:
+
+```bash
+sudo hs recipe sabnzbd
+```
+
+```bash
+sudo hs recipe prowlarr
+```
+
+```bash
+sudo hs recipe radarr
+```
+
+```bash
+sudo hs recipe sonarr
+```
+
+Then, if you want them, `lidarr`, `bazarr`, `maintainerr` and `seerr`. Each recipe prints the address of its web page at the end. These pages are admin pages for the home network: never give them a public route. Radarr, Sonarr, Lidarr and Prowlarr ask you to create a login on first open (method Forms); do that straight away.
+
+### Where the apps run: own container or Docker
+`radarr`, `sonarr`, `lidarr`, `prowlarr`, `bazarr`, `maintainerr`, `seerr`, `sabnzbd` and `jellyfin` can run in one of two places; the recipe asks "Where it runs" (`RUNS`, `lxc` or `docker`):
+- `lxc`: a container of its own with the app's name and Docker inside. An app that is installed this way stays there.
+- `docker`: the app is a compose project inside the one container `docker` (turned on with `sudo hs docker enable`, see [Docker](containers-and-apps.md)), in the share `apps`. A new install proposes `docker` when Docker is on.
+
+What is different in the `docker` mode:
+- All film apps in `docker` share one user `media`, and the share `media` is mounted once into the container `docker` at `/media`. Mounting restarts `docker` and every app in it, so when other apps already run there the recipe stops and prints the exact `hs docker mount ...` command. Run it when it suits you, then run the recipe again.
+- The ports are fixed, so a second copy of a recipe (`--name`) in `docker` mode stops at the port check. Use the `lxc` mode for a second copy.
+- Moving an app between the modes is not automated: back up in the app (**System > Backup**), install the recipe in the other mode, restore there. Not tested on hardware yet: the `docker` mode of Seerr, SABnzbd and Jellyfin.
+
+### Notifications and backup
+- The film apps share one ntfy topic of their own; `radarr`, `sonarr` and `lidarr` print it (also in `/var/lib/hs/media-ntfy`). Subscribe in the ntfy app, then add it in each app under **Settings > Connect > ntfy**. It is separate from the topic of the server's alarms on purpose.
+- To also post cards into a Matrix room, run `sudo hs recipe matrix-hook` (needs the `synapse` recipe) and add the webhook address it prints under **Settings > Connect > Webhook**.
+- Every container of this group is in the nightly backup, with a database dump before each run. The films themselves are backed up with `hs backup media on`.
+
+### Local names with the gateway
+Each app is a service of its own in `hs services`. With the extension `gateway` on, every app gets a name on the home network, such as `http://radarr.<local domain>`. `hs gateway check` shows the local domain and tests the wildcard DNS record `*.<local domain>`, which your router or DNS server needs once. Run the app's recipe again after turning the gateway on. Not tested on hardware yet.
+
 ## Show the running streams on the dashboard
 The Jellyfin tile can show how many streams play right now. Jellyfin only tells this to a program with an API key, and a key can only be made by you: in Jellyfin open **Dashboard > API Keys**, add a key (any name, for example `hobnix`), then run:
 
@@ -38,8 +93,7 @@ Cost: MakeMKV is free while in beta, but its registration key is valid only abou
 
 Tips:
 - Under **File > Preferences > Video** set the minimum title length to 1200 seconds: menus, trailers and ads are then not listed.
-- A series DVD has one title per episode (30 to 60 minutes): tick them all and MakeMKV numbers them.
-- Read errors are almost always scratches or dirt: wipe the disc with a soft cloth from the centre outwards and try again, or try another drive.
+- A series DVD has one title per episode: tick them all. Read errors are almost always scratches or dirt: wipe the disc and try again.
 - MakeMKV bypasses the copy protection automatically. In some countries this is illegal even for private copies of your own discs (in Germany, section 95a of the copyright act). It is your decision and responsibility: copy only discs you own and do not pass the files on.
 
 ## Name the files and put them on the server
@@ -61,6 +115,19 @@ The [Tdarr plugin](tdarr.md) adds an AC3 audio track to films that have only Tru
 
 You can skip: Handbrake (MakeMKV plus Tdarr replace it; re-encoding a 30 GB Blu-ray to 8 to 10 GB with H.265 saves space but costs quality and time, and is not needed) and ISO images (the `.mkv` is enough to play; keep the discs as your backup).
 
+## Run it in Docker
+Jellyfin can run as an app in the container `docker` too (`RUNS=docker`; see the overview above). The compose file is in `recipes/jellyfin` in the share `apps` (mounted at `/shares/apps` in `docker`; users and posters in `recipes/jellyfin/config`). There is no container `jellyfin`; Jellyfin reads `/media` read-only. The Abyss theme is only set up in the `lxc` mode; in Docker add it under **Dashboard > Branding**. The page is on port 8096 of the container `docker`. The recipe never adds a graphics card to `docker`. It uses one only when `docker` has one already (a render device or the NVIDIA runtime); otherwise it warns that Jellyfin converts videos on the CPU. For hardware transcoding use the `lxc` mode. Not tested on hardware yet: Jellyfin in Docker, and its hardware transcoding.
+
+```bash
+sudo hs ct docker exec docker logs jellyfin --tail 50
+```
+
+Remove it (the settings stay in the folder):
+
+```bash
+sudo hs ct docker exec bash -c 'cd /shares/apps/recipes/jellyfin && docker compose -p jellyfin down'
+```
+
 ## Check that it worked
 - The library shows the film with poster and description, and it plays on the TV or in the browser.
 - `hs ct list` shows the container `jellyfin` running.
@@ -78,5 +145,6 @@ You can skip: Handbrake (MakeMKV plus Tdarr replace it; re-encoding a 30 GB Blu-
 | Jellyfin cannot see new files | The library has not been scanned | **Dashboard > Libraries > Scan** |
 
 ## Next
-- [Films and series on autopilot](radarr.md)
+- [Radarr: films on autopilot](radarr.md)
+- [Sonarr: series on autopilot](sonarr.md)
 - [Convert films for Jellyfin](tdarr.md)

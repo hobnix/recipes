@@ -1,11 +1,12 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "upload-storage"
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 title = "your own file sync and upload server (Seafile or ownCloud), with apps for phone and PC"
 title_de = "dein eigener Server zum Hochladen und Synchronisieren von Dateien (Seafile oder ownCloud), mit Apps für Handy und PC"
 requires_core = ">=1"
+permissions = ["host:incus", "net:internet", "fs.write:/bulk/shares"]
 audience = "generic"
 needs = ["docker", "share"]
 uses = []

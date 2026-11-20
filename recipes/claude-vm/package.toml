@@ -1,10 +1,11 @@
 # Manifest of a package (docs/PLAN-packages.md). The header lines of run.sh say the same (tests/pkg.sh keeps both in step).
 name = "claude-vm"
-version = "1.1.0"
+version = "1.1.1"
 kind = "recipe"
 title = "Claude VM, a Linux machine for Claude Code with Remote Desktop, SSH, dev tools and Docker, your repos on a fast share"
 title_de = "Claude-VM, eine Linux-Maschine für Claude Code mit Remote Desktop, SSH, Entwickler-Werkzeugen und Docker, deine Repos auf einer schnellen Freigabe"
 requires_core = ">=1"
+permissions = ["host:incus", "net:internet"]
 audience = "generic"
 needs = ["docker"]
 uses = []

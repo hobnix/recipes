@@ -9,7 +9,7 @@ set -euo pipefail
 
 # What it does: creates the container "bazarr" with Docker inside and runs Bazarr (6767, linuxserver.io image): it asks
 # Radarr and Sonarr what they hold and puts the subtitles next to the video files (not for Lidarr). The other apps of
-# the group are recipes of their own (radarr, sonarr, lidarr, prowlarr, maintainerr); the guide is the one of the recipe radarr.
+# the group are recipes of their own (radarr, sonarr, lidarr, prowlarr, maintainerr); its guide is guide.md beside this file; the overview of the film apps is in the guide of jellyfin.
 #   share              the share "media" (the one of Jellyfin), READ-WRITE at /media with a user "bazarr" mapped 1:1:
 #                      the same path Radarr and Sonarr use, so no path mapping is needed
 #   config             /opt/bazarr/config inside the container (SSD pool); `hs backup ct bazarr on` is switched on and a
@@ -130,5 +130,5 @@ box <<DONE
 $(say "No Zoraxy rule: it is for the home network only. The few clicks that cannot wait:")
 $(say "1. Settings -> Languages: a language profile; Settings -> Providers: a subtitle provider (an account is needed)")
 $(say "2. Settings -> Radarr and Settings -> Sonarr: their addresses and API keys (no path mapping: /media is the same everywhere)")
-$(docs_hint radarr)
+$(docs_hint bazarr)
 DONE

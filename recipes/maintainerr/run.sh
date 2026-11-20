@@ -10,7 +10,7 @@ set -euo pipefail
 # What it does: creates the container "maintainerr" with Docker inside and runs Maintainerr (6246, its makers' image):
 # rules YOU write (watched by nobody for a year, ...) collect films and series and, only when you switch it on, delete
 # them through Radarr and Sonarr. It starts with no rules. The other apps of the group are recipes of their own
-# (radarr, sonarr, lidarr, prowlarr, bazarr); the guide is the one of the recipe radarr.
+# (radarr, sonarr, lidarr, prowlarr, bazarr); its guide is guide.md beside this file; the overview of the film apps is in the guide of jellyfin.
 #   config    /opt/maintainerr/data inside the container (SSD pool); `hs backup ct maintainerr on` is switched on and a
 #             dump of the database is written right before each backup (hs-dump sqlite-tree, into /var/backups/hs/maintainerr)
 # No share is mounted: Maintainerr deletes through Radarr and Sonarr, never by itself.
@@ -126,5 +126,5 @@ box <<DONE
 $(say "No Zoraxy rule: it is for the home network only. The few clicks that cannot wait:")
 $(say "1. Settings: connect Jellyfin (or Plex), Radarr and Sonarr (addresses and API keys), Seerr if you have it")
 $(say "2. Rules: make a rule as a collection first, look at what it would hit, only then switch deleting on")
-$(docs_hint radarr)
+$(docs_hint maintainerr)
 DONE

@@ -1,11 +1,12 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "bulwark"
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 title = "a webmail page (mail, calendar, contacts) for your Stalwart mail server"
 title_de = "eine Webmail-Seite (Mail, Kalender, Kontakte) für deinen Stalwart-Mailserver"
 requires_core = ">=1"
+permissions = ["host:incus", "net:internet"]
 audience = "generic"
 needs = ["docker"]
 uses = []

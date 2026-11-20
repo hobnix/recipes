@@ -28,6 +28,7 @@ declare -A NONE=(
   [domain]="the domain controller, no web page"
   [catalyst-node]="a node agent, no web page"
   [sunshine]="parked"
+  [configarr]="a sync job, no web page"
 )
 
 echo "-- recipes with a port of their own declare their service"

@@ -1,13 +1,97 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "sabnzbd"
-version = "1.0.0"
+version = "1.2.0"
 kind = "recipe"
 title = "the Usenet downloader that Radarr and Sonarr send their downloads to"
 title_de = "der Usenet-Downloader, an den Radarr und Sonarr ihre Downloads schicken"
-requires_core = ">=1"
+requires_core = ">=6"
+permissions = ["events.emit:pkg.sabnzbd.*", "host:incus", "net:internet", "fs.write:/bulk/shares"]
 audience = "generic"
 needs = ["docker", "share"]
 uses = []
 input = "none"
 script = "run.sh"
+runs = ["lxc", "docker"]
+
+# Events this package sends (hobnix/server#313; the helper hs-media-notify.py only emits them). Declared here, not in the core.
+[[events]]
+kind = "added"
+level = "info"
+label = "Download queued"
+icon = "download-simple"
+meaning = "a download was queued (media helper; subject: the service)"
+payload = ["service", "name", "label", "icon", "title", "sub?", "body", "fields?", "footer?", "poster_url?"]
+notify = { category = "info", priority = "low", title = "{name}: {label}", message = "{body}" }
+
+[[events]]
+kind = "unpacking"
+level = "info"
+label = "Unpacking"
+icon = "package"
+meaning = "a download is being unpacked (media helper; subject: the service)"
+payload = ["service", "name", "label", "icon", "title", "sub?", "body", "fields?", "footer?", "poster_url?"]
+notify = { category = "info", priority = "min", title = "{name}: {label}", message = "{body}" }
+
+[[events]]
+kind = "finished"
+level = "info"
+label = "Download finished"
+icon = "tray-arrow-down"
+meaning = "a download finished (media helper; subject: the service)"
+payload = ["service", "name", "label", "icon", "title", "sub?", "body", "fields?", "footer?", "poster_url?"]
+notify = { category = "ok", priority = "default", title = "{name}: {label}", message = "{body}" }
+
+[[events]]
+kind = "failed"
+level = "warn"
+label = "Download failed"
+icon = "warning-octagon"
+meaning = "a download failed (media helper; subject: the service)"
+payload = ["service", "name", "label", "icon", "title", "sub?", "body", "fields?", "footer?", "poster_url?"]
+notify = { category = "problem", priority = "high", title = "{name}: {label}", message = "{body}" }
+
+[[events]]
+kind = "queue-done"
+level = "info"
+label = "Queue finished"
+icon = "checks"
+meaning = "the download queue is empty (media helper; subject: the service)"
+payload = ["service", "name", "label", "icon", "title", "sub?", "body", "fields?", "footer?", "poster_url?"]
+notify = { category = "info", priority = "low", title = "{name}: {label}", message = "{body}" }
+
+[[events]]
+kind = "disk-full"
+level = "error"
+label = "Disk full"
+icon = "warning-octagon"
+meaning = "SABnzbd reports a full disk (media helper; subject: the service)"
+payload = ["service", "name", "label", "icon", "title", "sub?", "body", "fields?", "footer?", "poster_url?"]
+notify = { category = "alarm", priority = "urgent", title = "{name}: {label}", message = "{body}" }
+
+[[events]]
+kind = "error"
+level = "warn"
+label = "Error"
+icon = "warning-octagon"
+meaning = "SABnzbd reports an error (media helper; subject: the service)"
+payload = ["service", "name", "label", "icon", "title", "sub?", "body", "fields?", "footer?", "poster_url?"]
+notify = { category = "problem", priority = "high", title = "{name}: {label}", message = "{body}" }
+
+[[events]]
+kind = "warning"
+level = "info"
+label = "Warning"
+icon = "warning"
+meaning = "SABnzbd reports a warning (media helper; subject: the service)"
+payload = ["service", "name", "label", "icon", "title", "sub?", "body", "fields?", "footer?", "poster_url?"]
+notify = { category = "problem", priority = "default", title = "{name}: {label}", message = "{body}" }
+
+[[events]]
+kind = "test"
+level = "info"
+label = "Test"
+icon = "check-circle"
+meaning = "the test message of SABnzbd (media helper; subject: the service)"
+payload = ["service", "name", "label", "icon", "title", "sub?", "body", "fields?", "footer?", "poster_url?"]
+notify = { category = "info", priority = "low", title = "{name}: {label}", message = "{body}" }

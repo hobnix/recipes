@@ -1,11 +1,12 @@
 # Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
 # script still say the same (tests/pkg.sh keeps both in step).
 name = "immich"
-version = "1.0.0"
+version = "1.0.1"
 kind = "recipe"
 title = "your own photo and video library with phone backup, like Google Photos"
 title_de = "deine eigene Foto- und Videosammlung mit Handy-Sicherung, wie Google Fotos"
 requires_core = ">=1"
+permissions = ["host:incus", "net:internet", "fs.write:/bulk/shares", "devices:gpu"]
 audience = "generic"
 needs = ["docker", "share"]
 uses = ["gpu"]

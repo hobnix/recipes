@@ -1,10 +1,11 @@
 # Manifest of a package (docs/PLAN-packages.md). The header lines of run.sh say the same (tests/pkg.sh keeps both in step).
 name = "droppedneedle"
-version = "2.0.1"
+version = "2.0.2"
 kind = "recipe"
 title = "a page where family and friends discover music and ask for albums (formerly MusicSeerr)"
 title_de = "eine Seite, auf der Familie und Freunde Musik entdecken und Alben wünschen können (früher MusicSeerr)"
 requires_core = ">=6"
+permissions = ["host:incus", "net:internet", "fs.write:/bulk/shares"]
 audience = "generic"
 needs = ["docker", "share"]
 uses = []

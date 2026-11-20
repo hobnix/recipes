@@ -9,10 +9,8 @@ set -euo pipefail
 
 # What it does: creates the container "sonarr" with Docker inside and runs, from their makers' images:
 #   Sonarr (8989)      series: searches, sends the download to SABnzbd, renames and files it in /media/series
-#   Recyclarr          not running: a tool for `docker compose run`, which syncs the quality profiles of the
-#                      TRaSH guides (German ones included) into Sonarr
-# The other apps of the group are recipes of their own (radarr, lidarr, prowlarr, bazarr, maintainerr); the guide is the
-# one of the recipe radarr.
+#   quality profiles   not here: the recipe configarr syncs them from your own git repository
+# The other apps of the group are recipes of their own (radarr, lidarr, prowlarr, bazarr, maintainerr); its guide is guide.md beside this file; the overview of the film apps is in the guide of jellyfin.
 #   share              the share "media" (the one of Jellyfin), READ-WRITE at /media with a user "sonarr" mapped 1:1,
 #                      the same path SABnzbd uses: a finished download moves into the library by a hard link
 #   config             /opt/sonarr/config inside the container (SSD pool); `hs backup ct sonarr on` is switched on and a
@@ -36,7 +34,7 @@ if [ "${1:-}" = --dry-run ]; then
   printf '%s\n' "$(t "  create the container '%s' (Docker inside, 1536 MB RAM limit) unless it exists, with a fixed address (.50-.99) if UniFi is connected (hs net setup)" "$ct")"
   printf '%s\n' "$(t "  (docker mode: no container of its own: a compose project '%s' in the share apps (recipes/%s) inside the container docker, which must be on (hs docker enable); the share comes in with hs docker mount)" "$app" "$app")"
   say "  mount the share for the films (asks for its name, default media) READ-WRITE at /media, with folders movies, series, music, downloads"
-  say "  start Sonarr (port 8989) and install Recyclarr as a tool"
+  say "  start Sonarr (port 8989)"
   say "  use the push topic of the film apps, and put the container in the nightly backup with a database dump"
   exit 0
 fi
@@ -58,7 +56,7 @@ fi
 
 step "Sonarr"
 # docker-compose.yml is written again at every run; Sonarr's own data stays in /opt/sonarr/config
-compose='mkdir -p /opt/sonarr/config /opt/sonarr/recyclarr
+compose='mkdir -p /opt/sonarr/config
   cat > /opt/sonarr/docker-compose.yml.new <<YML
 services:
   sonarr:
@@ -72,22 +70,14 @@ services:
       - PGID=$3
       - UMASK=002
     volumes: ["/opt/sonarr/config:/config", "/media:/media"]
-  recyclarr:
-    image: ghcr.io/recyclarr/recyclarr:8
-    container_name: recyclarr
-    user: "$2:$3"
-    profiles: ["tools"]
-    environment:
-      - TZ=$1
-    volumes: ["/opt/sonarr/recyclarr:/config"]
 YML
   mv /opt/sonarr/docker-compose.yml.new /opt/sonarr/docker-compose.yml
   chown -R "$2:$3" /opt/sonarr
-  cd /opt/sonarr && docker compose --profile tools config -q'
+  cd /opt/sonarr && docker compose config -q'
 tz=$(timedatectl show -p Timezone --value 2>/dev/null || echo Etc/UTC)
 if $RUNS_DOCKER; then
   dir=$APP_DIR
-  in_ct "Preparing the folders" 'mkdir -p "$1/config" "$1/recyclarr" && chown -R "$2:$3" "$1"' "$dir" "${ids%%:*}" "${ids##*:}"
+  in_ct "Preparing the folders" 'mkdir -p "$1/config" && chown -R "$2:$3" "$1"' "$dir" "${ids%%:*}" "${ids##*:}"
   # the share "media" is a local share: no rslave needed (only a folder from hs remote would need it)
   child_compose "$app" <<YML
 services:
@@ -102,14 +92,6 @@ services:
       - PGID=${ids##*:}
       - UMASK=002
     volumes: ["$dir/config:/config", "/media:/media"]
-  recyclarr:
-    image: ghcr.io/recyclarr/recyclarr:8
-    container_name: $app-recyclarr
-    user: "${ids%%:*}:${ids##*:}"
-    profiles: ["tools"]
-    environment:
-      - TZ=$tz
-    volumes: ["$dir/recyclarr:/config"]
 YML
   in_ct "Setting the owner of the files" 'chown -R "$2:$3" "$1"' "$dir" "${ids%%:*}" "${ids##*:}"
 else
@@ -120,11 +102,11 @@ if [ -n "${RECIPE_SKIP_PULL:-}" ]; then
   note "skipped (RECIPE_SKIP_PULL): nothing downloaded, Sonarr not started"
 else
   if $RUNS_DOCKER; then
-    in_ct "Downloading Sonarr and Recyclarr" 'cd "$2" && docker compose -p "$1" --profile tools pull -q' "$app" "$dir"
+    in_ct "Downloading Sonarr" 'cd "$2" && docker compose -p "$1" pull -q' "$app" "$dir"
     spin "Starting Sonarr" child_up "$app"
     wait_page Sonarr "docker compose -p $app -f $dir/docker-compose.yml logs --tail 50"
   else
-    in_ct "Downloading Sonarr and Recyclarr" 'cd /opt/sonarr && docker compose --profile tools pull -q'
+    in_ct "Downloading Sonarr" 'cd /opt/sonarr && docker compose pull -q'
     in_ct "Starting Sonarr" 'cd /opt/sonarr && docker compose up -d --remove-orphans'
     wait_page Sonarr "docker compose -f /opt/sonarr/docker-compose.yml logs --tail 50"
   fi
@@ -179,5 +161,5 @@ $(say "1. Settings -> Media Management -> Root Folder:  /media/series")
 $(say "2. Settings -> Download Clients -> SABnzbd (hs recipe sabnzbd), category  tv, then run this recipe again")
 $(say "3. Prowlarr (hs recipe prowlarr): Settings -> Apps -> Sonarr, this address and the API key (Settings -> General)")
 $(t 'Push messages (Settings -> Connect -> ntfy):  server %s   topic %s' "$ntfy_server" "$ntfy_topic")
-$(docs_hint radarr)
+$(docs_hint sonarr)
 DONE
