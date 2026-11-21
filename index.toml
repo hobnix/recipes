@@ -189,6 +189,14 @@ title = "a team of AI agents (Claude Code, local models) with tickets, budgets a
 requires_core = ">=1"
 audience = "generic"
 
+[package.paperless-ngx]
+version = "1.0.0"
+kind = "recipe"
+path = "recipes/paperless-ngx"
+title = "your paper documents scanned, read by OCR and searchable in the browser"
+requires_core = ">=1"
+audience = "generic"
+
 [package.pelican]
 version = "1.1.1"
 kind = "recipe"

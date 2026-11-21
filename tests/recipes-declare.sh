@@ -55,6 +55,6 @@ check_eq "no recipe declares its service public-ok (but those named in PUBLIC_OK
 admin=$(for n in docker zoraxy authentik tdarr qbittorrent sabnzbd uptime-kuma monitoring paperclip stalwart; do grep -q "^ *declare_service $n .* never-public " "$R/$n/run.sh" 2>/dev/null || echo "$n "; done)
 check_eq "the admin pages and download tools are never-public" "" "$admin"
 count=$(grep -l '^ *declare_service ' "$R"/*/run.sh | wc -l | tr -d ' ')
-check_eq "so far (update this number with a new recipe)" "30" "$count"
+check_eq "so far (update this number with a new recipe)" "31" "$count"
 
 finish

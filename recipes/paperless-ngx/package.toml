@@ -1,0 +1,14 @@
+# Manifest of a package (docs/PLAN-packages.md). Until the packages move out of this repository the header lines of the
+# script still say the same (tests/pkg.sh keeps both in step).
+name = "paperless-ngx"
+version = "1.0.0"
+kind = "recipe"
+title = "your paper documents scanned, read by OCR and searchable in the browser"
+title_de = "deine Papierdokumente gescannt, per OCR gelesen und im Browser durchsuchbar"
+requires_core = ">=1"
+permissions = ["host:incus", "net:internet", "fs.write:/bulk/shares"]
+audience = "generic"
+needs = ["docker", "share"]
+uses = []
+input = "none"
+script = "run.sh"
